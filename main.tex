@@ -1,0 +1,225 @@
+
+\documentclass[12pt,a4paper]{article}
+
+% ------------------------------------------------
+% IDIOMA Y CODIFICACIÓN
+% ------------------------------------------------
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+
+% ------------------------------------------------
+% FUENTE (COMPATIBLE CON ARIAL)
+% ------------------------------------------------
+
+\usepackage[sfdefault]{arimo}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ------------------------------------------------
+% FORMATO GENERAL
+% ------------------------------------------------
+
+\usepackage[a4paper, margin=2.54cm]{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{ragged2e}
+
+\doublespacing
+
+\AtBeginDocument{
+    \justifying
+}
+
+% ------------------------------------------------
+% FORMATO DE TÍTULOS
+% ------------------------------------------------
+
+\usepackage{titlesec}
+
+\titleformat{\section}
+    {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+    {\thesection}{1em}{}
+
+\titleformat{\subsection}
+    {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+    {\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+    {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+    {\thesubsubsection}{1em}{}
+
+% ------------------------------------------------
+% IMÁGENES Y TABLAS
+% ------------------------------------------------
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{caption}
+
+\DeclareCaptionFont{elevenpt}{
+    \fontsize{11}{13}\selectfont
+}
+
+\captionsetup{
+    font=elevenpt,
+    labelfont=bf,
+    textfont=normalfont
+}
+
+% ------------------------------------------------
+% BIBLIOGRAFÍA APA 7
+% ------------------------------------------------
+
+\usepackage{csquotes}
+
+\usepackage[
+    backend=biber,
+    style=apa,
+    sorting=nyt
+]{biblatex}
+
+\DeclareLanguageMapping{spanish}{spanish-apa}
+
+\addbibresource{references/references.bib}
+
+% ------------------------------------------------
+% HIPERVÍNCULOS
+% ------------------------------------------------
+
+\usepackage[hidelinks]{hyperref}
+
+
+% ------------------------------------------------
+% INFORMACIÓN DEL DOCUMENTO
+% ------------------------------------------------
+
+\title{Desafío}
+\author{ebolivarminguet}
+\date{Noviembre de 2026}
+
+% =================================================
+% INICIO DEL DOCUMENTO
+% =================================================
+
+\begin{document}
+
+\maketitle
+
+% =================================================
+% DESARROLLO BASADO EN MODELOS (MBD)
+% =================================================
+
+\section{Desarrollo basado en modelos (MBD)}
+
+Según \textcite{valera2026}, el desarrollo basado en modelos (\textit{Model-Based Development}, MBD) constituye un enfoque moderno de la ingeniería de software y de sistemas que utiliza modelos visuales como medio principal para especificar, diseñar, simular y validar sistemas. A diferencia de los enfoques tradicionales, que dependen principalmente de la programación manual y de la documentación basada en texto, este enfoque permite a los ingenieros construir modelos ejecutables que representan los requerimientos, la lógica y el comportamiento del sistema.
+
+\subsection{Desarrollo basado en modelos frente al desarrollo de software tradicional}
+
+A continuación, se presenta una comparación entre el desarrollo basado en modelos y el desarrollo de software tradicional, considerando las características descritas por \textcite{valera2026}.
+
+\subsubsection{Desarrollo de software tradicional}
+
+\begin{itemize}
+    \item Depende considerablemente de la programación manual para implementar las funcionalidades del sistema.
+    \item Los errores pueden detectarse en etapas avanzadas del desarrollo, incluso durante las fases de prueba.
+    \item Presenta limitaciones en la trazabilidad de los requerimientos a lo largo del ciclo de vida del sistema.
+    \item Puede dificultar la adaptación a metodologías ágiles debido a la dependencia de procesos de desarrollo y documentación tradicionales.
+\end{itemize}
+
+\subsubsection{Desarrollo basado en modelos}
+
+\begin{itemize}
+    \item Utiliza modelos gráficos para representar los requerimientos, la estructura y la lógica del sistema.
+    \item Permite realizar pruebas desde etapas tempranas mediante enfoques como \textit{Model-in-the-Loop} (MIL), \textit{Software-in-the-Loop} (SIL) y \textit{Hardware-in-the-Loop} (HIL).
+    \item Facilita la trazabilidad de los requerimientos durante el proceso de desarrollo y contribuye al cumplimiento de estándares de seguridad.
+    \item Favorece la integración continua y su aplicación en procesos de desarrollo basados en metodologías ágiles.
+\end{itemize}
+
+\subsection{Importancia del desarrollo basado en modelos}
+
+El desarrollo basado en modelos permite optimizar los procesos de ingeniería mediante el uso de representaciones visuales, simulaciones y mecanismos de automatización. De acuerdo con \textcite{valera2026}, este enfoque contribuye a mejorar la gestión y trazabilidad de los requerimientos, así como a reducir el tiempo necesario para desarrollar y lanzar productos al mercado, sin comprometer los aspectos relacionados con la seguridad y el cumplimiento de estándares.
+
+Asimismo, su aplicación ofrece beneficios en diferentes sectores industriales, entre los cuales destacan los siguientes:
+
+\subsubsection{Industria automotriz}
+
+\begin{itemize}
+    \item Acelera el diseño y desarrollo de sistemas avanzados de asistencia a la conducción (ADAS).
+    \item Facilita el cumplimiento de estándares relacionados con la seguridad funcional.
+    \item Permite mantener el control de versiones y la trazabilidad de los requerimientos durante el desarrollo de los sistemas.
+\end{itemize}
+
+\subsubsection{Industria aeroespacial y de defensa}
+
+\begin{itemize}
+    \item Facilita los procesos de certificación mediante enfoques de ingeniería de sistemas basados en modelos y simulación.
+    \item Favorece la colaboración entre equipos de trabajo responsables de sistemas distribuidos.
+    \item Reduce el riesgo de errores de integración detectados en etapas avanzadas del desarrollo.
+\end{itemize}
+
+\subsubsection{Industria de dispositivos médicos}
+
+\begin{itemize}
+    \item Mejora los procesos de verificación y validación de sistemas críticos para la seguridad de los pacientes.
+    \item Facilita el cumplimiento de los requisitos regulatorios aplicables a los dispositivos médicos.
+    \item Permite integrarse con herramientas de gestión de requerimientos para mantener un historial de auditoría y trazabilidad.
+\end{itemize}
+
+\subsubsection{Sistemas embebidos y automatización industrial}
+
+\begin{itemize}
+    \item Optimiza el diseño y desarrollo de algoritmos de control para sistemas embebidos.
+    \item Permite integrar procesos de desarrollo continuo con herramientas de simulación en tiempo real.
+    \item Puede reducir los costos de creación de prototipos mediante el uso de modelos y representaciones de gemelos digitales.
+\end{itemize}
+
+
+% =================================================
+% DESARROLLO DIRIGIDO POR MODELOS (MDD)
+% =================================================
+
+\section{Desarrollo dirigido por modelos (MDD)}
+
+El desarrollo dirigido por modelos (\textit{Model-Driven Development}, MDD) es un enfoque de desarrollo de software que utiliza modelos abstractos como elementos centrales del proceso de diseño e implementación. Estos modelos permiten representar las características y el comportamiento de un sistema, y pueden utilizarse para generar automáticamente código fuente y otros artefactos necesarios para su construcción. Según \textcite{valera2026}, este enfoque permite reducir la dependencia de la programación manual y facilitar la transformación de los modelos en componentes funcionales del sistema.
+
+En el contexto de las redes de computadoras, la automatización ha adquirido una importancia creciente debido a la necesidad de administrar infraestructuras cada vez más complejas. En este ámbito, la programabilidad dirigida por modelos permite representar los dispositivos de red y sus capacidades mediante estructuras estandarizadas. De acuerdo con \textcite{nguyen2023}, esta representación facilita la automatización de las operaciones de red, ya que permite utilizar modelos comunes para describir y gestionar diferentes dispositivos, independientemente de sus características particulares.
+
+\subsection{Importancia del desarrollo dirigido por modelos}
+
+Tradicionalmente, la administración de dispositivos de red se ha realizado mediante interfaces de línea de comandos (CLI). Sin embargo, este mecanismo presenta limitaciones cuando se pretende automatizar la gestión de una infraestructura, debido a que la información obtenida suele presentarse en formatos de texto que pueden variar entre fabricantes y modelos de dispositivos. Esto dificulta su procesamiento automático y la extracción sistemática de información.
+
+Según \textcite{nguyen2023}, la programabilidad dirigida por modelos permite abordar estas limitaciones mediante la representación estandarizada de los dispositivos de red y sus capacidades. De esta manera, los programas y scripts de automatización pueden interactuar con los dispositivos utilizando estructuras de datos previamente definidas, lo que facilita la configuración, supervisión y administración de la infraestructura de red.
+
+\subsection{Modelos de datos}
+
+Los modelos de datos constituyen representaciones que permiten describir los tipos de datos utilizados y almacenados en un sistema, así como las relaciones existentes entre ellos. También especifican la manera en que los datos pueden agruparse y organizarse, incluyendo sus formatos, propiedades y atributos. De acuerdo con \textcite{ibm2026}, estos modelos permiten representar visualmente la estructura de la información y establecer cómo se relacionan sus diferentes componentes.
+
+La construcción de modelos de datos debe responder a las necesidades del negocio y a los objetivos del sistema que se pretende desarrollar. Para ello, las reglas y los requerimientos se definen desde las etapas iniciales mediante la retroalimentación de las partes interesadas. Esta información se incorpora posteriormente al diseño de nuevos sistemas o se utiliza para realizar modificaciones y mejoras en sistemas existentes \parencite{ibm2026}.
+
+Por otra parte, en el contexto de la programabilidad de redes, los modelos de datos describen la sintaxis y la semántica asociadas con objetos de datos específicos. Según \textcite{nguyen2023}, estos modelos funcionan como estructuras estandarizadas que permiten representar los objetos de un entorno determinado y establecer un formato consistente para intercambiar información entre los dispositivos y las herramientas de automatización.
+
+En este contexto, los modelos de datos permiten definir características específicas de los objetos administrados, tales como:
+
+\begin{itemize}
+    \item ¿Cómo se estructura un objeto VLAN y cuáles son sus propiedades?
+    \item ¿Cuál es el rango de valores válidos para un identificador de VLAN?
+    \item ¿Puede el nombre de una VLAN contener espacios?
+    \item ¿El valor de una propiedad debe representarse mediante una cadena de caracteres o un número entero?
+\end{itemize}
+
+Estas definiciones permiten establecer reglas comunes para representar, validar e intercambiar información. Como resultado, se facilita la interoperabilidad entre dispositivos de red y el desarrollo de herramientas de automatización que utilizan estructuras de datos consistentes.
+
+% =================================================
+% REFERENCIAS BIBLIOGRÁFICAS
+% =================================================
+
+\newpage
+
+\printbibliography[
+    title={Referencias}
+]
+
+\end{document}
+```
