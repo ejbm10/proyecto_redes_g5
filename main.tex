@@ -56,6 +56,20 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    frame=single,
+    rulecolor=\color{black!30},
+    breaklines=true,
+    captionpos=b,
+    numbers=none,
+}
+
+\AtBeginDocument{\renewcommand{\lstlistingname}{Listado}}
 \usepackage{caption}
 
 \DeclareCaptionFont{elevenpt}{
@@ -234,6 +248,121 @@ SNMP opera en la capa de aplicación y utiliza principalmente el protocolo de tr
 La RFC 3535 es un documento informativo publicado en mayo de 2003 por la \textit{Internet Architecture Board} (IAB), como resultado de un taller que tuvo como objetivo establecer un diálogo entre los operadores de redes y los desarrolladores de protocolos, con el propósito de identificar necesidades y orientar los esfuerzos de estandarización relacionados con la administración de redes \parencite{boucadair2025rfc3535}.
 
 El documento, titulado \textit{Overview of the 2002 IAB Network Management Workshop}, recopila los principales requerimientos, observaciones y recomendaciones obtenidos durante dicho encuentro. Su contenido abordó aspectos como la configuración de dispositivos, la supervisión de redes y la necesidad de contar con mecanismos estandarizados que facilitaran las tareas de administración. Asimismo, la RFC 3535 tuvo una influencia significativa en el desarrollo posterior de tecnologías como NETCONF y YANG \parencite{boucadair2025rfc3535}.
+
+% =================================================
+% RESTCONF, YANG, POSTMAN Y PYTHON
+% =================================================
+
+\section{Exploración del modelo de datos YANG usando RESTCONF}
+
+\subsection{Definición de RESTCONF y comparación con NETCONF}
+
+El protocolo RESTCONF, estandarizado por la \textit{Internet Engineering Task Force} (IETF) mediante el RFC 8040, es un protocolo de gestión y configuración de redes basado en HTTP que proporciona una interfaz programática con arquitectura RESTful para acceder y manipular datos de configuración, datos operacionales, llamadas a procedimiento remoto (RPC) y notificaciones definidas mediante modelos YANG \parencite{cisco_restconf, granderath2023}. Según \textcite{bhat2023}, su propósito original no es reemplazar por completo a NETCONF (RFC 6241), sino ofrecer un subconjunto modular de sus funcionalidades adaptado a aplicaciones web y herramientas modernas de automatización. Para esto, RESTCONF utiliza los métodos estándar de HTTPS (\texttt{GET}, \texttt{POST}, \texttt{PUT}, \texttt{PATCH}, \texttt{DELETE}, \texttt{HEAD} y \texttt{OPTIONS}) con el fin de ejecutar operaciones de creación, lectura, actualización y eliminación (CRUD) sobre un almacén de datos conceptual \parencite{cisco_restconf, granderath2023}.
+
+A nivel de arquitectura interna en equipos de red modernos como Cisco IOS XE, las peticiones RESTCONF enviadas mediante HTTPS son recibidas inicialmente por un servidor proxy inverso (NGINX) que gestiona la seguridad de capa de transporte (TLS) y las transfiere al motor \texttt{confd} para validar su sintaxis y semántica contra los esquemas YANG \parencite{cisco_restconf}. Aunque tanto NETCONF como RESTCONF siguen un enfoque dirigido por modelos (\textit{Model-Driven}), presentan diferencias técnicas fundamentales \parencite{bhat2023}:
+
+\begin{itemize}
+    \item \textbf{Transporte y gestión de estado:} NETCONF es un protocolo orientado a sesión y con estado (\textit{stateful}) que opera mediante mensajes RPC sobre canales seguros como SSH o TLS \parencite{bhat2023}. Por el contrario, RESTCONF es un protocolo sin estado (\textit{stateless}) sobre HTTP/HTTPS (TCP/TLS) que expone el árbol jerárquico de YANG mediante identificadores uniformes de recursos (URI) a partir de la ruta raíz \texttt{/restconf/data/} \parencite{cisco_restconf, granderath2023}.
+    \item \textbf{Codificación de mensajes:} Mientras que NETCONF utiliza exclusivamente XML para estructurar sus operaciones RPC, RESTCONF soporta tanto XML (\texttt{application/yang-data+xml}) como JSON (\texttt{application/yang-data+json}), ofreciendo este último una sintaxis textual más compacta y sencilla de procesar \parencite{cisco_restconf, granderath2023, bhat2023}.
+    \item \textbf{Almacenes de datos (\textit{Datastores}):} NETCONF distingue nativamente entre múltiples almacenes de configuración (\texttt{running}, \texttt{candidate} y \texttt{startup}) con mecanismos de bloqueo transaccional, mientras que RESTCONF abstrae originalmente una vista unificada de configuración y estado operacional, compatibilizando las operaciones CRUD de HTTP con los almacenes subyacentes del dispositivo \parencite{cisco_restconf, bhat2023}.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \caption{Comparación entre los protocolos NETCONF y RESTCONF}
+    \label{tab:netconf_restconf}
+    \begin{tabularx}{\textwidth}{lXX}
+        \toprule
+        \textbf{Característica} & \textbf{NETCONF} & \textbf{RESTCONF} \\
+        \midrule
+        Estándar base & IETF RFC 6241  & IETF RFC 8040 \\
+        Capa de transporte & SSH / TLS  & HTTP / HTTPS (TCP/TLS) \\
+        Manejo de sesión & Con estado (\textit{stateful}) & Sin estado (\textit{stateless}) \\
+        Codificación de datos & XML  & JSON y XML  \\
+        Operaciones principales & RPC (\texttt{<get>}, \texttt{<edit-config>})  & Métodos HTTP CRUD (\texttt{GET}, \texttt{POST}, \texttt{PUT}, \texttt{PATCH}, \texttt{DELETE}) \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+La principal ventaja de RESTCONF frente a NETCONF es la simplicidad de integración y el bajo acoplamiento con entornos de desarrollo actuales \parencite{cisco_devnet, granderath2023}. Como se apoya en el protocolo estándar HTTP y en el formato JSON, cualquier herramienta cliente de APIs (como Postman) o lenguaje de programación (como Python mediante bibliotecas HTTP estándar) puede consultar o modificar parámetros de red sin necesidad de gestionar sesiones SSH persistentes ni procesar estructuras XML complejas \parencite{cisco_devnet, granderath2023}. Asimismo, mediciones comparativas demuestran que su naturaleza sin estado y menor complejidad de procesamiento reducen el consumo energético y los tiempos de aprovisionamiento frente a NETCONF \parencite{bhat2023}, lo cual resulta idóneo para ejecutar consultas periódicas de monitoreo de interfaces como las propuestas en este proyecto.
+
+\subsection{Relación entre modelos YANG y llamadas API mediante RESTCONF}
+
+La arquitectura de RESTCONF es dirigida por modelos definidos anteriormente en la investigación como el \textit{Model-Driven}, lo cual significa que los modelos de datos escritos en el lenguaje YANG (RFC 7950) actúan como el contrato estructural que define qué recursos existen en el dispositivo de red, qué tipo de datos contienen y qué operaciones están permitidas sobre ellos \parencite{cisco_restconf, granderath2023}. Según \textcite{bhat2023}, un módulo YANG organiza tanto los datos de configuración (lectura y escritura) como los datos de estado operacional (solo lectura), las llamadas a procedimiento remoto (RPC) y las notificaciones dentro de una jerarquía en forma de árbol.
+
+Para estructurar esta jerarquía, el modelo YANG utiliza cuatro tipos fundamentales de nodos de esquema \parencite{granderath2023}:
+
+\begin{itemize}
+    \item \textbf{Contenedores (\texttt{container}):} Agrupan nodos relacionados dentro de un subárbol sin poseer un valor propio \parencite{granderath2023}.
+    \item \textbf{Listas (\texttt{list}):} Definen una secuencia de entradas, como las interfaces de un router, donde cada entrada actúa como un contenedor identificado mediante una llave única (\texttt{key}) \parencite{granderath2023}.
+    \item \textbf{Hojas (\texttt{leaf}):} Modelan un dato escalar simple con un único valor y sin nodos hijos (por ejemplo, el nombre de una interfaz o su estado administrativo) \parencite{granderath2023}.
+    \item \textbf{Listas de hojas (\texttt{leaf-list}):} Representan una secuencia ordenada de valores simples de un mismo tipo de dato \parencite{granderath2023}.
+\end{itemize}
+
+La relación directa con las llamadas API ocurre porque la especificación de RESTCONF mapea automáticamente este árbol jerárquico de YANG hacia rutas de Identificadores Uniformes de Recursos (URI) accesibles mediante HTTP \parencite{cisco_restconf, granderath2023}. De acuerdo con \textcite{cisco_restconf}, toda petición parte del recurso raíz de almacén de datos (\texttt{/restconf/data/}), seguido del nombre del módulo YANG y la ruta de contenedores o listas hasta alcanzar el nodo específico deseado. Por ejemplo, para consultar la información de una interfaz específica en un equipo Cisco IOS XE, la estructura del modelo se traduce directamente en una URI con la forma \\ \texttt{https://<host>/restconf/data/Cisco-IOS-XE-native:native/interface/GigabitEthernet=0\%2F0\%2F2} \parencite{cisco_restconf}.
+
+Finalmente, los modelos YANG también gobiernan la codificación y negociación del contenido intercambiado en cada llamada API \parencite{cisco_restconf, granderath2023}. Al enviar una petición HTTP, el cliente y el servidor RESTCONF utilizan los encabezados \texttt{Accept} y \texttt{Content-Type} con los tipos MIME estandarizados \texttt{application/yang-data+json} o \texttt{application/yang-data+xml}, garantizando que los objetos JSON o XML transmitidos en el cuerpo del mensaje respeten estrictamente los tipos de datos y restricciones definidas en el esquema YANG subyacente \parencite{cisco_restconf, granderath2023}.
+
+\subsection{Postman}
+
+Postman es una plataforma integral diseñada para construir, probar, depurar y documentar interfaces de programación de aplicaciones (API) a través de una interfaz gráfica intuitiva, permitiendo validar servicios web sin necesidad de escribir código desde el inicio \parencite{postman_product, geeksforgeeks_postman}. En el ámbito de la administración y automatización de redes modernas, esta herramienta facilita la interacción directa con dispositivos compatibles con RESTCONF, permitiendo estructurar peticiones HTTP, organizar colecciones reutilizables y generar documentación técnica automática de cada punto de acceso (\textit{endpoint}) \parencite{postman_docs, freecodecamp_postman}.
+
+Para utilizar Postman en entornos de desarrollo y pruebas de red se deben cumplir los siguientes requerimientos técnicos y operativos:
+
+\begin{itemize}
+    \item \textbf{Instalación de software y cuenta de usuario:} Requiere descargar e instalar la aplicación de escritorio (compatible con Windows, macOS y Linux) o acceder mediante su versión web; en este último caso, es indispensable ejecutar el agente local (\textit{Postman Desktop Agent}) para evitar restricciones de seguridad del navegador al enviar peticiones hacia redes privadas o laboratorios virtuales \parencite{geeksforgeeks_postman, freecodecamp_postman}. Asimismo, se requiere crear una cuenta gratuita para almacenar espacios de trabajo (\textit{workspaces}), colecciones y variables de entorno \parencite{postman_product}.
+    \item \textbf{Conectividad y parámetros de seguridad:} Para realizar llamadas hacia un dispositivo de red o entorno \textit{sandbox}, el equipo cliente debe contar con conectividad IP/HTTPS hacia el servidor destino y disponer de credenciales válidas de autenticación (como \textit{Basic Auth} o tokens \textit{Bearer}) \parencite{freecodecamp_postman, cisco_devnet}. En entornos de laboratorio que emplean certificados digitales autofirmados, también se requiere deshabilitar la verificación estricta de certificados SSL en la configuración general del cliente \parencite{cisco_devnet}.
+\end{itemize}
+
+De acuerdo con el sitio de \textcite{postman_apicall}, una llamada API constituye el proceso mediante el cual una aplicación cliente envía una solicitud estructurada a un servidor para consultar o manipular recursos específicos. Para ejecutar una llamada API en Postman se sigue un flujo de trabajo estandarizado:
+
+\begin{enumerate}
+    \item \textbf{Selección del método HTTP y definición del \textit{endpoint}:} Se crea una nueva solicitud dentro de una colección, se selecciona el verbo HTTP correspondiente a la acción deseada (\texttt{GET} para lectura, \texttt{POST} para creación, \texttt{PUT} o \texttt{PATCH} para actualización y \texttt{DELETE} para eliminación) y se especifica la URL del recurso, apoyándose en variables de entorno como \texttt{\{\{host\}\}} para reutilizar direcciones base \parencite{freecodecamp_postman, postman_apicall}.
+    \item \textbf{Configuración de autorización y cabeceras (\textit{Headers}):} En la pestaña \textit{Authorization} se ingresan las credenciales de acceso requeridas por el servidor, mientras que en la sección \textit{Headers} se definen metadatos clave como \texttt{Accept} y \texttt{Content-Type} para negociar el formato de intercambio de datos (por ejemplo, JSON) \parencite{freecodecamp_postman, postman_apicall}.
+    \item \textbf{Definición del cuerpo (\textit{Body}) y envío:} Para operaciones que envían información al servidor (\texttt{POST}, \texttt{PUT} o \texttt{PATCH}), se redacta la carga útil (\textit{payload}) en formato JSON o XML dentro de la pestaña \textit{Body} y se ejecuta la petición mediante el botón \textit{Send} \parencite{geeksforgeeks_postman, freecodecamp_postman}.
+    \item \textbf{Inspección de la respuesta:} Finalmente, Postman despliega el código de estado HTTP retornado por el servidor (como \texttt{200 OK} para consultas exitosas, \texttt{201 Created} para recursos creados o \texttt{401 Unauthorized} ante fallos de credenciales), el tiempo de latencia, el tamaño del mensaje y el cuerpo de la respuesta formateado para su análisis \parencite{freecodecamp_postman, postman_apicall}.
+\end{enumerate}
+
+\subsection{Ejecución de llamadas RESTCONF con Postman y Python}
+
+La implementación práctica de llamadas RESTCONF suele dividirse en dos etapas complementarias: una fase inicial de exploración y validación visual mediante un cliente gráfico como Postman, seguida de una fase de automatización programática mediante scripts en Python \parencite{roman2019, cisco_devnet}.
+
+\textbf{Llamadas RESTCONF con Postman:} De acuerdo con \textcite{roman2019}, Postman permite prototipar y depurar peticiones hacia dispositivos de red antes de escribir código, estructurando cada solicitud a partir de cuatro elementos esenciales:
+\begin{enumerate}
+    \item \textbf{Método HTTP y URI del recurso:} Se selecciona el verbo correspondiente a la operación (\texttt{GET} para leer estadísticas o configuraciones, \texttt{PATCH} para actualizar parcialmente, \texttt{PUT} para reemplazar y \texttt{POST} para crear) y se define la ruta del modelo YANG, como \texttt{https://<host>/restconf/data/Cisco-IOS-XE-native:native/interface} para listar todas las interfaces o \texttt{.../GigabitEthernet=2} para consultar una interfaz específica \parencite{roman2019, cisco_restconf}. Adicionalmente, es posible añadir parámetros de consulta como \texttt{?depth=1} para limitar la profundidad del árbol JSON devuelto \parencite{roman2019}.
+    \item \textbf{Autenticación:} En la pestaña \textit{Authorization} se configura el tipo \textit{Basic Auth} con credenciales de nivel de privilegio 15 del equipo de red \parencite{roman2019, cisco_restconf}.
+    \item \textbf{Cabeceras HTTP (\textit{Headers}):} Se establecen los encabezados \texttt{Accept} y \texttt{Content-Type} con el valor \texttt{application/yang-data+json} para indicar al dispositivo que el intercambio de datos se realizará en formato JSON estructurado según YANG \parencite{roman2019, cisco_restconf}.
+    \item \textbf{Cuerpo de la petición (\textit{Body}):} Únicamente en operaciones de escritura (\texttt{POST}, \texttt{PUT} o \texttt{PATCH}), se incluye en formato \texttt{raw} (JSON) la carga útil con los parámetros a modificar y se envía la solicitud para verificar el código de estado HTTP (\texttt{200 OK}, \texttt{201 Created} o \texttt{204 No Content}) \parencite{roman2019, freecodecamp_postman}.
+\end{enumerate}
+
+\textbf{Llamadas RESTCONF con Python:} Una vez validada la estructura de la petición y la respuesta JSON en Postman, el flujo se automatiza en Python empleando la biblioteca estándar de cliente HTTP \texttt{requests} junto con el módulo auxiliar \texttt{HTTPBasicAuth} \parencite{roman2019}. Según \textcite{roman2019}, el procedimiento técnico consiste en:
+\begin{enumerate}
+    \item \textbf{Gestión de seguridad y certificados:} En entornos de laboratorio con certificados SSL autofirmados (como Cisco DevNet Sandbox), se desactivan las advertencias de seguridad mediante \texttt{urllib3.disable\_warnings()} y se pasa el parámetro \texttt{verify=False} en cada petición \parencite{roman2019, cisco_devnet}.
+    \item \textbf{Definición de credenciales y cabeceras:} Se instancia el objeto \texttt{AUTH = HTTPBasicAuth(usuario, password)} y se define el diccionario \texttt{HEADERS} especificando \texttt{application/yang-data+json} para \texttt{Accept} y \texttt{Content-Type} \parencite{roman2019}.
+    \item \textbf{Ejecución y procesamiento de la respuesta:} Se invoca la función equivalente al verbo HTTP deseado, como \texttt{requests.get(url, auth=AUTH, headers=HEADERS, verify=False)} para consultar el estado y estadísticas de las interfaces \parencite{roman2019}. Posteriormente, el script evalúa el atributo \texttt{response.status\_code} (validando códigos exitosos como \texttt{200}) y convierte el cuerpo de la respuesta a un diccionario nativo de Python mediante \texttt{response.json()} para extraer contadores, detectar cambios de estado y generar reportes automáticos \parencite{roman2019, granderath2023}.
+\end{enumerate}
+
+\begin{lstlisting}[caption={Ejemplo de consulta RESTCONF a interfaces mediante la librería \texttt{requests} en Python (adaptado de Roman, 2019)}]
+import requests
+from requests.auth import HTTPBasicAuth
+import urllib3
+
+# Deshabilitar advertencias por certificados autofirmados en Sandbox
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+AUTH = HTTPBasicAuth('cisco', 'cisco')
+HEADERS = {
+    'Accept': 'application/yang-data+json',
+    'Content-Type': 'application/yang-data+json'
+}
+
+url = "https://csr1kv/restconf/data/Cisco-IOS-XE-native:native/interface"
+response = requests.get(url, auth=AUTH, headers=HEADERS, verify=False)
+
+if response.status_code == 200:
+    datos_interfaces = response.json()
+    print(datos_interfaces)
+\end{lstlisting}
 
 % =================================================
 % REFERENCIAS BIBLIOGRÁFICAS
