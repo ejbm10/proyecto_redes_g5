@@ -10,6 +10,22 @@
 \usepackage[spanish]{babel}
 
 % ------------------------------------------------
+% FORMATO DE ANEXO
+% ------------------------------------------------
+
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{pgfgantt}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{pdflscape}
+\usepackage{amsmath}
+
+% ------------------------------------------------
 % FUENTE (COMPATIBLE CON ARIAL)
 % ------------------------------------------------
 
@@ -84,13 +100,214 @@
 
 \maketitle
 
-\section{Metas del proyecto}
 
-\section{Roles}
+\section{Trabajo individual y en equipo}
 
-\section{Reglas}
+\subsection{Metas del proyecto}
 
-\section{Cronograma}
+El proyecto tiene como propósito investigar los fundamentos de la programabilidad de redes basada en modelos y demostrar su aplicación mediante un caso de uso de llamadas API REST en redes modernas. Para alcanzar este propósito, se establecieron las siguientes metas y entregables:
+
+\begin{enumerate}[label=\textbf{M\arabic*.}, leftmargin=*]
+
+    \item \textbf{Investigar los fundamentos de la programabilidad de redes basada en modelos.}
+    Desarrollar una investigación que explique el concepto, su importancia y sus principales fundamentos. Se deben abordar aspectos como el papel de DevOps en la administración de redes, la función de SNMP, el RFC 3535, los bloques de construcción de la programabilidad basada en modelos y el concepto de modelo de datos.
+
+    \textit{Entregable:} documentación de la investigación sobre programabilidad de redes basada en modelos.
+
+    \item \textbf{Investigar el modelado de datos mediante YANG.}
+    Explicar el funcionamiento del lenguaje YANG, su estructura, la diferencia entre el lenguaje, los modelos de datos y los datos YANG, así como su utilización en el modelado de redes. Además, investigar la herramienta Pyang y su aplicación para explorar modelos de datos.
+
+    \textit{Entregable:} documentación teórica sobre YANG y Pyang, incluyendo ejemplos de utilización cuando corresponda.
+
+    \item \textbf{Investigar el protocolo NETCONF.}
+    Describir sus fundamentos, estándar de creación, funcionamiento de las comunicaciones, mecanismos de comunicación con los dispositivos de red, utilización de RPC y formato de los mensajes. También se deben incluir ejemplos de comandos y casos de uso.
+
+    \textit{Entregable:} documentación de la investigación sobre NETCONF, acompañada de ejemplos prácticos.
+
+    \item \textbf{Investigar RESTCONF y las herramientas de automatización de redes.}
+    Explicar el funcionamiento de RESTCONF, sus diferencias con NETCONF, su relación con los modelos YANG y las ventajas de su utilización. Asimismo, investigar POSTMAN, sus requerimientos y su aplicación en llamadas API REST. Finalmente, comparar al menos tres herramientas de automatización de configuración de redes, considerando sus mecanismos de operación (push o pull), arquitectura de gestión y sistemas operativos compatibles.
+
+    \textit{Entregable:} documentación sobre RESTCONF, POSTMAN y herramientas de automatización de redes.
+
+    \item \textbf{Desarrollar un caso de uso mediante Python.}
+    Implementar una solución que permita demostrar la utilización de llamadas API para automatizar un proceso de administración de red, empleando NETCONF o RESTCONF. La implementación deberá incluir la configuración necesaria, los scripts desarrollados y una explicación de su funcionamiento.
+
+    \textit{Entregable:} implementación funcional del caso de uso, código fuente y documentación técnica de la solución.
+
+    \item \textbf{Integrar y documentar los resultados del proyecto.}
+    Consolidar las investigaciones individuales y la implementación práctica en un informe técnico que incluya los objetivos, fundamentos teóricos, descripción del caso de uso, resultados obtenidos, análisis, conclusiones y recomendaciones. Todas las fuentes bibliográficas deberán estar debidamente referenciadas utilizando el formato APA.
+
+    \textit{Entregable:} informe final del proyecto, incluyendo los anexos correspondientes.
+
+    \item \textbf{Elaborar y presentar el video demostrativo.}
+    Preparar un video con una duración máxima de diez minutos, en el cual todos los integrantes participen y expliquen una parte del proyecto. Se deberá presentar una introducción del caso de uso, los requerimientos de red, las aplicaciones utilizadas, la configuración y el funcionamiento de la solución implementada.
+
+    \textit{Entregable:} video demostrativo y enlace incorporado en el informe final.
+
+\end{enumerate}
+
+
+\subsection{Roles}
+
+\begin{longtable}{>{\centering\arraybackslash}p{2.2cm}
+                  >{\centering\arraybackslash}p{2.8cm}
+                  p{9cm}}
+\caption{Distribución de roles y responsabilidades del equipo.}\\
+\toprule
+\textbf{Integrante} & \textbf{Rol principal} & \textbf{Responsabilidades} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Integrante} & \textbf{Rol principal} & \textbf{Responsabilidades} \\
+\midrule
+\endhead
+
+Eduardo Bolívar &
+Investigación de fundamentos &
+Investigar la programabilidad de redes basada en modelos, su importancia, los fundamentos de DevOps, el papel de SNMP, el RFC 3535 y los bloques básicos de construcción de esta metodología. \\
+
+\midrule
+
+Integrante 2 &
+Investigación de YANG &
+Investigar el lenguaje YANG, su estructura, los modelos de datos, sus aplicaciones en redes y la herramienta Pyang. Elaborar ejemplos que faciliten la comprensión de los conceptos investigados. \\
+
+\midrule
+
+Integrante 3 &
+Investigación de NETCONF &
+Investigar el protocolo NETCONF, sus estándares, arquitectura, funcionamiento, mecanismos de comunicación, operaciones RPC y formatos de mensajes. Documentar ejemplos de utilización. \\
+
+\midrule
+
+Integrante 4 &
+Investigación de RESTCONF &
+Investigar RESTCONF, su relación con YANG, sus diferencias con NETCONF y la utilización de POSTMAN. Investigar y comparar al menos tres herramientas de automatización de redes. \\
+
+\midrule
+
+Kendall Martinez &
+Implementación en Python &
+Diseñar, desarrollar y probar el caso de uso mediante Python, utilizando llamadas API a través de NETCONF o RESTCONF. Documentar los requerimientos, configuraciones, scripts, resultados y funcionamiento de la solución. \\
+
+\bottomrule
+\end{longtable}
+
+Adicionalmente, se establecen las siguientes responsabilidades compartidas:
+
+\begin{itemize}
+    \item \textbf{Integración del informe:} todos los integrantes deberán entregar sus respectivos aportes en un formato uniforme, revisar el contenido y colaborar en la consolidación del documento final.
+
+    \item \textbf{Video demostrativo:} todos los integrantes deberán participar en la presentación, explicando una parte del proyecto.
+\end{itemize}
+
+
+\subsection{Reglas}
+
+\begin{enumerate}[label=\textbf{R\arabic*.}, leftmargin=*]
+
+    \item \textbf{Responsabilidad:} cada integrante deberá asumir las actividades correspondientes a su rol y responsabilizarse por su entrega.
+
+    \item \textbf{Puntualidad:} los integrantes deberán respetar los horarios para las reuniones y cumplir las fechas de entrega.
+
+    \item \textbf{Comunicación efectiva:} se deberá mantener una comunicación clara y  constante entre los integrantes, utilizando Telegram como medio de comunicación acordado.
+
+    \item \textbf{Colaboración:} todos los integrantes deberán mantener una actitud de cooperación, brindando apoyo cuando otro miembro presente dificultades.
+
+    \item \textbf{Respeto:} se deberán considerar las opiniones y aportes de todos los integrantes, promoviendo un ambiente de trabajo respetuoso.
+\end{enumerate}
+
+\begin{landscape}
+
+\subsection{Cronograma de trabajo}
+\begin{figure}[H]
+\centering
+\begin{ganttchart}[
+    hgrid,
+    vgrid,
+    x unit=2.35cm,
+    y unit chart=0.62cm,
+    title height=1,
+    bar height=0.48,
+    group height=0.55,
+    milestone height=0.5,
+    bar label font=\small,
+    group label font=\small\bfseries,
+    title label font=\small\bfseries,
+    bar label node/.append style={align=left},
+    group label node/.append style={align=left},
+    bar/.append style={fill=blue!35},
+    group/.append style={fill=gray!35},
+    milestone/.append style={fill=red!65}
+]{13}{17}
+
+\gantttitle{Planificación temporal del proyecto}{5}\\
+\gantttitle{Semana 13}{1}
+\gantttitle{Semana 14}{1}
+\gantttitle{Semana 15}{1}
+\gantttitle{Semana 16}{1}
+\gantttitle{Semana 17}{1}\\
+
+\ganttgroup{Documentación teórica}{13}{15}\\
+\ganttbar{Fundamentos de programabilidad (I1)}{13}{14}\\
+\ganttbar{Modelado YANG y Pyang (I2)}{13}{14}\\
+\ganttbar{Protocolo NETCONF (I3)}{13}{14}\\
+\ganttbar{RESTCONF, POSTMAN y herramientas (I4)}{13}{15}\\
+
+\ganttgroup{Implementación práctica}{13}{16}\\
+\ganttbar{Diseño del caso de uso (I5)}{13}{13}\\
+\ganttbar{Desarrollo de la solución en Python (I5)}{14}{15}\\
+\ganttbar{Pruebas y validación (I5)}{15}{16}\\
+
+\ganttgroup{Video demostrativo}{14}{17}\\
+\ganttbar{Preparación del video demostrativo (Todos)}{16}{17}\\
+\ganttbar{Integración y edición del video demostrativo}{16}{17}\\
+
+\ganttgroup{Revisión final}{17}{17}\\
+\ganttbar{Revisión y entrega final (Todos)}{17}{17}\\
+
+\ganttmilestone{Entrega del proyecto}{17}
+
+\end{ganttchart}
+\caption{Diagrama de Gantt de las actividades del proyecto.}
+\label{fig:gantt_trabajo}
+\end{figure}
+\end{landscape}
+
+\begin{longtable}{p{5.2cm}
+                  >{\centering\arraybackslash}p{2.5cm}
+                  >{\centering\arraybackslash}p{2.2cm}
+                  p{4.2cm}}
+\caption{Actividades, responsables y entregables del proyecto.}\\
+\toprule
+\textbf{Actividad} & \textbf{Responsable} & \textbf{Semana} & \textbf{Entregable esperado}\\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Actividad} & \textbf{Responsable} & \textbf{Semana} & \textbf{Entregable esperado}\\
+\midrule
+\endhead
+
+Investigación de programabilidad de redes. & Integrante 1 & 13--14 & Documento de investigación.\\
+\midrule
+Investigación de YANG y Pyang. & Integrante 2 & 13--14 & Documento de investigación y ejemplos.\\
+\midrule
+Investigación de NETCONF. & Integrante 3 & 13--14 & Documento de investigación y ejemplos.\\
+\midrule
+Investigación de RESTCONF, POSTMAN y herramientas de automatización. & Integrante 4 & 13--15 & Documento de investigación y comparación de herramientas.\\
+\midrule
+Diseño del caso de uso. & Integrante 5 & 13 & Propuesta técnica de implementación.\\
+\midrule
+Desarrollo del caso de uso mediante Python. & Integrante 5 & 14--15 & Código fuente funcional.\\
+\midrule
+Pruebas y validación de la implementación. & Integrante 5 & 15--16 & Resultados y evidencias de funcionamiento.\\
+\midrule
+Grabación del video demostrativo. & Todos & 16--17 & Video de máximo diez minutos.\\
+
+\bottomrule
+\end{longtable}
 
 \section{Minutas de las sesiones de trabajo}
 
@@ -108,6 +325,14 @@ Este trabajo incluyó darle formato al documento para mantener la fuente, estilo
 
 Se agregó el apartado de equipos de DevOps, SNMP y RFC 3535 al documento de investigación. Tomó desde las 9:00 p.m. hasta las 12:11 a.m. aproximadamente.
 
+\subsubsection{23-11-2026}
+
+Se definieron las metas del proyecto, así como sus entregables, que consisten en el documento de investigación, la implementación de programación y el video demostrativo.
+
+\subsubsection{24-11-2026}
+
+Se documentaron los roles y reglas del equipo, a pesar de que estas habían sido definidas durante la primera minuta. Asimismo, se creó un diagrama de Gantt para la representación del cronograma preliminar del proyecto, y la tabla de actividades del cronograma.
+
 \subsection{Kendall Martínez}
 
 \subsection{Sergio Marín}
@@ -115,7 +340,5 @@ Se agregó el apartado de equipos de DevOps, SNMP y RFC 3535 al documento de inv
 \subsection{Yendry Badilla}
 
 \subsection{Valerín Calderón}
-
-\section{Evaluación de la eficiencia}
 
 \end{document}
