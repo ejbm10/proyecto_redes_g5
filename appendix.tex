@@ -335,6 +335,22 @@ Se documentaron los roles y reglas del equipo, a pesar de que estas habían sido
 
 \subsection{Kendall Martínez}
 
+\subsubsection{21-11-2026}
+Se incorporó la primera versión funcional del monitor de red: configuración mediante \textit{.env}, modo demo con fixtures, parser de respuestas JSON, monitoreo, alertas, cliente RESTCONF, pruebas y ejecución desde consola.
+
+\subsubsection{22-11-2026}
+Se agregó la interfaz visual con Rich y se mejoró el flujo de monitoreo para mostrar tarjetas resumen, tabla de interfaces, eventos, latencia y modo de ejecución. Debido a que el dispositivo real devolvía decenas de interfaces, se implementó paginación automática para recorrer la lista sin desbordar la terminal.
+
+\subsubsection{25-11-2026}
+Se ajustó el procesamiento para aceptar la estructura \textit{Cisco-IOS-XE-interfaces-oper:interfaces}, además de \textit{ietf-interfaces}, con el fin de interpretar respuestas reales de IOS XE.
+
+Se normalizaron los valores enumerados del modelo Cisco, por ejemplo \textit{IF-OPER-STATE-LOWER-LAYER-DOWN}, para representarlos como \textit{DOWN} en el dashboard y permitir el cálculo correcto de interfaces operativas e inactivas.
+
+La suite automatizada disponible pasó con \textit{3 passed}. La ejecución real desde Linux logró conectarse al \textit{Catalyst 9300} mediante RESTCONF y mostró 66--67 interfaces. Los valores \textit{N/D} se conservaron cuando el modelo consultado no entregó una métrica, evitando inventar datos.
+
+En Windows, OpenConnect autenticó correctamente contra el Sandbox, pero falló al crear el adaptador virtual con `Set up tun device failed`. Por ello, las pruebas reales se continuaron desde Linux y la validación del entorno Windows quedó pendiente.
+
+
 \subsection{Sergio Marín}
 
 \subsection{Yendry Badilla}
