@@ -87,62 +87,61 @@
 % ------------------------------------------------
 % INFORMACIÓN DEL DOCUMENTO
 % ------------------------------------------------
-
-\title{Desafío}
-\author{ebolivarminguet}
-\date{Noviembre de 2026}
-
 % =================================================
 % INICIO DEL DOCUMENTO
 % =================================================
 
 \begin{document}
 
-\maketitle
+\begin{center}
+    {\Large \textbf{Anexo 2: Trabajo individual y en equipo}}\\[1.2cm]
 
+    \textbf{Integrantes}\\[0.3cm]
+
+    Eduardo Bolívar\\
+    Kendall Martínez\\
+    Sergio Marín\\
+    Yendry Badilla\\
+    Valerin Calderón
+\end{center}
+
+\vspace{0.5cm}
 
 \section{Trabajo individual y en equipo}
 
 \subsection{Metas del proyecto}
 
-El proyecto tiene como propósito investigar los fundamentos de la programabilidad de redes basada en modelos y demostrar su aplicación mediante un caso de uso de llamadas API REST en redes modernas. Para alcanzar este propósito, se establecieron las siguientes metas y entregables:
-
 \begin{enumerate}[label=\textbf{M\arabic*.}, leftmargin=*]
 
-    \item \textbf{Investigar los fundamentos de la programabilidad de redes basada en modelos.}
-    Desarrollar una investigación que explique el concepto, su importancia y sus principales fundamentos. Se deben abordar aspectos como el papel de DevOps en la administración de redes, la función de SNMP, el RFC 3535, los bloques de construcción de la programabilidad basada en modelos y el concepto de modelo de datos.
+    \item \textbf{Investigar los fundamentos de la programabilidad basada en modelos.}
+    Desarrollar una investigación que explique el concepto, su importancia y sus principales fundamentos. Se deben abordar aspectos como el papel de DevOps, el rol de SNMP, el RFC 3535, los bloques de construcción de la programabilidad basada en modelos y el concepto de modelo de datos.
 
-    \textit{Entregable:} documentación de la investigación sobre programabilidad de redes basada en modelos.
+    \textit{Entregable:} documentación teórica sobre programabilidad de redes basada en modelos.
 
     \item \textbf{Investigar el modelado de datos mediante YANG.}
     Explicar el funcionamiento del lenguaje YANG, su estructura, la diferencia entre el lenguaje, los modelos de datos y los datos YANG, así como su utilización en el modelado de redes. Además, investigar la herramienta Pyang y su aplicación para explorar modelos de datos.
 
-    \textit{Entregable:} documentación teórica sobre YANG y Pyang, incluyendo ejemplos de utilización cuando corresponda.
+    \textit{Entregable:} documentación teórica sobre YANG y Pyang.
 
     \item \textbf{Investigar el protocolo NETCONF.}
-    Describir sus fundamentos, estándar de creación, funcionamiento de las comunicaciones, mecanismos de comunicación con los dispositivos de red, utilización de RPC y formato de los mensajes. También se deben incluir ejemplos de comandos y casos de uso.
+    Describir sus fundamentos, estándar de creación, funcionamiento de las comunicaciones, mecanismos de comunicación con los dispositivos de red, utilización de RPC y formato de los mensajes.
 
-    \textit{Entregable:} documentación de la investigación sobre NETCONF, acompañada de ejemplos prácticos.
+    \textit{Entregable:} documentación teórica sobre NETCONF.
 
     \item \textbf{Investigar RESTCONF y las herramientas de automatización de redes.}
-    Explicar el funcionamiento de RESTCONF, sus diferencias con NETCONF, su relación con los modelos YANG y las ventajas de su utilización. Asimismo, investigar POSTMAN, sus requerimientos y su aplicación en llamadas API REST. Finalmente, comparar al menos tres herramientas de automatización de configuración de redes, considerando sus mecanismos de operación (push o pull), arquitectura de gestión y sistemas operativos compatibles.
+    Explicar el funcionamiento de RESTCONF, sus diferencias con NETCONF. Asimismo, investigar POSTMAN. Finalmente, comparar al menos tres herramientas de automatización de configuración de redes, considerando sus mecanismos de operación, arquitectura de gestión y sistemas operativos compatibles.
 
-    \textit{Entregable:} documentación sobre RESTCONF, POSTMAN y herramientas de automatización de redes.
+    \textit{Entregable:} documentación teórica sobre RESTCONF, POSTMAN y herramientas de automatización de redes.
 
     \item \textbf{Desarrollar un caso de uso mediante Python.}
     Implementar una solución que permita demostrar la utilización de llamadas API para automatizar un proceso de administración de red, empleando NETCONF o RESTCONF. La implementación deberá incluir la configuración necesaria, los scripts desarrollados y una explicación de su funcionamiento.
 
-    \textit{Entregable:} implementación funcional del caso de uso, código fuente y documentación técnica de la solución.
-
-    \item \textbf{Integrar y documentar los resultados del proyecto.}
-    Consolidar las investigaciones individuales y la implementación práctica en un informe técnico que incluya los objetivos, fundamentos teóricos, descripción del caso de uso, resultados obtenidos, análisis, conclusiones y recomendaciones. Todas las fuentes bibliográficas deberán estar debidamente referenciadas utilizando el formato APA.
-
-    \textit{Entregable:} informe final del proyecto, incluyendo los anexos correspondientes.
+    \textit{Entregable:} código fuente y documentación técnica de la solución.
 
     \item \textbf{Elaborar y presentar el video demostrativo.}
-    Preparar un video con una duración máxima de diez minutos, en el cual todos los integrantes participen y expliquen una parte del proyecto. Se deberá presentar una introducción del caso de uso, los requerimientos de red, las aplicaciones utilizadas, la configuración y el funcionamiento de la solución implementada.
+    Preparar un video en el cual cada integrante explique una parte del caso de uso. Se deberá presentar una introducción del caso, los requerimientos de red, las aplicaciones utilizadas, la configuración y el funcionamiento de la solución implementada.
 
-    \textit{Entregable:} video demostrativo y enlace incorporado en el informe final.
+    \textit{Entregable:} video demostrativo.
 
 \end{enumerate}
 
@@ -316,22 +315,28 @@ Grabación del video demostrativo. & Todos & 16--17 & Video de máximo diez minu
 \subsection{Eduardo Bolívar}
 
 \subsubsection{21-11-2026}
+Se trabajó en la investigación correspondiente al apartado de programabilidad basada en modelos. Se abordaron los conceptos de programabilidad basada en modelos, \textit{Model-Driven Programmability} en redes y modelos de datos. La jornada de trabajo se desarrolló desde las 10:44 a.m. hasta la 1:00 p.m.
 
-Se trabajó en la investigación relacionada con el punto de programabilidad basada en modelos. Se abarcaron las preguntas sobre programabilidad basada en modelos, \textit{Model-Driven Programability} en redes, y los modelos de datos. Se trabajó desde las 10:44 a.m. hasta las 13:00 p.m.
-
-Este trabajo incluyó darle formato al documento para mantener la fuente, estilo de párrafos y referencias solicitados. En estos momentos también se está creando el documento de \textbf{Trabajo individual y en Equipo}.
+Asimismo, se realizó el formato del documento de investigación, con el propósito de mantener la uniformidad en el tipo de letra, los estilos de párrafo y las referencias bibliográficas, de acuerdo con los lineamientos establecidos. Adicionalmente, se inició la elaboración del documento de \textbf{Trabajo individual y en equipo}.
 
 \subsubsection{22-11-2026}
-
-Se agregó el apartado de equipos de DevOps, SNMP y RFC 3535 al documento de investigación. Tomó desde las 9:00 p.m. hasta las 12:11 a.m. aproximadamente.
+Se incorporaron al documento de investigación los apartados relacionados con los equipos de DevOps, SNMP y el RFC 3535. Esta actividad se desarrolló aproximadamente desde las 9:00 p.m. hasta las 12:11 a.m. del día siguiente.
 
 \subsubsection{23-11-2026}
-
-Se definieron las metas del proyecto, así como sus entregables, que consisten en el documento de investigación, la implementación de programación y el video demostrativo.
+Se definieron las metas del proyecto y sus respectivos entregables, los cuales comprenden el documento de investigación, la implementación de la solución mediante programación y la elaboración de un video demostrativo.
 
 \subsubsection{24-11-2026}
+Se documentaron los roles y las reglas de trabajo del equipo, a pesar de que estos ya habían sido establecidos durante la primera reunión y registrados en la minuta correspondiente. Asimismo, se elaboró un diagrama de Gantt para representar el cronograma preliminar del proyecto y se confeccionó la tabla de actividades asociada a dicho cronograma.
 
-Se documentaron los roles y reglas del equipo, a pesar de que estas habían sido definidas durante la primera minuta. Asimismo, se creó un diagrama de Gantt para la representación del cronograma preliminar del proyecto, y la tabla de actividades del cronograma.
+\subsubsection{25-11-2026 / 26-11-2026}
+Se trabajó en la elaboración de una presentación que se utilizaría como apoyo para el video demostrativo. Inicialmente, se consideró que el video debía abarcar todos los componentes del desafío, tanto la sección teórica como el caso de uso. Sin embargo, posteriormente se determinó que el video debía centrarse únicamente en la demostración del caso de uso.
+
+La presentación elaborada inicialmente se basó en los contenidos de la investigación e incluyó diapositivas de carácter visual para explicar los conceptos de MBD, MDD, SNMP, RFC 3535 y los modelos de datos.
+
+Adicionalmente, se realizó la grabación de las explicaciones correspondientes a cada diapositiva mediante la herramienta Canva.
+
+\subsubsection{26-11-2026}
+
 
 \subsection{Kendall Martínez}
 
