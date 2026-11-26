@@ -355,6 +355,8 @@ Se implementó y validó el cálculo de las tasas de tráfico \textit{RX} y \tex
 
 Debido a que \textit{OpenConnect} en Windows no lograba crear el adaptador \textit{VPN} virtual (Set up tun device failed), se decidió utilizar \textit{WSL} con Linux. En este entorno fue posible establecer correctamente la \textit{VPN} hacia \textit{Cisco DevNet Sandbox} y ejecutar la aplicación contra el dispositivo real mediante \textit{RESTCONF}.
 
+Se completaron las funcionalidades de monitoreo mediante la incorporación de reportes en formatos \textit{CSV} y \textit{JSON}, métricas de consultas y latencia, menú interactivo y alertas para interfaces nuevas, eliminadas, cambios de estado e incrementos de errores. También se corrigió la generación de alertas durante la primera consulta y se actualizó \textit{.gitignore} para evitar subir reportes generados localmente. En una corrida real contra el \textit{Catalyst 9300} se realizaron cinco consultas exitosas, con cero fallos y una latencia promedio de 1483.95 ms.
+
 \subsection{Sergio Marín}
 
 \subsection{Yendry Badilla}
