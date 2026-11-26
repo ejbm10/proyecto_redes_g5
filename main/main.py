@@ -12,6 +12,7 @@ def main():
     client = DemoClient() if config.demo_mode else RestconfClient(config)
     monitor = Monitor(client)
     console = Console()
+    page = 0
     try:
         with Live(console=console, refresh_per_second=4, screen=False) as live:
             while True:
@@ -19,7 +20,8 @@ def main():
                     current, latency = client.get_interfaces()
                     monitor.alerts.extend(__import__('alerts').compare(monitor.previous, current))
                     monitor.previous = current
-                    live.update(dashboard(current, monitor.alerts, device=config.host, mode='DEMO' if config.demo_mode else 'REAL', latency=latency, interval=config.interval))
+                    live.update(dashboard(current, monitor.alerts, device=config.host, mode='DEMO' if config.demo_mode else 'REAL', latency=latency, interval=config.interval, page=page))
+                    page += 1
                 except RestconfError as error:
                     live.update(dashboard(monitor.previous or [], monitor.alerts + [('RESTCONF', 'connection_lost')], device=config.host, mode='REAL', latency=0, interval=config.interval))
                     console.print(f'[red]{error}[/red]')
