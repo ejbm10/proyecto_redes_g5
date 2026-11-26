@@ -164,7 +164,7 @@
 
     \vspace{0.4cm}
 
-    Sergio Marín (202XXXXXXX)\\
+    Sergio Marín (2018171984)\\
     {\small correo2@estudiantec.cr\par}
 
     \vspace{0.4cm}
@@ -317,6 +317,143 @@ SNMP opera en la capa de aplicación y utiliza principalmente el protocolo de tr
 La RFC 3535 es un documento informativo publicado en mayo de 2003 por la \textit{Internet Architecture Board} (IAB), como resultado de un taller que tuvo como objetivo establecer un diálogo entre los operadores de redes y los desarrolladores de protocolos, con el propósito de identificar necesidades y orientar los esfuerzos de estandarización relacionados con la administración de redes \parencite{schoenwaelder2003rfc3535}.
 
 El documento, titulado \textit{Overview of the 2002 IAB Network Management Workshop}, recopila los principales requerimientos, observaciones y recomendaciones obtenidos durante dicho encuentro. Su contenido abordó aspectos como la configuración de dispositivos, la supervisión de redes y la necesidad de contar con mecanismos estandarizados que facilitaran las tareas de administración. Asimismo, la RFC 3535 tuvo una influencia significativa en el desarrollo posterior de tecnologías como NETCONF y YANG \parencite{schoenwaelder2003rfc3535}.
+
+% =================================================
+% Introducción al modelo YANG dentro del modelado de datos para una red
+% =================================================
+
+\section{Introducción al modelo YANG dentro del modelado de datos para una red}
+
+\subsection{Definición de YANG}
+
+YANG (\textit{Yet Another Next Generation}) es un lenguaje de modelado de datos diseñado originalmente para modelar datos de configuración, datos de estado, llamadas a procedimientos remotos (RPC) y notificaciones manipuladas por protocolos de gestión de red como NETCONF \parencite{bjorklund2016rfc7950}. Aunque fue concebido inicialmente para NETCONF, su arquitectura permite que también sea empleado con otros protocolos (como RESTCONF o CoMI) y con distintos formatos de codificación además de XML, tales como JSON \parencite{bjorklund2016rfc7950}.
+
+Entre sus características principales destaca una sintaxis legible similar a C/C++ que organiza la información de manera jerárquica en forma de árbol, permitiendo definir restricciones estrictas sobre los datos y establecer un contrato formal entre el cliente y el servidor de red \parencite{bjorklund2016rfc7950}.
+
+\subsection{Diferencias entre el lenguaje YANG, los modelos de datos YANG y YANG data}
+
+De acuerdo con las definiciones y conceptos establecidos en el estándar RFC 7950 \parencite{bjorklund2016rfc7950}, estos tres elementos representan distintos niveles de abstracción e instanciación:
+
+\begin{enumerate}
+    \item \textbf{Lenguaje YANG:} Es la especificación formal (su sintaxis, gramática, palabras clave y semántica) utilizada para escribir y definir las estructuras de datos, tipos integrados (\textit{built-in types}), restricciones y operaciones \parencite{bjorklund2016rfc7950}.
+    \item \textbf{Modelos de datos YANG (Árbol de esquema o \textit{Schema Tree}):} Es la descripción abstracta y jerárquica especificada dentro de un módulo (o submódulo) escrito en lenguaje YANG que determina cómo se representa y se accede a la información de un dispositivo o servicio de red \parencite{bjorklund2016rfc7950}. Define las reglas, nodos de esquema y relaciones antes de que existan valores reales.
+    \item \textbf{YANG data (Árbol de datos o \textit{Data Tree}):} Es la instancia concreta de datos reales modelados con YANG que residen en un almacén de datos (\textit{datastore}) o se intercambian entre cliente y servidor \parencite{bjorklund2016rfc7950}. Incluye los datos de configuración activos, datos operativos de estado, entradas y salidas de RPC y notificaciones codificadas (por ejemplo, en XML) conforme a las reglas dictadas por el modelo de datos \parencite{bjorklund2016rfc7950}.
+\end{enumerate}
+
+\subsection{Estructura y uso del modelo de datos YANG}
+
+La unidad base de definición en YANG es el \textbf{módulo} (almacenado habitualmente en archivos con extensión \texttt{.yang}), el cual puede dividirse en \textbf{submódulos} parciales e importar definiciones de otros módulos externos \parencite{bjorklund2016rfc7950}. Todo módulo se estructura en tres tipos de sentencias:
+
+\begin{itemize}
+    \item \textbf{Sentencias de encabezado:} Describen el módulo e incluyen metadatos esenciales como la versión (\texttt{yang-version}), el espacio de nombres único (\texttt{namespace}), el prefijo (\texttt{prefix}), la organización y el contacto \parencite{bjorklund2016rfc7950}.
+    \item \textbf{Sentencias de revisión (\texttt{revision}):} Documentan el historial de cambios y versiones del módulo \parencite{bjorklund2016rfc7950}.
+    \item \textbf{Sentencias de definición:} Constituyen el cuerpo donde se modela la jerarquía en forma de árbol mediante cuatro nodos principales de datos \parencite{bjorklund2016rfc7950}:
+    \begin{itemize}
+        \item \textbf{\texttt{leaf} (Hoja):} Contiene un único valor simple de un tipo específico (por ejemplo, un entero o una cadena) y no posee nodos hijos.
+        \item \textbf{\texttt{leaf-list} (Lista de hojas):} Define una secuencia de múltiples valores simples de un mismo tipo.
+        \item \textbf{\texttt{container} (Contenedor):} Nodo interior que agrupa un conjunto de nodos hijos relacionados sin tener un valor propio.
+        \item \textbf{\texttt{list} (Lista):} Define una colección de entradas estructuradas, donde cada entrada se identifica de forma única mediante una o más hojas clave (\texttt{key}).
+    \end{itemize}
+\end{itemize}
+
+Respecto a su uso, los modelos YANG se emplean para diferenciar los datos de configuración modificables (\texttt{config true}) de los datos de estado de solo lectura (\texttt{config false}), validar restricciones mediante expresiones XPath (\texttt{must}, \texttt{when}), reutilizar bloques de nodos (\texttt{grouping} y \texttt{uses}), extender modelos existentes sin modificarlos (\texttt{augment}) y definir operaciones (\texttt{rpc}, \texttt{action}) y eventos (\texttt{notification}) que permiten automatizar la gestión de dispositivos de red de forma interoperable \parencite{bjorklund2016rfc7950}.
+
+\subsection{Definición de pyang y su uso para explorar modelos de datos}
+
+\texttt{pyang} es un validador, transformador y generador de código extensible para módulos YANG escrito en Python \parencite{pyang_github}. Su función principal es analizar sintáctica y semánticamente archivos \texttt{.yang} o \texttt{.yin} para verificar que cumplan estrictamente con las reglas de los estándares (como el RFC 7950) y convertirlos a otros formatos \parencite{pyang_github}.
+
+Para explorar modelos de datos a través de su interfaz de línea de comandos (\texttt{pyang [opciones] <archivo.yang>}), permite inspeccionar y comprender modelos complejos mediante diversas salidas y complementos (\textit{plugins}):
+
+\begin{itemize}
+    \item \textbf{Visualización en árbol compacto:} Genera una representación en árbol legible en consola para inspeccionar rápidamente la jerarquía de nodos, tipos de datos, claves y permisos de configuración \parencite{pyang_github}.
+    \item \textbf{Generación de diagramas UML:} Permite transformar modelos YANG en diagramas UML para visualizar gráficamente las relaciones entre módulos y contenedores \parencite{pyang_github}.
+    \item \textbf{Conversión de formatos y esqueletos:} Traduce modelos entre YANG y YIN (sintaxis XML equivalente), convierte modelos a esquemas DSDL para validación y genera documentos XML de ejemplo (\textit{skeleton XML}) a partir del modelo de datos \parencite{pyang_github}.
+\end{itemize}
+
+% =================================================
+% Explorar el modelo de datos para YANG usando NETCONF
+% =================================================
+
+\section{Explorar el modelo de datos para YANG usando NETCONF}
+
+\subsection{Definición de NETCONF y estándar de creación}
+
+NETCONF (\textit{Network Configuration Protocol}) es un protocolo de gestión de red que proporciona mecanismos formales para instalar, manipular, recuperar y eliminar la configuración de dispositivos de red, así como para consultar su estado operativo \parencite{enns2011rfc6241}. Expone una interfaz de programación de aplicaciones (API) formal en el dispositivo que permite a las aplicaciones gestionar conjuntos completos o parciales de configuración \parencite{enns2011rfc6241}.
+
+Fue estandarizado por el Grupo de Trabajo de Ingeniería de Internet (IETF) originalmente bajo el \textbf{RFC 4741} y posteriormente actualizado y reemplazado por el estándar \textbf{RFC 6241} (\textit{Network Configuration Protocol (NETCONF)}) en junio de 2011 \parencite{enns2011rfc6241}.
+
+\subsection{Propósito y funcionamiento de las comunicaciones NETCONF}
+
+\subsubsection{Propósito de su creación}
+
+NETCONF se creó para superar las limitaciones de los métodos tradicionales de gestión de red (como la interfaz de línea de comandos o SNMP), ofreciendo un mecanismo programático y automatizado que separa explícitamente los \textbf{datos de configuración} de los \textbf{datos de estado} \parencite{enns2011rfc6241}. Esta separación evita que las comparaciones de configuración se vean contaminadas por estadísticas variables, impide intentos de escritura sobre parámetros de solo lectura, reduce el tamaño de los conjuntos de datos y facilita la restauración de copias de seguridad \parencite{enns2011rfc6241}. Además, fue diseñado para reflejar la funcionalidad nativa de los dispositivos y permitir transacciones seguras en uno o múltiples equipos simultáneamente \parencite{enns2011rfc6241}.
+
+\subsubsection{Funcionamiento de las comunicaciones}
+
+NETCONF opera bajo un modelo cliente-servidor orientado a la conexión y dividido conceptualmente en cuatro capas \parencite{enns2011rfc6241}:
+
+\begin{enumerate}
+    \item \textbf{Capa de Transporte Seguro (\textit{Secure Transport}):} Establece una sesión persistente, cifrada y autenticada entre el cliente (gestor o script) y el servidor (dispositivo de red) \parencite{enns2011rfc6241}.
+    \item \textbf{Capa de Mensajes (\textit{Messages}):} Proporciona un mecanismo de entramado independiente del transporte para encapsular solicitudes y respuestas mediante etiquetas \texttt{<rpc>} y \texttt{<rpc-reply>}, además de notificaciones asíncronas \texttt{<notification>} \parencite{enns2011rfc6241}.
+    \item \textbf{Capa de Operaciones (\textit{Operations}):} Define un conjunto de operaciones base invocadas como métodos RPC (tales como \texttt{<get>}, \texttt{<get-config>}, \texttt{<edit-config>}, \texttt{<copy-config>}, \texttt{<delete-config>}, \texttt{<lock>} y \texttt{<unlock>}) \parencite{enns2011rfc6241}.
+    \item \textbf{Capa de Contenido (\textit{Content}):} Contiene los datos reales de configuración o estado estructurados según los modelos de datos (como YANG) soportados por el equipo \parencite{enns2011rfc6241}.
+\end{enumerate}
+
+Al iniciar la sesión, ambas partes intercambian un mensaje \texttt{<hello>} en el que anuncian sus capacidades (\textit{capabilities}) y modelos soportados; a partir de ese momento, el cliente envía solicitudes \texttt{<rpc>} que el servidor procesa en serie, devolviendo las respuestas \texttt{<rpc-reply>} en el mismo orden \parencite{enns2011rfc6241, wasserman2011rfc6242}.
+
+\subsection{Protocolo de transporte predeterminado de NETCONF}
+
+Toda implementación de NETCONF debe soportar de manera obligatoria el protocolo \textbf{SSH} (\textit{Secure Shell}, específicamente SSHv2) como protocolo de transporte seguro por defecto, según lo especificado en el estándar RFC 6242 \parencite{enns2011rfc6241, wasserman2011rfc6242}.
+
+NETCONF se ejecuta como un subsistema de SSH denominado \texttt{netconf} sobre el \textbf{puerto TCP 830} asignado por la IANA, lo que garantiza confidencialidad, integridad de datos, autenticación mutua y facilidad para el filtrado mediante cortafuegos \parencite{wasserman2011rfc6242}.
+
+\subsection{Ejecución de llamadas NETCONF hacia equipos de red}
+
+Para establecer una sesión interactiva o automatizada con un dispositivo de red desde una terminal de cliente, se invoca el cliente SSH especificando la opción \texttt{-s} (para ejecutar el comando como un subsistema SSHv2), el puerto TCP \texttt{830} y el nombre del subsistema \texttt{netconf} \parencite{wasserman2011rfc6242}.
+
+\subsubsection{Ejemplo de comando de conexión}
+
+\begin{lstlisting}[caption={Comando de conexión a un dispositivo mediante el subsistema NETCONF sobre SSH (adaptado de Wasserman, 2011)}]
+ssh -s usuario@router.ejemplo.org -p 830 netconf
+\end{lstlisting}
+
+Una vez establecida la conexión y realizado el intercambio inicial de capacidades \texttt{<hello>}, el cliente envía la operación deseada en formato XML seguida del delimitador de fin de mensaje o entramado por fragmentos \parencite{wasserman2011rfc6242}.
+
+\subsubsection{Caso de uso práctico: Consulta del estado y tráfico de una interfaz específica}
+
+Un administrador o sistema de monitoreo necesita verificar los contadores de octetos recibidos y transmitidos de la interfaz \texttt{eth0} en un enrutador sin alterar su configuración. Para ello, invoca la operación base \texttt{<get>} utilizando un filtro de subárbol (\textit{subtree filtering}) \parencite{enns2011rfc6241}:
+
+\begin{lstlisting}[caption={Solicitud RPC \texttt{<get>} con filtro de subárbol para consultar el estado de una interfaz (adaptado de Enns et al., 2011)}]
+<rpc message-id="101"
+     xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <get>
+    <filter type="subtree">
+      <top xmlns="http://example.com/schema/1.2/stats">
+        <interfaces>
+          <interface>
+            <ifName>eth0</ifName>
+          </interface>
+        </interfaces>
+      </top>
+    </filter>
+  </get>
+</rpc>
+\end{lstlisting}
+
+El dispositivo procesa la solicitud y devuelve un mensaje \texttt{<rpc-reply>} con los datos operativos solicitados dentro de la etiqueta \texttt{<data>} \parencite{enns2011rfc6241}.
+
+\subsection{Definición de RPC y formato de mensajes en NETCONF}
+
+\subsubsection{Definición de RPC en NETCONF}
+
+En el contexto de NETCONF, una \textbf{RPC} (\textit{Remote Procedure Call} o llamada a procedimiento remoto) es el paradigma fundamental de comunicación mediante el cual un cliente invoca operaciones específicas (como consultar o modificar configuraciones) para que sean ejecutadas de forma remota por un servidor o dispositivo de red \parencite{enns2011rfc6241}. Se materializa mediante el intercambio síncrono de un elemento de solicitud \texttt{<rpc>} (que incluye un atributo obligatorio \texttt{message-id} para correlacionar transacciones) y su correspondiente elemento de respuesta \texttt{<rpc-reply>} (que contiene \texttt{<data>}, \texttt{<ok/>} o \texttt{<rpc-error>} en caso de fallo) \parencite{enns2011rfc6241}.
+
+\subsubsection{Formato de mensajes utilizado}
+
+NETCONF utiliza el lenguaje de marcado extensible \textbf{XML} (\textit{Extensible Markup Language}) codificado obligatoriamente en \textbf{UTF-8} tanto para el entramado de los mensajes del protocolo como para la representación de los datos de configuración y estado \parencite{enns2011rfc6241}. Todos los mensajes deben ser documentos XML bien formados, emplean el espacio de nombres base \texttt{urn:ietf:params:xml:ns:netconf:base:1.0} y no deben incluir declaraciones de tipo de documento (DTD) \parencite{enns2011rfc6241}.
+
+
+
 
 % =================================================
 % RESTCONF, YANG, POSTMAN Y PYTHON
