@@ -169,19 +169,19 @@ Investigar la programabilidad de redes basada en modelos, su importancia, los fu
 
 \midrule
 
-Integrante 2 &
+Sergio Marín &
 Investigación de YANG &
 Investigar el lenguaje YANG, su estructura, los modelos de datos, sus aplicaciones en redes y la herramienta Pyang. Elaborar ejemplos que faciliten la comprensión de los conceptos investigados. \\
 
 \midrule
 
-Integrante 3 &
+Sergio Marín &
 Investigación de NETCONF &
 Investigar el protocolo NETCONF, sus estándares, arquitectura, funcionamiento, mecanismos de comunicación, operaciones RPC y formatos de mensajes. Documentar ejemplos de utilización. \\
 
 \midrule
 
-Integrante 4 &
+Yendry Badilla y Valerin Calderón &
 Investigación de RESTCONF &
 Investigar RESTCONF, su relación con YANG, sus diferencias con NETCONF y la utilización de POSTMAN. Investigar y comparar al menos tres herramientas de automatización de redes. \\
 
@@ -290,19 +290,19 @@ Adicionalmente, se establecen las siguientes responsabilidades compartidas:
 \midrule
 \endhead
 
-Investigación de programabilidad de redes. & Integrante 1 & 13--14 & Documento de investigación.\\
+Investigación de programabilidad de redes. & Eduardo Bolívar & 13--14 & Documento de investigación.\\
 \midrule
-Investigación de YANG y Pyang. & Integrante 2 & 13--14 & Documento de investigación y ejemplos.\\
+Investigación de YANG y Pyang. & Sergio Marín & 13--14 & Documento de investigación y ejemplos.\\
 \midrule
-Investigación de NETCONF. & Integrante 3 & 13--14 & Documento de investigación y ejemplos.\\
+Investigación de NETCONF. & Sergio Marín & 13--14 & Documento de investigación y ejemplos.\\
 \midrule
-Investigación de RESTCONF, POSTMAN y herramientas de automatización. & Integrante 4 & 13--15 & Documento de investigación y comparación de herramientas.\\
+Investigación de RESTCONF, POSTMAN y herramientas de automatización. & Yendry Badilla y Valerin Calderón & 13--15 & Documento de investigación y comparación de herramientas.\\
 \midrule
-Diseño del caso de uso. & Integrante 5 & 13 & Propuesta técnica de implementación.\\
+Diseño del caso de uso. & Todos & 13 & Propuesta técnica de implementación.\\
 \midrule
-Desarrollo del caso de uso mediante Python. & Integrante 5 & 14--15 & Código fuente funcional.\\
+Desarrollo del caso de uso mediante Python. & Kendall Martínez & 14--15 & Código fuente funcional.\\
 \midrule
-Pruebas y validación de la implementación. & Integrante 5 & 15--16 & Resultados y evidencias de funcionamiento.\\
+Pruebas y validación de la implementación. & Kendall Martínez & 15--16 & Resultados y evidencias de funcionamiento.\\
 \midrule
 Grabación del video demostrativo. & Todos & 16--17 & Video de máximo diez minutos.\\
 
@@ -354,6 +354,21 @@ En Windows, OpenConnect autenticó correctamente contra el Sandbox, pero falló 
 \subsection{Sergio Marín}
 
 \subsection{Yendry Badilla}
+
+\subsubsection{22-11-2026}
+
+Se investigó la definición del protocolo RESTCONF (RFC 8040), su arquitectura interna en equipos Cisco IOS XE y su comparación con NETCONF. Se analizaron las diferencias en transporte, manejo de sesión, codificación de datos y almacenes de datos, y se elaboró una tabla comparativa entre ambos protocolos. Además, se documentaron las ventajas de RESTCONF en cuanto a simplicidad de integración con herramientas modernas de automatización. 
+
+\subsubsection{23-11-2026}
+
+Se investigó la relación entre los modelos YANG y las llamadas API mediante RESTCONF. Se documentaron los tipos de nodos de esquema de YANG (\texttt{container}, \texttt{list}, \texttt{leaf} y \texttt{leaf-list}), la forma en que el árbol de YANG se traduce en URI bajo la ruta \texttt{/restconf/data/} y la negociación de contenido mediante los encabezados \texttt{Accept} y \texttt{Content-Type}. También se investigó la herramienta Postman, sus requerimientos de instalación, conectividad y seguridad, y el flujo general para ejecutar una llamada API.
+
+\subsubsection{24-11-2026}
+
+Se documentó la ejecución práctica de llamadas RESTCONF con Postman, incluyendo el método HTTP, la URI, la autenticación, las cabeceras y el cuerpo de la petición. Posteriormente se investigó la automatización de estas llamadas con Python mediante la biblioteca \texttt{requests}, abarcando el manejo de certificados autofirmados, la definición de credenciales y cabeceras, y el procesamiento de la respuesta. Se agregó un ejemplo de código en Python para consultar las interfaces de un equipo.
+
+\subsubsection{25-11-2026} 
+Se creó la presentación y las diapositivas correspondientes a la sección de RESTCONF y Postman, incluyendo la comparación con NETCONF y la relación con YANG
 
 \subsection{Valerín Calderón}
 
