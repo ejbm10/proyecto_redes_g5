@@ -31,6 +31,10 @@ def dashboard(snapshot, alerts, device='Cisco IOS XE', mode='DEMO', latency=0.0,
         description = {
             'oper_status_changed': 'Cambio de estado operativo',
             'errors_increased': 'Aumento de errores',
+            'interface_added': 'Interfaz nueva detectada',
+            'interface_removed': 'Interfaz eliminada',
+            'connection_lost': 'Comunicación perdida',
+            'connection_restored': 'Comunicación restablecida',
         }.get(event_type, event_type)
         style = 'red' if event_type == 'oper_status_changed' else 'yellow'
         events.append(f'[{interface}] {description}\n', style=style)

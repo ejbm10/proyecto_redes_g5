@@ -1,5 +1,5 @@
 import time
-from datetime import datetime
+import sys
 from rich.live import Live
 from rich.console import Console
 from demo_client import DemoClient
@@ -7,6 +7,8 @@ from restconf_client import RestconfClient, RestconfError
 from config import Config
 from monitor import Monitor
 from display import dashboard
+from report import write_reports
+from datetime import datetime
 
 def main():
     config = Config.from_env()
@@ -15,6 +17,8 @@ def main():
     console = Console()
     page = 0
     previous_time = None
+    snapshots = []
+    response_times = []
     try:
         with Live(console=console, refresh_per_second=4, screen=False) as live:
             while True:
@@ -35,6 +39,8 @@ def main():
                                 else:
                                     item[metric] = 'N/D'
                     previous_time = current_time
+                    response_times.append(latency)
+                    snapshots.append({'timestamp': datetime.now().isoformat(), 'interfaces': current})
                     monitor.alerts.extend(__import__('alerts').compare(monitor.previous, current))
                     monitor.previous = current
                     live.update(dashboard(current, monitor.alerts, device=config.host, mode='DEMO' if config.demo_mode else 'REAL', latency=latency, interval=config.interval, page=page))
@@ -44,5 +50,21 @@ def main():
                     console.print(f'[red]{error}[/red]')
                 time.sleep(config.interval)
     except KeyboardInterrupt:
-        console.print('\n[green]Monitoreo finalizado correctamente.[/green]')
-if __name__=='__main__': main()
+        mode='DEMO' if config.demo_mode else 'REAL'
+        metrics={'queries':len(snapshots),'successful_queries':len(snapshots),'failed_queries':0,'avg_response_ms':sum(response_times)/len(response_times) if response_times else 0,'min_response_ms':min(response_times) if response_times else 0,'max_response_ms':max(response_times) if response_times else 0}
+        paths=write_reports('reports',config.host,mode,snapshots,monitor.alerts,metrics)
+        console.print(f'\n[green]Monitoreo finalizado correctamente.[/green] Reportes: {paths[0]}, {paths[1]}')
+def menu():
+    config=Config.from_env(); client=DemoClient() if config.demo_mode else RestconfClient(config); monitor=Monitor(client); console=Console()
+    while True:
+        console.print('\n[bold green]NETWORK MONITOR[/bold green]  1) Conexión  2) Interfaces  3) Monitoreo  4) Alertas  5) Reportes  6) Configuración  7) Salir')
+        choice=input('Opción: ').strip()
+        if choice in ('1','2'):
+            try: console.print(monitor.poll())
+            except RestconfError as error: console.print(f'[red]{error}[/red]')
+        elif choice=='3': main()
+        elif choice=='4': console.print(monitor.alerts or 'Sin alertas')
+        elif choice=='5': console.print('Los reportes se generan al finalizar el monitoreo con Ctrl+C.')
+        elif choice=='6': console.print({**config.__dict__, 'password':'********' if config.password else '<vacía>'})
+        elif choice=='7': break
+if __name__=='__main__': menu() if '--menu' in sys.argv else main()

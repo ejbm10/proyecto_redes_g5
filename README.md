@@ -27,6 +27,12 @@ python -m pytest -q
 python main.py
 ```
 
+Para abrir el menú interactivo:
+
+```bash
+python main.py --menu
+```
+
 En Linux:
 
 ```bash
@@ -103,7 +109,8 @@ main/
 - [x] Pruebas unitarias.
 - [ ] Validación de integración contra Cisco DevNet Sandbox.
 - [x] Interfaz Rich para el dashboard de consola.
-- [ ] Exportación de reportes CSV y JSON.
+- [x] Exportación de reportes CSV y JSON al finalizar el monitoreo.
+- [x] Menú interactivo con consulta, alertas y configuración.
 
 ## 👥 Contexto académico
 
