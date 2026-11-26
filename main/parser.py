@@ -6,6 +6,12 @@ def normalize_status(value):
         return 'down'
     return 'N/D'
 
+def number(value):
+    try:
+        return int(value) if value is not None else None
+    except (ValueError, TypeError):
+        return None
+
 def parse_interfaces(payload):
     root=payload.get('Cisco-IOS-XE-interfaces-oper:interfaces', payload.get('ietf-interfaces:interfaces', payload.get('interfaces', payload)))
     rows=root.get('interface',[]) if isinstance(root,dict) else []
@@ -23,6 +29,8 @@ def parse_interfaces(payload):
             'admin_status': item.get('enabled', 'N/D'),
             'input_errors': statistics.get('in-errors', item.get('input-errors')),
             'output_errors': statistics.get('out-errors', item.get('output-errors')),
+            'rx_bytes': number(statistics.get('in-octets', item.get('in-octets'))),
+            'tx_bytes': number(statistics.get('out-octets', item.get('out-octets'))),
             'rx_mbps': state.get('rx-mbps', 'N/D'),
             'tx_mbps': state.get('tx-mbps', 'N/D'),
         })
