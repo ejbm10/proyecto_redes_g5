@@ -1,0 +1,616 @@
+
+\documentclass[12pt,a4paper]{article}
+
+% ------------------------------------------------
+% IDIOMA Y CODIFICACIÓN
+% ------------------------------------------------
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+
+% ------------------------------------------------
+% FORMATO DE ANEXO
+% ------------------------------------------------
+
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{pgfgantt}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{pdflscape}
+\usepackage{amsmath}
+
+% ------------------------------------------------
+% FUENTE (COMPATIBLE CON ARIAL)
+% ------------------------------------------------
+
+\usepackage[sfdefault]{arimo}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ------------------------------------------------
+% FORMATO GENERAL
+% ------------------------------------------------
+
+\usepackage[a4paper, margin=2.54cm]{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{ragged2e}
+
+\doublespacing
+
+\AtBeginDocument{
+    \justifying
+}
+
+% ------------------------------------------------
+% FORMATO DE TÍTULOS
+% ------------------------------------------------
+
+\usepackage{titlesec}
+
+\titleformat{\section}
+    {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+    {\thesection}{1em}{}
+
+\titleformat{\subsection}
+    {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+    {\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+    {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+    {\thesubsubsection}{1em}{}
+
+% ------------------------------------------------
+% IMÁGENES Y TABLAS
+% ------------------------------------------------
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{caption}
+
+\DeclareCaptionFont{elevenpt}{
+    \fontsize{11}{13}\selectfont
+}
+
+\captionsetup{
+    font=elevenpt,
+    labelfont=bf,
+    textfont=normalfont
+}
+
+% ------------------------------------------------
+% INFORMACIÓN DEL DOCUMENTO
+% ------------------------------------------------
+% =================================================
+% INICIO DEL DOCUMENTO
+% =================================================
+
+\begin{document}
+
+% =================================================
+% PORTADA
+% =================================================
+
+\begin{titlepage}
+    \centering
+    \singlespacing
+    \thispagestyle{empty}
+
+    {\Large\bfseries Instituto Tecnológico de Costa Rica\par}
+
+    \vspace{0.3cm}
+
+    {\large Escuela de Ingeniería en Computadores\par}
+
+    \vspace{0.3cm}
+
+    {\large Redes de Computadoras\par}
+
+    \vspace{2cm}
+
+    {\LARGE\bfseries Desafío de Redes\par}
+
+    \vspace{0.4cm}
+
+    {\large Trabajo individual y en equipo\par}
+
+    \vspace{1.5cm}
+
+    \textbf{Profesor:} Rodolfo Tacsan Chaves\par
+
+    \vspace{0.3cm}
+
+    \textbf{II Semestre de 2026}\par
+
+    \vspace{1.5cm}
+
+    {\large\bfseries Integrantes\par}
+
+    \vspace{0.6cm}
+
+    Eduardo Bolívar (202XXXXXXX)\\
+    {\small correo1@estudiantec.cr\par}
+
+    \vspace{0.4cm}
+
+    Sergio Marín (202XXXXXXX)\\
+    {\small correo2@estudiantec.cr\par}
+
+    \vspace{0.4cm}
+
+    Yendry Badilla (202XXXXXXX)\\
+    {\small correo3@estudiantec.cr\par}
+
+    \vspace{0.4cm}
+
+    Válerin Calderón Bran (2020033313)\\
+    {\small 20200333134@estudiantec.cr\par}
+
+    \vspace{0.4cm}
+
+    Kendall Martínez (202XXXXXXX)\\
+    {\small correo5@estudiantec.cr\par}
+
+    \vfill
+
+    {\large Noviembre de 2026\par}
+
+    \vspace{0.3cm}
+
+
+\end{titlepage}
+
+
+\section{Trabajo individual y en equipo}
+
+\subsection{Metas del proyecto}
+
+\begin{enumerate}[label=\textbf{M\arabic*.}, leftmargin=*]
+
+    \item \textbf{Investigar los fundamentos de la programabilidad basada en modelos.}
+    Desarrollar una investigación que explique el concepto, su importancia y sus principales fundamentos. Se deben abordar aspectos como el papel de DevOps, el rol de SNMP, el RFC 3535, los bloques de construcción de la programabilidad basada en modelos y el concepto de modelo de datos.
+
+    \textit{Entregable:} documentación teórica sobre programabilidad de redes basada en modelos.
+
+    \item \textbf{Investigar el modelado de datos mediante YANG.}
+    Explicar el funcionamiento del lenguaje YANG, su estructura, la diferencia entre el lenguaje, los modelos de datos y los datos YANG, así como su utilización en el modelado de redes. Además, investigar la herramienta Pyang y su aplicación para explorar modelos de datos.
+
+    \textit{Entregable:} documentación teórica sobre YANG y Pyang.
+
+    \item \textbf{Investigar el protocolo NETCONF.}
+    Describir sus fundamentos, estándar de creación, funcionamiento de las comunicaciones, mecanismos de comunicación con los dispositivos de red, utilización de RPC y formato de los mensajes.
+
+    \textit{Entregable:} documentación teórica sobre NETCONF.
+
+    \item \textbf{Investigar RESTCONF y las herramientas de automatización de redes.}
+    Explicar el funcionamiento de RESTCONF, sus diferencias con NETCONF. Asimismo, investigar POSTMAN. Finalmente, comparar al menos tres herramientas de automatización de configuración de redes, considerando sus mecanismos de operación, arquitectura de gestión y sistemas operativos compatibles.
+
+    \textit{Entregable:} documentación teórica sobre RESTCONF, POSTMAN y herramientas de automatización de redes.
+
+    \item \textbf{Desarrollar un caso de uso mediante Python.}
+    Implementar una solución que permita demostrar la utilización de llamadas API para automatizar un proceso de administración de red, empleando NETCONF o RESTCONF. La implementación deberá incluir la configuración necesaria, los scripts desarrollados y una explicación de su funcionamiento.
+
+    \textit{Entregable:} código fuente y documentación técnica de la solución.
+
+    \item \textbf{Elaborar y presentar el video demostrativo.}
+    Preparar un video en el cual cada integrante explique una parte del caso de uso. Se deberá presentar una introducción del caso, los requerimientos de red, las aplicaciones utilizadas, la configuración y el funcionamiento de la solución implementada.
+
+    \textit{Entregable:} video demostrativo.
+
+\end{enumerate}
+
+
+\subsection{Roles}
+
+\begin{longtable}{>{\centering\arraybackslash}p{2.2cm}
+                  >{\centering\arraybackslash}p{2.8cm}
+                  p{9cm}}
+\caption{Distribución de roles y responsabilidades del equipo.}\\
+\toprule
+\textbf{Integrante} & \textbf{Rol principal} & \textbf{Responsabilidades} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Integrante} & \textbf{Rol principal} & \textbf{Responsabilidades} \\
+\midrule
+\endhead
+
+Eduardo Bolívar &
+Investigación de fundamentos &
+Investigar la programabilidad de redes basada en modelos, su importancia, los fundamentos de DevOps, el papel de SNMP, el RFC 3535 y los bloques básicos de construcción de esta metodología. \\
+
+\midrule
+
+Sergio Marín &
+Investigación de YANG &
+Investigar el lenguaje YANG, su estructura, los modelos de datos, sus aplicaciones en redes y la herramienta Pyang. Elaborar ejemplos que faciliten la comprensión de los conceptos investigados. \\
+
+\midrule
+
+Sergio Marín &
+Investigación de NETCONF &
+Investigar el protocolo NETCONF, sus estándares, arquitectura, funcionamiento, mecanismos de comunicación, operaciones RPC y formatos de mensajes. Documentar ejemplos de utilización. \\
+
+\midrule
+
+Yendry Badilla y Valerin Calderón &
+Investigación de RESTCONF &
+Investigar RESTCONF, su relación con YANG, sus diferencias con NETCONF y la utilización de POSTMAN. Investigar y comparar al menos tres herramientas de automatización de redes. \\
+
+\midrule
+
+Kendall Martinez &
+Implementación en Python &
+Diseñar, desarrollar y probar el caso de uso mediante Python, utilizando llamadas API a través de NETCONF o RESTCONF. Documentar los requerimientos, configuraciones, scripts, resultados y funcionamiento de la solución. \\
+
+\bottomrule
+\end{longtable}
+
+Adicionalmente, se establecen las siguientes responsabilidades compartidas:
+
+\begin{itemize}
+    \item \textbf{Integración del informe:} todos los integrantes deberán entregar sus respectivos aportes en un formato uniforme, revisar el contenido y colaborar en la consolidación del documento final.
+
+    \item \textbf{Video demostrativo:} todos los integrantes deberán participar en la presentación, explicando una parte del proyecto.
+\end{itemize}
+
+
+\subsection{Reglas}
+
+\begin{enumerate}[label=\textbf{R\arabic*.}, leftmargin=*]
+
+    \item \textbf{Responsabilidad:} cada integrante deberá asumir las actividades correspondientes a su rol y responsabilizarse por su entrega.
+
+    \item \textbf{Puntualidad:} los integrantes deberán respetar los horarios para las reuniones y cumplir las fechas de entrega.
+
+    \item \textbf{Comunicación efectiva:} se deberá mantener una comunicación clara y  constante entre los integrantes, utilizando Telegram como medio de comunicación acordado.
+
+    \item \textbf{Colaboración:} todos los integrantes deberán mantener una actitud de cooperación, brindando apoyo cuando otro miembro presente dificultades.
+
+    \item \textbf{Respeto:} se deberán considerar las opiniones y aportes de todos los integrantes, promoviendo un ambiente de trabajo respetuoso.
+\end{enumerate}
+
+\begin{landscape}
+
+\subsection{Cronograma de trabajo}
+\begin{figure}[H]
+\centering
+\begin{ganttchart}[
+    hgrid,
+    vgrid,
+    x unit=2.35cm,
+    y unit chart=0.62cm,
+    title height=1,
+    bar height=0.48,
+    group height=0.55,
+    milestone height=0.5,
+    bar label font=\small,
+    group label font=\small\bfseries,
+    title label font=\small\bfseries,
+    bar label node/.append style={align=left},
+    group label node/.append style={align=left},
+    bar/.append style={fill=blue!35},
+    group/.append style={fill=gray!35},
+    milestone/.append style={fill=red!65}
+]{13}{17}
+
+\gantttitle{Planificación temporal del proyecto}{5}\\
+\gantttitle{Semana 13}{1}
+\gantttitle{Semana 14}{1}
+\gantttitle{Semana 15}{1}
+\gantttitle{Semana 16}{1}
+\gantttitle{Semana 17}{1}\\
+
+\ganttgroup{Documentación teórica}{13}{15}\\
+\ganttbar{Fundamentos de programabilidad (I1)}{13}{14}\\
+\ganttbar{Modelado YANG y Pyang (I2)}{13}{14}\\
+\ganttbar{Protocolo NETCONF (I3)}{13}{14}\\
+\ganttbar{RESTCONF, POSTMAN y herramientas (I4)}{13}{15}\\
+
+\ganttgroup{Implementación práctica}{13}{16}\\
+\ganttbar{Diseño del caso de uso (I5)}{13}{13}\\
+\ganttbar{Desarrollo de la solución en Python (I5)}{14}{15}\\
+\ganttbar{Pruebas y validación (I5)}{15}{16}\\
+
+\ganttgroup{Video demostrativo}{14}{17}\\
+\ganttbar{Preparación del video demostrativo (Todos)}{16}{17}\\
+\ganttbar{Integración y edición del video demostrativo}{16}{17}\\
+
+\ganttgroup{Revisión final}{17}{17}\\
+\ganttbar{Revisión y entrega final (Todos)}{17}{17}\\
+
+\ganttmilestone{Entrega del proyecto}{17}
+
+\end{ganttchart}
+\caption{Diagrama de Gantt de las actividades del proyecto.}
+\label{fig:gantt_trabajo}
+\end{figure}
+\end{landscape}
+
+\begin{longtable}{p{5.2cm}
+                  >{\centering\arraybackslash}p{2.5cm}
+                  >{\centering\arraybackslash}p{2.2cm}
+                  p{4.2cm}}
+\caption{Actividades, responsables y entregables del proyecto.}\\
+\toprule
+\textbf{Actividad} & \textbf{Responsable} & \textbf{Semana} & \textbf{Entregable esperado}\\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Actividad} & \textbf{Responsable} & \textbf{Semana} & \textbf{Entregable esperado}\\
+\midrule
+\endhead
+
+Investigación de programabilidad de redes. & Eduardo Bolívar & 13--14 & Documento de investigación.\\
+\midrule
+Investigación de YANG y Pyang. & Sergio Marín & 13--14 & Documento de investigación y ejemplos.\\
+\midrule
+Investigación de NETCONF. & Sergio Marín & 13--14 & Documento de investigación y ejemplos.\\
+\midrule
+Investigación de RESTCONF, POSTMAN y herramientas de automatización. & Yendry Badilla y Valerin Calderón & 13--15 & Documento de investigación y comparación de herramientas.\\
+\midrule
+Diseño del caso de uso. & Todos & 13 & Propuesta técnica de implementación.\\
+\midrule
+Desarrollo del caso de uso mediante Python. & Kendall Martínez & 14--15 & Código fuente funcional.\\
+\midrule
+Pruebas y validación de la implementación. & Kendall Martínez & 15--16 & Resultados y evidencias de funcionamiento.\\
+\midrule
+Grabación del video demostrativo. & Todos & 16--17 & Video de máximo diez minutos.\\
+
+\bottomrule
+\end{longtable}
+
+\section{Minutas de las sesiones de trabajo}
+
+\begin{table}[H]
+    \centering
+    \caption{Minuta de reunión N.º 1}
+    \label{tab:minuta_1}
+    
+    \renewcommand{\arraystretch}{1.4}
+    
+    \begin{tabularx}{\textwidth}{
+        |>{\raggedright\arraybackslash}p{3.2cm}
+        |>{\raggedright\arraybackslash}X|
+    }
+        \hline
+        
+        \textbf{Fecha} &
+        19-11-2026 \\ \hline
+        
+        \textbf{Hora} &
+        5:00 p.m. -- 5:45 p.m. \\ \hline
+        
+        \textbf{Modalidad} &
+        Reunión virtual por Google Meets \\ \hline
+        
+        \textbf{Qué se realizó en la sesión} &
+        Se estudió a detalle la especificación del desafío, se dividieron las responsabilidades de trabajo.
+        \\ \hline
+        
+        \textbf{Participantes} &
+        Eduardo Bolívar, Kendall Martínez, Sergio Marín, Yendry Badilla, Valerin Calderón
+        \\ \hline
+        
+        \textbf{Evidencia de la reunión} &
+        \centering
+        \includegraphics[width=0.85\linewidth]
+        {images/minuta1.png}
+        \\ \hline
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Minuta de reunión N.º 2}
+    \label{tab:minuta_2}
+    
+    \renewcommand{\arraystretch}{1.4}
+    
+    \begin{tabularx}{\textwidth}{
+        |>{\raggedright\arraybackslash}p{3.2cm}
+        |>{\raggedright\arraybackslash}X|
+    }
+        \hline
+        
+        \textbf{Fecha} &
+         21-11-2026\\ \hline
+        
+        \textbf{Hora} &
+         6:00 p.m. -- 7:00 p.m.\\ \hline
+        
+        \textbf{Modalidad} &
+        Reunión virtual por Google Meets\\ \hline
+        
+        \textbf{Qué se realizó en la sesión} &
+        Se trató de una reunión de seguimiento para verificar los avances en el apartado de investigación y los avances del caso de uso. 
+        \\ \hline
+        
+        \textbf{Participantes} &
+        Eduardo Bolívar, Kendall Martínez, Sergio Marín, Yendry Badilla, Valerin Calderón
+        \\ \hline
+        
+        \textbf{Evidencia de la reunión} &
+        \centering
+        \includegraphics[width=0.85\linewidth]
+        {images/minuta2.png}
+        \\ \hline
+        
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Minuta de reunión N.º 3}
+    \label{tab:minuta_1}
+    
+    \renewcommand{\arraystretch}{1.4}
+    
+    \begin{tabularx}{\textwidth}{
+        |>{\raggedright\arraybackslash}p{3.2cm}
+        |>{\raggedright\arraybackslash}X|
+    }
+        \hline
+        
+        \textbf{Fecha} &
+         25-11-2026\\ \hline
+        
+        \textbf{Hora} &
+        6:00 p.m. -- 6:25 p.m.\\ \hline
+        
+        \textbf{Modalidad} &
+        Reunión virtual por Google Meets\\ \hline
+        
+        \textbf{Qué se realizó en la sesión} &
+        Se construyó la presentación a utilizar para el video demostrativo, se seleccionó la herramienta Canva y se realizó la división de los tópicos a exponer, siendo estos: introducción y contexto, requerimientos y herramientas, RESTCONF y YANG, arquitectura y metodología, y la demostración técnica funcional.
+        \\ \hline
+        
+        \textbf{Participantes} &
+        Eduardo Bolívar, Kendall Martínez, Sergio Marín, Yendry Badilla, Valerin Calderón
+        \\ \hline
+        
+        \textbf{Evidencia de la reunión} &
+        \centering
+        \includegraphics[width=0.85\linewidth]
+        {images/minuta3.png}
+        \\ \hline
+    \end{tabularx}
+\end{table}
+
+\section{Bitácora}
+
+\subsection{Eduardo Bolívar}
+
+\subsubsection{21-11-2026}
+Se trabajó en la investigación correspondiente al apartado de programabilidad basada en modelos. Se abordaron los conceptos de programabilidad basada en modelos, \textit{Model-Driven Programmability} en redes y modelos de datos. La jornada de trabajo se desarrolló desde las 10:44 a.m. hasta la 1:00 p.m.
+
+Asimismo, se realizó el formato del documento de investigación, con el propósito de mantener la uniformidad en el tipo de letra, los estilos de párrafo y las referencias bibliográficas, de acuerdo con los lineamientos establecidos. Adicionalmente, se inició la elaboración del documento de \textbf{Trabajo individual y en equipo}.
+
+\subsubsection{22-11-2026}
+Se incorporaron al documento de investigación los apartados relacionados con los equipos de DevOps, SNMP y el RFC 3535. Esta actividad se desarrolló aproximadamente desde las 9:00 p.m. hasta las 12:11 a.m. del día siguiente.
+
+\subsubsection{23-11-2026}
+Se definieron las metas del proyecto y sus respectivos entregables, los cuales comprenden el documento de investigación, la implementación de la solución mediante programación y la elaboración de un video demostrativo.
+
+\subsubsection{24-11-2026}
+Se documentaron los roles y las reglas de trabajo del equipo, a pesar de que estos ya habían sido establecidos durante la primera reunión y registrados en la minuta correspondiente. Asimismo, se elaboró un diagrama de Gantt para representar el cronograma preliminar del proyecto y se confeccionó la tabla de actividades asociada a dicho cronograma.
+
+\subsubsection{25-11-2026 / 26-11-2026}
+Se trabajó en la elaboración de una presentación que se utilizaría como apoyo para el video demostrativo. Inicialmente, se consideró que el video debía abarcar todos los componentes del desafío, tanto la sección teórica como el caso de uso. Sin embargo, posteriormente se determinó que el video debía centrarse únicamente en la demostración del caso de uso.
+
+La presentación elaborada inicialmente se basó en los contenidos de la investigación e incluyó diapositivas de carácter visual para explicar los conceptos de MBD, MDD, SNMP, RFC 3535 y los modelos de datos.
+
+Adicionalmente, se realizó la grabación de las explicaciones correspondientes a cada diapositiva mediante la herramienta Canva.
+
+\subsubsection{26-11-2026}
+Se elaboró el encabezado correspondiente al anexo \textit{Trabajo individual y en equipo}. 
+Se estableció el formato para las minutas de reunión y se documentó la sesión realizada el 19-11-2026, en la cual se definieron diversos aspectos relacionados con la organización y planificación del desafío.
+Se realizó la grabación de la introducción al contexto del sistema Network Monitor y sus principales objetivos.
+
+\subsection{Kendall Martínez}
+
+\subsubsection{21-11-2026}
+Se incorporó la primera versión funcional del monitor de red: configuración mediante \textit{.env}, modo demo con fixtures, parser de respuestas \textit{JSON}, monitoreo, alertas, cliente \textit{RESTCONF}, pruebas y ejecución desde consola.
+
+\subsubsection{22-11-2026}
+Se agregó la interfaz visual con Rich y se mejoró el flujo de monitoreo para mostrar tarjetas resumen, tabla de interfaces, eventos, latencia y modo de ejecución. Debido a que el dispositivo real devolvía decenas de interfaces, se implementó paginación automática para recorrer la lista sin desbordar la terminal.
+
+\subsubsection{25-11-2026}
+Se ajustó el procesamiento para aceptar la estructura \textit{Cisco-IOS-XE-interfaces-oper:interfaces}, además de \textit{ietf-interfaces}, con el fin de interpretar respuestas reales de \textit{IOS XE}.
+
+Se normalizaron los valores enumerados del modelo \textit{Cisco}, por ejemplo \textit{IF-OPER-STATE-LOWER-LAYER-DOWN}, para representarlos como \textit{DOWN} en el dashboard y permitir el cálculo correcto de interfaces operativas e inactivas.
+
+La suite automatizada disponible pasó con \textit{3 passed}. La ejecución real desde \textit{Linux} logró conectarse al \textit{Catalyst 9300} mediante \textit{RESTCONF} y mostró 66--67 interfaces. Los valores \textit{N/D} se conservaron cuando el modelo consultado no entregó una métrica, evitando inventar datos.
+
+En \textit{Windows}, \textit{OpenConnect} autenticó correctamente contra el Sandbox, pero falló al crear el adaptador virtual con \textit{Set up tun device failed}. Por ello, las pruebas reales se continuaron desde \textit{Linux} y la validación del entorno \textit{Windows} quedó pendiente.
+
+\subsubsection{26-11-2026}
+Se implementó y validó el cálculo de las tasas de tráfico \textit{RX} y \textit{TX} en \textit{Mbps} a partir de los contadores reales de bytes recibidos y transmitidos obtenidos mediante \textit{RESTCONF}. La aplicación compara los valores entre consultas periódicas y actualiza el dashboard cada cinco segundos, confirmando el funcionamiento del monitoreo en tiempo real contra el dispositivo \textit{Cisco IOS XE}.
+
+Debido a que \textit{OpenConnect} en Windows no lograba crear el adaptador \textit{VPN} virtual (Set up tun device failed), se decidió utilizar \textit{WSL} con Linux. En este entorno fue posible establecer correctamente la \textit{VPN} hacia \textit{Cisco DevNet Sandbox} y ejecutar la aplicación contra el dispositivo real mediante \textit{RESTCONF}.
+
+Se completaron las funcionalidades de monitoreo mediante la incorporación de reportes en formatos \textit{CSV} y \textit{JSON}, métricas de consultas y latencia, menú interactivo y alertas para interfaces nuevas, eliminadas, cambios de estado e incrementos de errores. También se corrigió la generación de alertas durante la primera consulta y se actualizó \textit{.gitignore} para evitar subir reportes generados localmente. En una corrida real contra el \textit{Catalyst 9300} se realizaron cinco consultas exitosas, con cero fallos y una latencia promedio de 1483.95 ms.
+
+Se preparó y grabó el video demostrativo del proyecto. La presentación incluyó la conexión mediante \textit{VPN}, la validación de consultas \textit{RESTCONF} con \textit{Postman}, la explicación de los endpoints utilizados y la ejecución del monitor \textit{Python} en modo real. También se mostró el dashboard con los estados de las interfaces, la latencia, las tasas \textit{RX/TX}, la paginación y los reportes generados.
+
+\subsection{Sergio Marín}
+
+\subsection{Yendry Badilla}
+
+\subsubsection{22-11-2026}
+
+Se investigó la definición del protocolo RESTCONF (RFC 8040), su arquitectura interna en equipos Cisco IOS XE y su comparación con NETCONF. Se analizaron las diferencias en transporte, manejo de sesión, codificación de datos y almacenes de datos, y se elaboró una tabla comparativa entre ambos protocolos. Además, se documentaron las ventajas de RESTCONF en cuanto a simplicidad de integración con herramientas modernas de automatización. 
+
+\subsubsection{23-11-2026}
+
+Se investigó la relación entre los modelos YANG y las llamadas API mediante RESTCONF. Se documentaron los tipos de nodos de esquema de YANG (\texttt{container}, \texttt{list}, \texttt{leaf} y \texttt{leaf-list}), la forma en que el árbol de YANG se traduce en URI bajo la ruta \texttt{/restconf/data/} y la negociación de contenido mediante los encabezados \texttt{Accept} y \texttt{Content-Type}. También se investigó la herramienta Postman, sus requerimientos de instalación, conectividad y seguridad, y el flujo general para ejecutar una llamada API.
+
+\subsubsection{24-11-2026}
+
+Se documentó la ejecución práctica de llamadas RESTCONF con Postman, incluyendo el método HTTP, la URI, la autenticación, las cabeceras y el cuerpo de la petición. Posteriormente se investigó la automatización de estas llamadas con Python mediante la biblioteca \texttt{requests}, abarcando el manejo de certificados autofirmados, la definición de credenciales y cabeceras, y el procesamiento de la respuesta. Se agregó un ejemplo de código en Python para consultar las interfaces de un equipo.
+
+\subsubsection{25-11-2026} 
+Se creó la presentación y las diapositivas correspondientes a la sección de RESTCONF y Postman, incluyendo la comparación con NETCONF y la relación con YANG
+
+
+\subsection{Válerin Calderón Bran}
+
+\subsubsection{21-11-2026}
+
+Se revisó lo que pedía el desafío sobre las herramientas para
+automatizar la configuración de redes y se empezaron a buscar
+referencias en libros técnicos y en la documentación oficial
+que recomendó el profesor.
+
+Para el estudio se eligieron Ansible, Puppet y SaltStack,
+tomando en cuenta que tienen distintas arquitecturas de
+gestión y formas de distribuir las configuraciones.
+
+\subsubsection{22-11-2026}
+
+Se investigó sobre Ansible y Puppet. Se analizó cómo
+distribuyen las configuraciones mediante los métodos
+\textit{Push} y \textit{Pull}, cómo funciona su gestión
+centralizada, con cuáles sistemas operativos son compatibles
+y cómo se aplican en dispositivos de red.
+
+\subsubsection{23-11-2026}
+
+Se continuó con SaltStack. Se revisó su arquitectura
+\textit{master/minion}, la forma en que distribuye las
+configuraciones y los sistemas operativos compatibles.
+
+También se prepararon las tablas descriptivas y comparativas
+de las tres herramientas, donde se resumieron sus principales
+características, ventajas, limitaciones y usos en la
+automatización de redes.
+
+\subsubsection{24-11-2026}
+
+Se terminó de redactar la investigación y se organizaron las
+citas y referencias en formato APA 7. Luego se adaptó el
+contenido al formato en LaTeX que usa el equipo, con sus
+apartados, tablas y referencias mediante BibLaTeX.
+
+Además, se incorporó la investigación en el apartado 6.5 del
+documento grupal y se revisaron las referencias para que no
+quedaran duplicadas.
+
+\subsubsection{26-11-2026}
+
+Se trabajó en revisar y mejorar el formato de los documentos
+de trabajo individual y grupal. También se realizó la
+grabación del video.
+\par
+
+
+
+\end{document}
