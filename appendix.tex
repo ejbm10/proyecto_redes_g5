@@ -401,9 +401,12 @@ Grabación del video demostrativo. & Todos & 16--17 & Video de máximo diez minu
         \\ \hline
         
         \textbf{Evidencia de la reunión} &
-        \centering
-        \includegraphics[width=0.85\linewidth]
-        {images/minuta1.png}
+        \centering\arraybackslash
+        \IfFileExists{images/minuta1.png}{%
+            \includegraphics[width=0.85\linewidth]{images/minuta1.png}%
+        }{%
+            \textit{Evidencia pendiente (\texttt{images/minuta1.png}).}%
+        }
         \\ \hline
     \end{tabularx}
 \end{table}
@@ -439,9 +442,12 @@ Grabación del video demostrativo. & Todos & 16--17 & Video de máximo diez minu
         \\ \hline
         
         \textbf{Evidencia de la reunión} &
-        \centering
-        \includegraphics[width=0.85\linewidth]
-        {images/minuta2.png}
+        \centering\arraybackslash
+        \IfFileExists{images/minuta2.png}{%
+            \includegraphics[width=0.85\linewidth]{images/minuta2.png}%
+        }{%
+            \textit{Evidencia pendiente (\texttt{images/minuta2.png}).}%
+        }
         \\ \hline
         
     \end{tabularx}
@@ -450,7 +456,7 @@ Grabación del video demostrativo. & Todos & 16--17 & Video de máximo diez minu
 \begin{table}[H]
     \centering
     \caption{Minuta de reunión N.º 3}
-    \label{tab:minuta_1}
+    \label{tab:minuta_3}
     
     \renewcommand{\arraystretch}{1.4}
     
@@ -478,9 +484,12 @@ Grabación del video demostrativo. & Todos & 16--17 & Video de máximo diez minu
         \\ \hline
         
         \textbf{Evidencia de la reunión} &
-        \centering
-        \includegraphics[width=0.85\linewidth]
-        {images/minuta3.png}
+        \centering\arraybackslash
+        \IfFileExists{images/minuta3.png}{%
+            \includegraphics[width=0.85\linewidth]{images/minuta3.png}%
+        }{%
+            \textit{Evidencia pendiente (\texttt{images/minuta3.png}).}%
+        }
         \\ \hline
     \end{tabularx}
 \end{table}
@@ -542,6 +551,20 @@ Se completaron las funcionalidades de monitoreo mediante la incorporación de re
 Se preparó y grabó el video demostrativo del proyecto. La presentación incluyó la conexión mediante \textit{VPN}, la validación de consultas \textit{RESTCONF} con \textit{Postman}, la explicación de los endpoints utilizados y la ejecución del monitor \textit{Python} en modo real. También se mostró el dashboard con los estados de las interfaces, la latencia, las tasas \textit{RX/TX}, la paginación y los reportes generados.
 
 \subsection{Sergio Marín}
+
+\subsubsection{22-11-2026}
+
+Se comenzó con la búsqueda de literatura acerca del tema: "Introducción al modelo YANG dentro del modelado de datos para una red"
+Donde se decidió usar como fuente principal el RFC 7950 para todo lo referente a YANG y el repositorio oficial de GitHub para lo de Pyang.
+
+\subsubsection{25-11-2026}
+
+Se comenzó con la búsqueda de la literatura acerca del tema: "Explorar el modelo de datos YANG usando NETCONF".
+Después de consultar varias fuentes, se tomó la decisión de usar RFC 6241 y RFC 6242 para responder a todas las interrogantes planteadas para este tema.
+
+\subsubsection{26-11-2026}
+
+Se revisó que todos los documento estén completos y con el formato correcto. Además de actualizar el repositorio con los cambios finales.
 
 \subsection{Yendry Badilla}
 
