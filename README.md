@@ -4,7 +4,7 @@
 
 Monitor de interfaces de red desarrollado en Python para consultar estados operativos y detectar cambios en dispositivos compatibles con RESTCONF. El proyecto incluye un modo de demostración offline para probar el flujo completo sin depender de un dispositivo externo.
 
-## ✨ Funcionalidades
+## Funcionalidades
 
 | Funcionalidad | Descripción |
 |---|---|
@@ -15,7 +15,7 @@ Monitor de interfaces de red desarrollado en Python para consultar estados opera
 | RESTCONF | Incluye configuración de host, puerto, credenciales y ruta del modelo. |
 | Pruebas | Suite automatizada con Pytest, sin conexión a Internet. |
 
-## 🚀 Inicio rápido
+## Inicio rápido
 
 Desde la carpeta `main/`:
 
@@ -46,7 +46,7 @@ python main.py
 
 > **Nota:** el modo demo es el flujo predeterminado. Permite validar la aplicación sin credenciales ni acceso a Cisco DevNet Sandbox.
 
-## 🧪 Modo demostración
+## Modo demostración
 
 La demo reproduce tres snapshots:
 
@@ -60,7 +60,7 @@ Demo completada: 3 alertas
 
 Los datos son simulados y no representan resultados de un dispositivo real.
 
-## ⚙️ Configuración RESTCONF
+## Configuración RESTCONF
 
 Copiar el archivo de ejemplo y completar los valores del dispositivo:
 
@@ -84,7 +84,7 @@ La integración real debe ejecutarse con `DEMO_MODE=false` y con una ruta YANG c
 
 El cliente RESTCONF y la configuración del modo real están implementados. La validación contra el Cisco DevNet Sandbox quedó pendiente porque OpenConnect autenticó correctamente, pero Windows no pudo crear el adaptador VPN virtual (`Set up tun device failed`). Por esta razón, los resultados presentados por defecto corresponden al modo demostración y no deben confundirse con mediciones de un dispositivo real.
 
-## 🧱 Estructura
+## Estructura
 
 ```text
 main/
@@ -100,7 +100,7 @@ main/
 └── .env.example          # Plantilla de configuración
 ```
 
-## ✅ Estado actual
+## Estado actual
 
 - [x] Modo demostración offline.
 - [x] Detección de cambios de estado.
@@ -112,6 +112,6 @@ main/
 - [x] Exportación de reportes CSV y JSON al finalizar el monitoreo.
 - [x] Menú interactivo con consulta, alertas y configuración.
 
-## 👥 Contexto académico
+## Contexto académico
 
 Proyecto para el curso **CE-5301 Redes de Computadoras** del Instituto Tecnológico de Costa Rica. La implementación prioriza modularidad, trazabilidad y facilidad de explicación durante la presentación.

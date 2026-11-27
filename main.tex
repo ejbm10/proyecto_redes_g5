@@ -44,9 +44,19 @@
     {\normalfont\bfseries\fontsize{12}{14}\selectfont}
     {\thesubsection}{1em}{}
 
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+
 \titleformat{\subsubsection}
     {\normalfont\bfseries\fontsize{12}{14}\selectfont}
     {\thesubsubsection}{1em}{}
+
+\titleformat{\paragraph}[block]
+    {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+    {\theparagraph}{1em}{}
+
+\titlespacing*{\paragraph}
+    {0pt}{1.5ex}{1ex}
 
 % ------------------------------------------------
 % IMÁGENES Y TABLAS
@@ -143,7 +153,7 @@
     \vspace{0.4cm}
 
     {\large
-        Investigación\par}
+        Informe Final: Investigación y Caso de Uso\par}
 
     \vspace{1.5cm}
 
@@ -190,19 +200,62 @@
 
 \end{titlepage}
 
+% =================================================
+% ÍNDICE
+% =================================================
+
+\newpage
+\singlespacing
+\tableofcontents
+\doublespacing
+\newpage
+
+% =================================================
+% OBJETIVOS DEL DESAFÍO
+% =================================================
+
+\section{Objetivos del Desafío}
+
+El presente desafío de redes tiene como finalidad integrar los fundamentos teóricos de la programabilidad y automatización de redes dirigidas por modelos con una implementación práctica funcional sobre equipamiento Cisco IOS XE. Para ello, los objetivos se dividen en una dimensión investigativa y una dimensión práctica correspondiente al caso de uso.
+
+\subsection{Objetivos de la investigación}
+
+\begin{itemize}
+    \item Analizar los fundamentos del desarrollo basado en modelos (MBD) y del desarrollo dirigido por modelos (MDD), así como el papel de los modelos de datos, los equipos DevOps, el protocolo SNMP y la RFC 3535 en la evolución hacia la automatización moderna de redes.
+    \item Comprender el lenguaje de modelado de datos YANG (RFC 7950), su estructura modular, la distinción entre lenguaje, modelos de datos y datos YANG, y el uso de la herramienta \texttt{pyang} para validar y explorar esquemas.
+    \item Estudiar el protocolo NETCONF (RFC 6241 y RFC 6242), su arquitectura en capas, su transporte predeterminado sobre SSH, el paradigma de llamadas a procedimiento remoto (RPC) y el formato de mensajes XML.
+    \item Examinar el protocolo RESTCONF (RFC 8040), sus diferencias técnicas frente a NETCONF, su mapeo directo desde árboles YANG hacia rutas URI sobre HTTP/HTTPS y la ejecución de llamadas API mediante Postman y Python.
+    \item Comparar herramientas de automatización de configuración de redes (Ansible, Puppet y SaltStack) considerando sus métodos de distribución (\textit{Push} y \textit{Pull}), arquitectura central de gestión, compatibilidad de sistemas operativos y aplicación en equipos de red.
+\end{itemize}
+
+\subsection{Objetivos del caso de uso}
+
+\begin{itemize}
+    \item Diseñar e implementar en Python una aplicación modular de monitoreo de interfaces de red (\textit{Network Monitor}) basada en el protocolo RESTCONF y modelos de datos YANG.
+    \item Validar la comunicación de red real contra un dispositivo Cisco IOS XE (Catalyst 9300 en Cisco DevNet Sandbox) a través de una conexión VPN segura, consultando de forma periódica el estado operativo, los contadores de tráfico y los errores de sus interfaces.
+    \item Procesar y normalizar respuestas JSON estructuradas según esquemas YANG (\texttt{Cisco-IOS-XE-interfaces-oper} e \texttt{ietf-interfaces}), calcular tasas de tráfico RX y TX en Mbps en tiempo real y detectar automáticamente eventos y alertas ante cambios de estado o incrementos de errores.
+    \item Proveer una interfaz de visualización interactiva en consola con paginación automática, un modo de demostración \textit{offline} respaldado por pruebas unitarias y exportación automatizada de reportes en formatos CSV y JSON para el análisis cuantitativo del desempeño.
+\end{itemize}
+
+% =================================================
+% INVESTIGACIÓN
+% =================================================
+
+\newpage
+\section{Investigación}
 
 % DESARROLLO BASADO EN MODELOS (MBD)
 % =================================================
 
-\section{Desarrollo basado en modelos (MBD)}
+\subsection{Desarrollo basado en modelos (MBD)}
 
 Según \textcite{valera2026}, el desarrollo basado en modelos (\textit{Model-Based Development}, MBD) constituye un enfoque moderno de la ingeniería de software y de sistemas que utiliza modelos visuales como medio principal para especificar, diseñar, simular y validar sistemas. A diferencia de los enfoques tradicionales, que dependen principalmente de la programación manual y de la documentación basada en texto, este enfoque permite a los ingenieros construir modelos ejecutables que representan los requerimientos, la lógica y el comportamiento del sistema.
 
-\subsection{Desarrollo basado en modelos frente al desarrollo de software tradicional}
+\subsubsection{Desarrollo basado en modelos frente al desarrollo de software tradicional}
 
 A continuación, se presenta una comparación entre el desarrollo basado en modelos y el desarrollo de software tradicional, considerando las características descritas por \textcite{valera2026}.
 
-\subsubsection{Desarrollo de software tradicional}
+\paragraph{Desarrollo de software tradicional}
 
 \begin{itemize}
     \item Depende considerablemente de la programación manual para implementar las funcionalidades del sistema.
@@ -211,7 +264,7 @@ A continuación, se presenta una comparación entre el desarrollo basado en mode
     \item Puede dificultar la adaptación a metodologías ágiles debido a la dependencia de procesos de desarrollo y documentación tradicionales.
 \end{itemize}
 
-\subsubsection{Desarrollo basado en modelos}
+\paragraph{Desarrollo basado en modelos}
 
 \begin{itemize}
     \item Utiliza modelos gráficos para representar los requerimientos, la estructura y la lógica del sistema.
@@ -220,13 +273,13 @@ A continuación, se presenta una comparación entre el desarrollo basado en mode
     \item Favorece la integración continua y su aplicación en procesos de desarrollo basados en metodologías ágiles.
 \end{itemize}
 
-\subsection{Importancia del desarrollo basado en modelos}
+\subsubsection{Importancia del desarrollo basado en modelos}
 
 El desarrollo basado en modelos permite optimizar los procesos de ingeniería mediante el uso de representaciones visuales, simulaciones y mecanismos de automatización. De acuerdo con \textcite{valera2026}, este enfoque contribuye a mejorar la gestión y trazabilidad de los requerimientos, así como a reducir el tiempo necesario para desarrollar y lanzar productos al mercado, sin comprometer los aspectos relacionados con la seguridad y el cumplimiento de estándares.
 
 Asimismo, su aplicación ofrece beneficios en diferentes sectores industriales, entre los cuales destacan los siguientes:
 
-\subsubsection{Industria automotriz}
+\paragraph{Industria automotriz}
 
 \begin{itemize}
     \item Acelera el diseño y desarrollo de sistemas avanzados de asistencia a la conducción (ADAS).
@@ -234,7 +287,7 @@ Asimismo, su aplicación ofrece beneficios en diferentes sectores industriales, 
     \item Permite mantener el control de versiones y la trazabilidad de los requerimientos durante el desarrollo de los sistemas.
 \end{itemize}
 
-\subsubsection{Industria aeroespacial y de defensa}
+\paragraph{Industria aeroespacial y de defensa}
 
 \begin{itemize}
     \item Facilita los procesos de certificación mediante enfoques de ingeniería de sistemas basados en modelos y simulación.
@@ -242,7 +295,7 @@ Asimismo, su aplicación ofrece beneficios en diferentes sectores industriales, 
     \item Reduce el riesgo de errores de integración detectados en etapas avanzadas del desarrollo.
 \end{itemize}
 
-\subsubsection{Industria de dispositivos médicos}
+\paragraph{Industria de dispositivos médicos}
 
 \begin{itemize}
     \item Mejora los procesos de verificación y validación de sistemas críticos para la seguridad de los pacientes.
@@ -250,7 +303,7 @@ Asimismo, su aplicación ofrece beneficios en diferentes sectores industriales, 
     \item Permite integrarse con herramientas de gestión de requerimientos para mantener un historial de auditoría y trazabilidad.
 \end{itemize}
 
-\subsubsection{Sistemas embebidos y automatización industrial}
+\paragraph{Sistemas embebidos y automatización industrial}
 
 \begin{itemize}
     \item Optimiza el diseño y desarrollo de algoritmos de control para sistemas embebidos.
@@ -263,19 +316,19 @@ Asimismo, su aplicación ofrece beneficios en diferentes sectores industriales, 
 % DESARROLLO DIRIGIDO POR MODELOS (MDD)
 % =================================================
 
-\section{Desarrollo dirigido por modelos (MDD)}
+\subsection{Desarrollo dirigido por modelos (MDD)}
 
 El desarrollo dirigido por modelos (\textit{Model-Driven Development}, MDD) es un enfoque de desarrollo de software que utiliza modelos abstractos como elementos centrales del proceso de diseño e implementación. Estos modelos permiten representar las características y el comportamiento de un sistema, y pueden utilizarse para generar automáticamente código fuente y otros artefactos necesarios para su construcción. Según \textcite{valera2026}, este enfoque permite reducir la dependencia de la programación manual y facilitar la transformación de los modelos en componentes funcionales del sistema.
 
 En el contexto de las redes de computadoras, la automatización ha adquirido una importancia creciente debido a la necesidad de administrar infraestructuras cada vez más complejas. En este ámbito, la programabilidad dirigida por modelos permite representar los dispositivos de red y sus capacidades mediante estructuras estandarizadas. De acuerdo con \textcite{nguyen2023}, esta representación facilita la automatización de las operaciones de red, ya que permite utilizar modelos comunes para describir y gestionar diferentes dispositivos, independientemente de sus características particulares.
 
-\subsection{Importancia del desarrollo dirigido por modelos}
+\subsubsection{Importancia del desarrollo dirigido por modelos}
 
 Tradicionalmente, la administración de dispositivos de red se ha realizado mediante interfaces de línea de comandos (CLI). Sin embargo, este mecanismo presenta limitaciones cuando se pretende automatizar la gestión de una infraestructura, debido a que la información obtenida suele presentarse en formatos de texto que pueden variar entre fabricantes y modelos de dispositivos. Esto dificulta su procesamiento automático y la extracción sistemática de información.
 
 Según \textcite{nguyen2023}, la programabilidad dirigida por modelos permite abordar estas limitaciones mediante la representación estandarizada de los dispositivos de red y sus capacidades. De esta manera, los programas y scripts de automatización pueden interactuar con los dispositivos utilizando estructuras de datos previamente definidas, lo que facilita la configuración, supervisión y administración de la infraestructura de red.
 
-\subsection{Modelos de datos}
+\subsubsection{Modelos de datos}
 
 Los modelos de datos constituyen representaciones que permiten describir los tipos de datos utilizados y almacenados en un sistema, así como las relaciones existentes entre ellos. También especifican la manera en que los datos pueden agruparse y organizarse, incluyendo sus formatos, propiedades y atributos. De acuerdo con \textcite{ibm2026}, estos modelos permiten representar visualmente la estructura de la información y establecer cómo se relacionan sus diferentes componentes.
 
@@ -294,7 +347,7 @@ En este contexto, los modelos de datos permiten definir características especí
 
 Estas definiciones permiten establecer reglas comunes para representar, validar e intercambiar información. Como resultado, se facilita la interoperabilidad entre dispositivos de red y el desarrollo de herramientas de automatización que utilizan estructuras de datos consistentes.
 
-\section{Equipos de DevOps}
+\subsection{Equipos de DevOps}
 
 Los equipos se encargan de actividades como la planificación, programación, edificación, pruebas y lanzamiento \parencite{atlassian2026devops}.
 
@@ -306,13 +359,13 @@ Los equipos se encargan de actividades como la planificación, programación, ed
     \item \textbf{Lanzamiento}: Último flujo de trabajo antes de que los usuarios accedan a la aplicación.
 \end{itemize}. 
 
-\section{Simple Network Management Protocol}
+\subsection{Simple Network Management Protocol}
 
 De acuerdo con \textcite{harrington2002snmp}, el \textit{Simple Network Management Protocol} (SNMP) es uno de los protocolos de administración de redes con mayor trayectoria, cuyos primeros desarrollos se remontan a finales de la década de 1980. Actualmente, se encuentra ampliamente implementado en dispositivos de red, como enrutadores, conmutadores y servidores. Su principal propósito es permitir la supervisión y administración remota de los dispositivos conectados a una red, lo que incluye la consulta de información sobre su estado y, cuando el dispositivo lo permite, la modificación de determinados parámetros de configuración.
 
 SNMP opera en la capa de aplicación y utiliza principalmente el protocolo de transporte UDP para el intercambio de información. Su funcionamiento se basa en un modelo de administración compuesto por dos elementos principales: el administrador y los agentes. El administrador es el sistema encargado de supervisar los dispositivos de la red, mientras que cada dispositivo administrado ejecuta un software denominado \textit{agente}, responsable de recopilar información sobre su estado y ponerla a disposición del administrador \parencite{harrington2002snmp}.
 
-\section{RFC 3535}
+\subsection{RFC 3535}
 
 La RFC 3535 es un documento informativo publicado en mayo de 2003 por la \textit{Internet Architecture Board} (IAB), como resultado de un taller que tuvo como objetivo establecer un diálogo entre los operadores de redes y los desarrolladores de protocolos, con el propósito de identificar necesidades y orientar los esfuerzos de estandarización relacionados con la administración de redes \parencite{schoenwaelder2003rfc3535}.
 
@@ -322,15 +375,15 @@ El documento, titulado \textit{Overview of the 2002 IAB Network Management Works
 % Introducción al modelo YANG dentro del modelado de datos para una red
 % =================================================
 
-\section{Introducción al modelo YANG dentro del modelado de datos para una red}
+\subsection{Introducción al modelo YANG dentro del modelado de datos para una red}
 
-\subsection{Definición de YANG}
+\subsubsection{Definición de YANG}
 
 YANG (\textit{Yet Another Next Generation}) es un lenguaje de modelado de datos diseñado originalmente para modelar datos de configuración, datos de estado, llamadas a procedimientos remotos (RPC) y notificaciones manipuladas por protocolos de gestión de red como NETCONF \parencite{bjorklund2016rfc7950}. Aunque fue concebido inicialmente para NETCONF, su arquitectura permite que también sea empleado con otros protocolos (como RESTCONF o CoMI) y con distintos formatos de codificación además de XML, tales como JSON \parencite{bjorklund2016rfc7950}.
 
 Entre sus características principales destaca una sintaxis legible similar a C/C++ que organiza la información de manera jerárquica en forma de árbol, permitiendo definir restricciones estrictas sobre los datos y establecer un contrato formal entre el cliente y el servidor de red \parencite{bjorklund2016rfc7950}.
 
-\subsection{Diferencias entre el lenguaje YANG, los modelos de datos YANG y YANG data}
+\subsubsection{Diferencias entre el lenguaje YANG, los modelos de datos YANG y YANG data}
 
 De acuerdo con las definiciones y conceptos establecidos en el estándar RFC 7950 \parencite{bjorklund2016rfc7950}, estos tres elementos representan distintos niveles de abstracción e instanciación:
 
@@ -340,7 +393,7 @@ De acuerdo con las definiciones y conceptos establecidos en el estándar RFC 795
     \item \textbf{YANG data (Árbol de datos o \textit{Data Tree}):} Es la instancia concreta de datos reales modelados con YANG que residen en un almacén de datos (\textit{datastore}) o se intercambian entre cliente y servidor \parencite{bjorklund2016rfc7950}. Incluye los datos de configuración activos, datos operativos de estado, entradas y salidas de RPC y notificaciones codificadas (por ejemplo, en XML) conforme a las reglas dictadas por el modelo de datos \parencite{bjorklund2016rfc7950}.
 \end{enumerate}
 
-\subsection{Estructura y uso del modelo de datos YANG}
+\subsubsection{Estructura y uso del modelo de datos YANG}
 
 La unidad base de definición en YANG es el \textbf{módulo} (almacenado habitualmente en archivos con extensión \texttt{.yang}), el cual puede dividirse en \textbf{submódulos} parciales e importar definiciones de otros módulos externos \parencite{bjorklund2016rfc7950}. Todo módulo se estructura en tres tipos de sentencias:
 
@@ -358,7 +411,7 @@ La unidad base de definición en YANG es el \textbf{módulo} (almacenado habitua
 
 Respecto a su uso, los modelos YANG se emplean para diferenciar los datos de configuración modificables (\texttt{config true}) de los datos de estado de solo lectura (\texttt{config false}), validar restricciones mediante expresiones XPath (\texttt{must}, \texttt{when}), reutilizar bloques de nodos (\texttt{grouping} y \texttt{uses}), extender modelos existentes sin modificarlos (\texttt{augment}) y definir operaciones (\texttt{rpc}, \texttt{action}) y eventos (\texttt{notification}) que permiten automatizar la gestión de dispositivos de red de forma interoperable \parencite{bjorklund2016rfc7950}.
 
-\subsection{Definición de pyang y su uso para explorar modelos de datos}
+\subsubsection{Definición de pyang y su uso para explorar modelos de datos}
 
 \texttt{pyang} es un validador, transformador y generador de código extensible para módulos YANG escrito en Python \parencite{pyang_github}. Su función principal es analizar sintáctica y semánticamente archivos \texttt{.yang} o \texttt{.yin} para verificar que cumplan estrictamente con las reglas de los estándares (como el RFC 7950) y convertirlos a otros formatos \parencite{pyang_github}.
 
@@ -374,21 +427,21 @@ Para explorar modelos de datos a través de su interfaz de línea de comandos (\
 % Explorar el modelo de datos para YANG usando NETCONF
 % =================================================
 
-\section{Explorar el modelo de datos para YANG usando NETCONF}
+\subsection{Explorar el modelo de datos para YANG usando NETCONF}
 
-\subsection{Definición de NETCONF y estándar de creación}
+\subsubsection{Definición de NETCONF y estándar de creación}
 
 NETCONF (\textit{Network Configuration Protocol}) es un protocolo de gestión de red que proporciona mecanismos formales para instalar, manipular, recuperar y eliminar la configuración de dispositivos de red, así como para consultar su estado operativo \parencite{enns2011rfc6241}. Expone una interfaz de programación de aplicaciones (API) formal en el dispositivo que permite a las aplicaciones gestionar conjuntos completos o parciales de configuración \parencite{enns2011rfc6241}.
 
 Fue estandarizado por el Grupo de Trabajo de Ingeniería de Internet (IETF) originalmente bajo el \textbf{RFC 4741} y posteriormente actualizado y reemplazado por el estándar \textbf{RFC 6241} (\textit{Network Configuration Protocol (NETCONF)}) en junio de 2011 \parencite{enns2011rfc6241}.
 
-\subsection{Propósito y funcionamiento de las comunicaciones NETCONF}
+\subsubsection{Propósito y funcionamiento de las comunicaciones NETCONF}
 
-\subsubsection{Propósito de su creación}
+\paragraph{Propósito de su creación}
 
 NETCONF se creó para superar las limitaciones de los métodos tradicionales de gestión de red (como la interfaz de línea de comandos o SNMP), ofreciendo un mecanismo programático y automatizado que separa explícitamente los \textbf{datos de configuración} de los \textbf{datos de estado} \parencite{enns2011rfc6241}. Esta separación evita que las comparaciones de configuración se vean contaminadas por estadísticas variables, impide intentos de escritura sobre parámetros de solo lectura, reduce el tamaño de los conjuntos de datos y facilita la restauración de copias de seguridad \parencite{enns2011rfc6241}. Además, fue diseñado para reflejar la funcionalidad nativa de los dispositivos y permitir transacciones seguras en uno o múltiples equipos simultáneamente \parencite{enns2011rfc6241}.
 
-\subsubsection{Funcionamiento de las comunicaciones}
+\paragraph{Funcionamiento de las comunicaciones}
 
 NETCONF opera bajo un modelo cliente-servidor orientado a la conexión y dividido conceptualmente en cuatro capas \parencite{enns2011rfc6241}:
 
@@ -401,17 +454,17 @@ NETCONF opera bajo un modelo cliente-servidor orientado a la conexión y dividid
 
 Al iniciar la sesión, ambas partes intercambian un mensaje \texttt{<hello>} en el que anuncian sus capacidades (\textit{capabilities}) y modelos soportados; a partir de ese momento, el cliente envía solicitudes \texttt{<rpc>} que el servidor procesa en serie, devolviendo las respuestas \texttt{<rpc-reply>} en el mismo orden \parencite{enns2011rfc6241, wasserman2011rfc6242}.
 
-\subsection{Protocolo de transporte predeterminado de NETCONF}
+\subsubsection{Protocolo de transporte predeterminado de NETCONF}
 
 Toda implementación de NETCONF debe soportar de manera obligatoria el protocolo \textbf{SSH} (\textit{Secure Shell}, específicamente SSHv2) como protocolo de transporte seguro por defecto, según lo especificado en el estándar RFC 6242 \parencite{enns2011rfc6241, wasserman2011rfc6242}.
 
 NETCONF se ejecuta como un subsistema de SSH denominado \texttt{netconf} sobre el \textbf{puerto TCP 830} asignado por la IANA, lo que garantiza confidencialidad, integridad de datos, autenticación mutua y facilidad para el filtrado mediante cortafuegos \parencite{wasserman2011rfc6242}.
 
-\subsection{Ejecución de llamadas NETCONF hacia equipos de red}
+\subsubsection{Ejecución de llamadas NETCONF hacia equipos de red}
 
 Para establecer una sesión interactiva o automatizada con un dispositivo de red desde una terminal de cliente, se invoca el cliente SSH especificando la opción \texttt{-s} (para ejecutar el comando como un subsistema SSHv2), el puerto TCP \texttt{830} y el nombre del subsistema \texttt{netconf} \parencite{wasserman2011rfc6242}.
 
-\subsubsection{Ejemplo de comando de conexión}
+\paragraph{Ejemplo de comando de conexión}
 
 \begin{lstlisting}[caption={Comando de conexión a un dispositivo mediante el subsistema NETCONF sobre SSH (adaptado de Wasserman, 2011)}]
 ssh -s usuario@router.ejemplo.org -p 830 netconf
@@ -419,7 +472,7 @@ ssh -s usuario@router.ejemplo.org -p 830 netconf
 
 Una vez establecida la conexión y realizado el intercambio inicial de capacidades \texttt{<hello>}, el cliente envía la operación deseada en formato XML seguida del delimitador de fin de mensaje o entramado por fragmentos \parencite{wasserman2011rfc6242}.
 
-\subsubsection{Caso de uso práctico: Consulta del estado y tráfico de una interfaz específica}
+\paragraph{Caso de uso práctico: Consulta del estado y tráfico de una interfaz específica}
 
 Un administrador o sistema de monitoreo necesita verificar los contadores de octetos recibidos y transmitidos de la interfaz \texttt{eth0} en un enrutador sin alterar su configuración. Para ello, invoca la operación base \texttt{<get>} utilizando un filtro de subárbol (\textit{subtree filtering}) \parencite{enns2011rfc6241}:
 
@@ -442,13 +495,13 @@ Un administrador o sistema de monitoreo necesita verificar los contadores de oct
 
 El dispositivo procesa la solicitud y devuelve un mensaje \texttt{<rpc-reply>} con los datos operativos solicitados dentro de la etiqueta \texttt{<data>} \parencite{enns2011rfc6241}.
 
-\subsection{Definición de RPC y formato de mensajes en NETCONF}
+\subsubsection{Definición de RPC y formato de mensajes en NETCONF}
 
-\subsubsection{Definición de RPC en NETCONF}
+\paragraph{Definición de RPC en NETCONF}
 
 En el contexto de NETCONF, una \textbf{RPC} (\textit{Remote Procedure Call} o llamada a procedimiento remoto) es el paradigma fundamental de comunicación mediante el cual un cliente invoca operaciones específicas (como consultar o modificar configuraciones) para que sean ejecutadas de forma remota por un servidor o dispositivo de red \parencite{enns2011rfc6241}. Se materializa mediante el intercambio síncrono de un elemento de solicitud \texttt{<rpc>} (que incluye un atributo obligatorio \texttt{message-id} para correlacionar transacciones) y su correspondiente elemento de respuesta \texttt{<rpc-reply>} (que contiene \texttt{<data>}, \texttt{<ok/>} o \texttt{<rpc-error>} en caso de fallo) \parencite{enns2011rfc6241}.
 
-\subsubsection{Formato de mensajes utilizado}
+\paragraph{Formato de mensajes utilizado}
 
 NETCONF utiliza el lenguaje de marcado extensible \textbf{XML} (\textit{Extensible Markup Language}) codificado obligatoriamente en \textbf{UTF-8} tanto para el entramado de los mensajes del protocolo como para la representación de los datos de configuración y estado \parencite{enns2011rfc6241}. Todos los mensajes deben ser documentos XML bien formados, emplean el espacio de nombres base \texttt{urn:ietf:params:xml:ns:netconf:base:1.0} y no deben incluir declaraciones de tipo de documento (DTD) \parencite{enns2011rfc6241}.
 
@@ -459,9 +512,9 @@ NETCONF utiliza el lenguaje de marcado extensible \textbf{XML} (\textit{Extensib
 % RESTCONF, YANG, POSTMAN Y PYTHON
 % =================================================
 
-\section{Exploración del modelo de datos YANG usando RESTCONF}
+\subsection{Exploración del modelo de datos YANG usando RESTCONF}
 
-\subsection{Definición de RESTCONF y comparación con NETCONF}
+\subsubsection{Definición de RESTCONF y comparación con NETCONF}
 
 El protocolo RESTCONF, estandarizado por la \textit{Internet Engineering Task Force} (IETF) mediante el RFC 8040, es un protocolo de gestión y configuración de redes basado en HTTP que proporciona una interfaz programática con arquitectura RESTful para acceder y manipular datos de configuración, datos operacionales, llamadas a procedimiento remoto (RPC) y notificaciones definidas mediante modelos YANG \parencite{cisco_restconf, granderath2023}. Según \textcite{bhat2023}, su propósito original no es reemplazar por completo a NETCONF (RFC 6241), sino ofrecer un subconjunto modular de sus funcionalidades adaptado a aplicaciones web y herramientas modernas de automatización. Para esto, RESTCONF utiliza los métodos estándar de HTTPS (\texttt{GET}, \texttt{POST}, \texttt{PUT}, \texttt{PATCH}, \texttt{DELETE}, \texttt{HEAD} y \texttt{OPTIONS}) con el fin de ejecutar operaciones de creación, lectura, actualización y eliminación (CRUD) sobre un almacén de datos conceptual \parencite{cisco_restconf, granderath2023}.
 
@@ -492,7 +545,7 @@ A nivel de arquitectura interna en equipos de red modernos como Cisco IOS XE, la
 
 La principal ventaja de RESTCONF frente a NETCONF es la simplicidad de integración y el bajo acoplamiento con entornos de desarrollo actuales \parencite{cisco_devnet, granderath2023}. Como se apoya en el protocolo estándar HTTP y en el formato JSON, cualquier herramienta cliente de APIs (como Postman) o lenguaje de programación (como Python mediante bibliotecas HTTP estándar) puede consultar o modificar parámetros de red sin necesidad de gestionar sesiones SSH persistentes ni procesar estructuras XML complejas \parencite{cisco_devnet, granderath2023}. Asimismo, mediciones comparativas demuestran que su naturaleza sin estado y menor complejidad de procesamiento reducen el consumo energético y los tiempos de aprovisionamiento frente a NETCONF \parencite{bhat2023}, lo cual resulta idóneo para ejecutar consultas periódicas de monitoreo de interfaces como las propuestas en este proyecto.
 
-\subsection{Relación entre modelos YANG y llamadas API mediante RESTCONF}
+\subsubsection{Relación entre modelos YANG y llamadas API mediante RESTCONF}
 
 La arquitectura de RESTCONF es dirigida por modelos definidos anteriormente en la investigación como el \textit{Model-Driven}, lo cual significa que los modelos de datos escritos en el lenguaje YANG (RFC 7950) actúan como el contrato estructural que define qué recursos existen en el dispositivo de red, qué tipo de datos contienen y qué operaciones están permitidas sobre ellos \parencite{cisco_restconf, granderath2023}. Según \textcite{bhat2023}, un módulo YANG organiza tanto los datos de configuración (lectura y escritura) como los datos de estado operacional (solo lectura), las llamadas a procedimiento remoto (RPC) y las notificaciones dentro de una jerarquía en forma de árbol.
 
@@ -509,7 +562,7 @@ La relación directa con las llamadas API ocurre porque la especificación de RE
 
 Finalmente, los modelos YANG también gobiernan la codificación y negociación del contenido intercambiado en cada llamada API \parencite{cisco_restconf, granderath2023}. Al enviar una petición HTTP, el cliente y el servidor RESTCONF utilizan los encabezados \texttt{Accept} y \texttt{Content-Type} con los tipos MIME estandarizados \texttt{application/yang-data+json} o \texttt{application/yang-data+xml}, garantizando que los objetos JSON o XML transmitidos en el cuerpo del mensaje respeten estrictamente los tipos de datos y restricciones definidas en el esquema YANG subyacente \parencite{cisco_restconf, granderath2023}.
 
-\subsection{Postman}
+\subsubsection{Postman}
 
 Postman es una plataforma integral diseñada para construir, probar, depurar y documentar interfaces de programación de aplicaciones (API) a través de una interfaz gráfica intuitiva, permitiendo validar servicios web sin necesidad de escribir código desde el inicio \parencite{postman_product, geeksforgeeks_postman}. En el ámbito de la administración y automatización de redes modernas, esta herramienta facilita la interacción directa con dispositivos compatibles con RESTCONF, permitiendo estructurar peticiones HTTP, organizar colecciones reutilizables y generar documentación técnica automática de cada punto de acceso (\textit{endpoint}) \parencite{postman_docs, freecodecamp_postman}.
 
@@ -529,7 +582,7 @@ De acuerdo con el sitio de \textcite{postman_apicall}, una llamada API constituy
     \item \textbf{Inspección de la respuesta:} Finalmente, Postman despliega el código de estado HTTP retornado por el servidor (como \texttt{200 OK} para consultas exitosas, \texttt{201 Created} para recursos creados o \texttt{401 Unauthorized} ante fallos de credenciales), el tiempo de latencia, el tamaño del mensaje y el cuerpo de la respuesta formateado para su análisis \parencite{freecodecamp_postman, postman_apicall}.
 \end{enumerate}
 
-\subsection{Ejecución de llamadas RESTCONF con Postman y Python}
+\subsubsection{Ejecución de llamadas RESTCONF con Postman y Python}
 
 La implementación práctica de llamadas RESTCONF suele dividirse en dos etapas complementarias: una fase inicial de exploración y validación visual mediante un cliente gráfico como Postman, seguida de una fase de automatización programática mediante scripts en Python \parencite{roman2019, cisco_devnet}.
 
@@ -574,18 +627,6 @@ if response.status_code == 200:
 % =================================================
 % HERRAMIENTAS DE AUTOMATIZACIÓN DE REDES
 % =================================================
-
-\begingroup
-
-\setcounter{secnumdepth}{4}
-\setcounter{tocdepth}{4}
-
-\titleformat{\paragraph}[block]
-    {\normalfont\bfseries\fontsize{12}{14}\selectfont}
-    {\theparagraph}{1em}{}
-
-\titlespacing*{\paragraph}
-    {0pt}{1.5ex}{1ex}
 
 \subsection{Herramientas de automatización de configuración de redes}
 \label{sec:herramientas_automatizacion}
@@ -1259,7 +1300,179 @@ las herramientas estudiadas.
 \end{table}
 
 
-\endgroup
+% =================================================
+% CASO DE USO
+% =================================================
+
+\newpage
+\section{Caso de Uso}
+
+\subsection{Descripción del problema y caso de uso seleccionado}
+
+En infraestructuras de red empresariales y de campus, la supervisión del estado operativo, el tráfico y los errores de las interfaces suele realizarse de forma manual mediante la interfaz de línea de comandos (CLI). Este enfoque presenta desventajas importantes: las salidas textuales varían entre plataformas, requieren análisis manual o expresiones regulares frágiles, no escalan ante decenas de puertos y dificultan la detección oportuna de caídas o degradación de enlaces.
+
+Para abordar esta problemática desde el paradigma de programabilidad dirigida por modelos, se seleccionó e implementó como caso de uso una aplicación denominada \textbf{Network Monitor}, orientada al monitoreo en tiempo real de interfaces de red sobre un equipo \textbf{Cisco Catalyst 9300} con sistema operativo \textbf{Cisco IOS XE} (en el entorno \textit{Cisco DevNet Sandbox}, dirección \texttt{10.10.20.181}). La aplicación consulta periódicamente los datos operativos mediante el protocolo \textbf{RESTCONF} (RFC 8040) sobre HTTPS utilizando esquemas \textbf{YANG}, normaliza las respuestas JSON recibidas, calcula tasas de transmisión y recepción en Mbps, genera alertas ante cambios de estado o incrementos de errores y exporta reportes estructurados en formatos CSV y JSON.
+
+\subsection{Solución propuesta y herramientas utilizadas}
+
+La solución propuesta consiste en una aplicación modular escrita en \textbf{Python 3} dentro del directorio \texttt{main/} del repositorio del proyecto. El diseño separa la configuración, la comunicación RESTCONF, el modo de demostración \textit{offline}, la normalización de esquemas YANG, la detección de alertas, la visualización en consola y la generación de reportes. En la Tabla~\ref{tab:modulos_caso_uso} se resume la responsabilidad de cada componente implementado.
+
+\begin{table}[H]
+    \centering
+    \caption{Estructura modular de la aplicación Network Monitor}
+    \label{tab:modulos_caso_uso}
+    \begin{tabularx}{\textwidth}{p{0.28\textwidth}X}
+        \toprule
+        \textbf{Archivo / Módulo} & \textbf{Responsabilidad principal} \\
+        \midrule
+        \texttt{main.py} & Punto de entrada principal; orquesta el ciclo de sondeo (\textit{polling}), el cálculo de tasas RX/TX en Mbps, la actualización del panel en vivo y el menú interactivo (\texttt{--menu}). \\
+        \texttt{config.py} & Carga la configuración desde variables de entorno (\texttt{.env}) mediante la clase \texttt{Config} y \texttt{python-dotenv}. \\
+        \texttt{restconf\_client.py} & Cliente HTTP/HTTPS basado en \texttt{requests.Session} con autenticación básica, cabeceras \texttt{application/yang-data+json} y medición de latencia por consulta. \\
+        \texttt{demo\_client.py} & Proveedor de datos simulados a partir de archivos JSON en \texttt{fixtures/} (\texttt{demo\_01.json} a \texttt{demo\_03.json}) para validación \textit{offline}. \\
+        \texttt{parser.py} & Normaliza respuestas YANG de \texttt{Cisco-IOS-XE-interfaces-oper} e \texttt{ietf-interfaces}, traduce estados enumerados y asigna \texttt{N/D} ante campos ausentes. \\
+        \texttt{monitor.py} & Conserva la instantánea (\textit{snapshot}) anterior y ejecuta comparaciones sucesivas de estado. \\
+        \texttt{alerts.py} & Compara dos instantáneas consecutivas y emite eventos ante interfaces agregadas, eliminadas, cambios de estado operativo o aumento de errores de entrada. \\
+        \texttt{display.py} & Construye el tablero visual en terminal mediante \texttt{rich} con tarjetas de resumen, tabla paginada, registro de eventos y métricas de latencia. \\
+        \texttt{report.py} & Exporta automáticamente al finalizar la ejecución los archivos \texttt{.json}, \texttt{\_interfaces.csv} y \texttt{\_alerts.csv} dentro de \texttt{reports/}. \\
+        \texttt{tests/test\_core.py} & Conjunto de pruebas unitarias con \texttt{pytest} para validar normalización, alertas y ejecución completa del modo demostración. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+Para el desarrollo, validación y ejecución del caso de uso se emplearon las siguientes herramientas y tecnologías:
+
+\begin{itemize}
+    \item \textbf{Lenguaje y bibliotecas de Python:} Python 3 con \texttt{requests>=2.31} (cliente HTTP/RESTCONF), \texttt{python-dotenv>=1.0} (gestión de configuración), \texttt{rich>=13.7} (interfaz de consola en vivo) y \texttt{pytest>=8.0} (pruebas unitarias).
+    \item \textbf{Modelos YANG y protocolo:} RESTCONF sobre HTTPS (puerto 443) consultando los modelos \texttt{Cisco-IOS-XE-interfaces-oper:interfaces} e \texttt{ietf-interfaces:interfaces}.
+    \item \textbf{Validación previa de API:} \textbf{Postman}, utilizado para inspeccionar las rutas RESTCONF, verificar credenciales y analizar la estructura JSON devuelta por el dispositivo antes de automatizar las consultas en Python.
+    \item \textbf{Infraestructura de laboratorio y conectividad:} Dispositivo Cisco Catalyst 9300 en \textit{Cisco DevNet Sandbox} (\texttt{10.10.20.181}) conectado mediante túnel VPN con \textbf{OpenConnect} desde un entorno Linux/WSL.
+\end{itemize}
+
+\subsection{Funcionamiento detallado de la solución}
+
+El flujo operativo de \textit{Network Monitor} comprende las siguientes etapas:
+
+\begin{enumerate}
+    \item \textbf{Configuración del entorno:} Mediante el archivo \texttt{.env} (basado en \texttt{.env.example}), el usuario define \texttt{DEVICE\_HOST}, \texttt{DEVICE\_PORT} (443), \texttt{DEVICE\_USERNAME}, \texttt{DEVICE\_PASSWORD}, \texttt{RESTCONF\_PATH}, \texttt{DEMO\_MODE} (\texttt{true} o \texttt{false}), \texttt{REQUEST\_TIMEOUT} (10 s), \texttt{VERIFY\_TLS} e intervalo de sondeo \texttt{MONITOR\_INTERVAL} (5 s).
+    \item \textbf{Selección de modo y consulta:} Si \texttt{DEMO\_MODE=true}, el monitor lee secuencialmente tres instantáneas simuladas desde \texttt{fixtures/}. Si \texttt{DEMO\_MODE=false}, \texttt{RestconfClient} mantiene una sesión HTTPS persistente con autenticación básica y cabeceras \texttt{Accept} y \texttt{Content-Type} fijadas en \texttt{application/yang-data+json}, midiendo la latencia exacta de cada petición con \texttt{time.perf\_counter()}.
+    \item \textbf{Normalización de datos YANG:} El módulo \texttt{parser.py} interpreta tanto la estructura estándar \texttt{ietf-interfaces:interfaces} como la estructura nativa de Cisco \texttt{Cisco-IOS-XE-interfaces-oper:interfaces}. Los estados operativos enumerados (por ejemplo, \texttt{if-oper-state-ready} o \texttt{if-oper-state-lower-layer-down}) se normalizan a \texttt{up}, \texttt{down} o \texttt{N/D}; asimismo, se extraen los contadores de octetos (\texttt{in-octets}, \texttt{out-octets}) y errores (\texttt{in-errors}, \texttt{out-errors}).
+    \item \textbf{Cálculo de tráfico y detección de alertas:} A partir de la segunda consulta, \texttt{main.py} calcula las tasas \texttt{rx\_mbps} y \texttt{tx\_mbps} utilizando la diferencia de octetos entre consultas consecutivas y el tiempo transcurrido ($\Delta\textrm{bytes} \times 8 / \Delta t / 1\,000\,000$). Simultáneamente, \texttt{alerts.compare()} omite la primera lectura base (\texttt{old is None}) y, en lecturas posteriores, genera alertas de tipo \texttt{oper\_status\_changed}, \texttt{errors\_increased}, \texttt{interface\_added} o \texttt{interface\_removed}, además de \texttt{connection\_lost} ante fallos HTTP o de red.
+    \item \textbf{Visualización, menú interactivo y exportación:} El módulo \texttt{display.py} renderiza un tablero en tiempo real con el total de interfaces, conteo de operativas e inactivas, tabla paginada de 18 interfaces por página (rotando automáticamente en cada ciclo para visualizar dispositivos con decenas de puertos), registro de los últimos cinco eventos y barra de estado con latencia e intervalo. Al ejecutar \texttt{python main.py --menu}, se habilita un menú interactivo de siete opciones (prueba de conexión, consulta puntual, monitoreo continuo, alertas, reportes, configuración y salida). Al detener el monitoreo con \texttt{Ctrl+C}, \texttt{report.py} guarda automáticamente los reportes históricos en \texttt{reports/}.
+\end{enumerate}
+
+\subsection{Código fuente y video demostrativo}
+
+El código fuente completo de la aplicación, junto con las plantillas de configuración, pruebas automatizadas y reportes de ejecución, se encuentra disponible en el repositorio de GitHub referenciado en el Anexo 1 (\url{https://github.com/ejbm10/proyecto_redes_g5}).
+
+El video demostrativo del caso de uso, en el cual se exponen el contexto del problema, los requerimientos, la validación de endpoints con Postman, la conexión VPN hacia Cisco DevNet Sandbox y la ejecución en tiempo real de \textit{Network Monitor}, puede consultarse en el siguiente enlace: \textbf{https://drive.google.com/drive/folders/1bY1SU2s4MUm-a36iju4sqUjmI0iUXVVK?usp=sharing}.
+
+% =================================================
+% RESULTADOS OBTENIDOS Y ANÁLISIS DE RESULTADOS
+% =================================================
+
+\newpage
+\section{Resultados Obtenidos y Análisis de Resultados}
+
+\subsection{Validación de la comunicación de red y cumplimiento funcional}
+
+Con el caso de uso seleccionado y las herramientas implementadas, \textbf{sí se logró establecer comunicación real de red mediante RESTCONF sobre HTTPS} contra el conmutador Cisco Catalyst 9300 (\texttt{10.10.20.181}) del entorno Cisco DevNet Sandbox, así como ejecutar completamente el monitoreo en tiempo real, la normalización de modelos YANG, la detección de cambios de estado, la visualización paginada en consola y la exportación automática de reportes.
+
+Durante las primeras pruebas en Windows nativo, el cliente OpenConnect autenticó correctamente contra el laboratorio, pero falló al crear el adaptador virtual de red (\textit{Set up tun device failed}). Al migrar la ejecución del túnel VPN y del cliente Python hacia un entorno Linux (WSL), la conectividad se estableció sin inconvenientes y permitió validar todas las consultas reales registradas en la carpeta \texttt{reports/}. Adicionalmente, la suite de pruebas unitarias (\texttt{pytest}) validó de forma satisfactoria los tres casos de prueba (\texttt{test\_missing}, \texttt{test\_alerts} y \texttt{test\_demo}) en modo \textit{offline}.
+
+\subsection{Resumen de resultados obtenidos}
+
+A partir de las seis sesiones de ejecución real registradas el 26 de noviembre de 2026 contra el dispositivo \texttt{10.10.20.181} (almacenadas en \texttt{reports/}), se obtuvieron los siguientes resultados positivos y limitaciones observadas:
+
+\begin{itemize}
+    \item \textbf{Resultados positivos:}
+    \begin{itemize}
+        \item \textbf{Confiabilidad del 100\,\% en consultas reales:} Se ejecutaron en total 36 peticiones HTTPS RESTCONF distribuidas en seis sesiones continuas de monitoreo, obteniendo 36 respuestas exitosas y 0 fallos de comunicación.
+        \item \textbf{Descubrimiento consistente de interfaces:} En todas las consultas contra el Catalyst 9300 se recuperaron y procesaron exactamente 43 interfaces reales, clasificadas de manera uniforme en 4 interfaces operativas (\texttt{up}: \texttt{AppGigabitEthernet1/0/1}, \texttt{GigabitEthernet0/0}, \texttt{GigabitEthernet1/0/1} y \texttt{Vlan1}), 31 interfaces inactivas (\texttt{down}) y 8 interfaces de expansión con estado \texttt{N/D}.
+        \item \textbf{Cálculo efectivo de tasas de tráfico en tiempo real:} Entre consultas consecutivas cada 5 segundos, el monitor calculó exitosamente las tasas RX y TX a partir de los contadores reales de octetos; por ejemplo, en la interfaz de gestión \texttt{GigabitEthernet0/0} se midió un tráfico sostenido de \texttt{0.01 Mbps} en recepción y entre \texttt{0.22} y \texttt{0.25 Mbps} en transmisión, con cero errores de entrada y salida.
+        \item \textbf{Detección y corrección de error en alertas iniciales:} En la primera corrida real (\texttt{09:29:12}), el motor de alertas comparó la primera instantánea contra una lista vacía y generó 43 alertas falsas de tipo \texttt{interface\_added}. Tras corregir la condición inicial en \texttt{alerts.py} (\texttt{if old is None: return []}), las cinco sesiones posteriores registraron 0 falsos positivos.
+        \item \textbf{Trazabilidad automatizada:} Cada sesión generó de forma automática sus correspondientes archivos \texttt{.json}, \texttt{\_interfaces.csv} y \texttt{\_alerts.csv} con marca de tiempo y métricas agregadas de latencia.
+    \end{itemize}
+    \item \textbf{Resultados negativos y limitaciones encontradas:}
+    \begin{itemize}
+        \item \textbf{Incompatibilidad inicial de VPN en Windows:} OpenConnect no pudo crear la interfaz virtual TUN en Windows nativo, obligando a utilizar Linux/WSL para las pruebas reales contra Cisco DevNet Sandbox.
+        \item \textbf{Interfaces de alta velocidad con estado \texttt{N/D}:} Ocho interfaces de módulo de expansión (\texttt{FortyGigabitEthernet1/1/1}, \texttt{FortyGigabitEthernet1/1/2}, \texttt{GigabitEthernet1/1/1} a \texttt{1/1/4} y \texttt{TwentyFiveGigE1/1/1} a \texttt{1/1/2}) devolvieron un valor de estado operativo en IOS XE no contemplado en los sufijos \texttt{-up}/\texttt{-down} de \texttt{normalize\_status()}, por lo que se reportaron como \texttt{N/D}.
+        \item \textbf{Ausencia de estado administrativo (\texttt{admin\_status}):} Al consultar el modelo operacional \texttt{Cisco-IOS-XE-interfaces-oper}, las respuestas no incluyen la hoja \texttt{enabled} propia de \texttt{ietf-interfaces}, por lo que el campo \texttt{admin\_status} quedó marcado como \texttt{N/D} en todas las lecturas reales.
+        \item \textbf{Latencia superior al segundo por consulta:} Debido al enrutamiento a través del túnel VPN hacia el Sandbox remoto y al tamaño completo del árbol JSON de las 43 interfaces, la latencia promedio por petición superó los 1.48 segundos.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Análisis cuantitativo del desempeño}
+
+La Tabla~\ref{tab:resumen_corridas_reales} consolida las métricas cuantitativas obtenidas en las seis sesiones de monitoreo real sobre el dispositivo \texttt{10.10.20.181}, extraídas directamente de los archivos JSON de reporte. En conjunto, las 36 consultas exitosas presentaron una latencia promedio ponderada de \textbf{1534.61 ms}, con un mínimo global de \textbf{1290.77 ms} y un máximo de \textbf{2195.31 ms}. Este comportamiento confirma que un intervalo de sondeo de 5 segundos resulta adecuado para evitar solapamientos entre peticiones consecutivas.
+
+\begin{table}[H]
+    \centering
+    \small
+    \caption{Resumen cuantitativo de las sesiones reales en modo \texttt{REAL} (\texttt{10.10.20.181})}
+    \label{tab:resumen_corridas_reales}
+    \begin{tabularx}{\textwidth}{l*{7}{>{\centering\arraybackslash}X}}
+        \toprule
+        \textbf{Sesión} & \textbf{Cons.} & \textbf{Éxito/Fallo} & \textbf{Prom. (ms)} & \textbf{Mín. (ms)} & \textbf{Máx. (ms)} & \textbf{Interf.} & \textbf{Alertas} \\
+        \midrule
+        09:29:12 & 6 & 6 / 0 & 1519.91 & 1424.65 & 1830.05 & 43 & 43\textsuperscript{*} \\
+        09:30:55 & 5 & 5 / 0 & 1483.95 & 1365.56 & 1602.15 & 43 & 0 \\
+        13:53:47 & 1 & 1 / 0 & 1714.25 & 1714.25 & 1714.25 & 43 & 0 \\
+        13:59:53 & 9 & 9 / 0 & 1601.90 & 1359.31 & 2195.31 & 43 & 0 \\
+        14:05:01 & 8 & 8 / 0 & 1494.27 & 1290.77 & 1892.18 & 43 & 0 \\
+        14:09:25 & 7 & 7 / 0 & 1517.31 & 1309.23 & 1884.64 & 43 & 0 \\
+        \midrule
+        \textbf{Global} & \textbf{36} & \textbf{36 / 0} & \textbf{1534.61} & \textbf{1290.77} & \textbf{2195.31} & \textbf{43} & \textbf{43} \\
+        \bottomrule
+    \end{tabularx}
+    \vspace{0.15cm}
+    {\footnotesize \textit{Nota.} Sesiones registradas el 26/11/2026 en los reportes JSON de \texttt{reports/}. \textsuperscript{*}Las 43 alertas de la primera sesión correspondieron al comportamiento previo a la corrección de la lectura inicial en \texttt{alerts.py}.}
+\end{table}
+
+Para ilustrar la relación directa entre las entradas crudas recibidas en el modelo YANG y las salidas procesadas por la aplicación, la Tabla~\ref{tab:muestra_telemetria_g00} presenta cuatro instantáneas consecutivas reales de la interfaz activa \texttt{GigabitEthernet0/0} durante la sesión de las \texttt{09:30:55}. Se observa un incremento monotónico consistente en los contadores de octetos recibidos y transmitidos, lo que permite calcular tasas estables de recepción y transmisión sin pérdida de paquetes ni errores.
+
+\begin{table}[H]
+    \centering
+    \small
+    \caption{Evolución de contadores YANG y tasas calculadas en \texttt{GigabitEthernet0/0} (sesión \texttt{09:30:55})}
+    \label{tab:muestra_telemetria_g00}
+    \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}X c r r c c c}
+        \toprule
+        \textbf{Hora} & \textbf{Estado} & \textbf{\texttt{rx\_bytes}} & \textbf{\texttt{tx\_bytes}} & \textbf{\texttt{rx\_mbps}} & \textbf{\texttt{tx\_mbps}} & \textbf{Errores} \\
+        \midrule
+        09:30:32.39 & \texttt{up} & 1\,534\,450 & 51\,429\,662 & 0.01 & 0.25 & 0 \\
+        09:30:38.58 & \texttt{up} & 1\,540\,024 & 51\,629\,410 & 0.01 & 0.25 & 0 \\
+        09:30:44.91 & \texttt{up} & 1\,545\,378 & 51\,829\,030 & 0.01 & 0.25 & 0 \\
+        09:30:51.20 & \texttt{up} & 1\,551\,062 & 52\,028\,915 & 0.01 & 0.24 & 0 \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+% =================================================
+% CONCLUSIONES Y RECOMENDACIONES
+% =================================================
+
+\newpage
+\section{Conclusiones y Recomendaciones}
+
+\subsection{Conclusiones}
+
+\begin{itemize}
+    \item \textbf{Lo que funcionó adecuadamente:} La arquitectura dirigida por modelos basada en RESTCONF y YANG permitió obtener telemetría estructurada en formato JSON desde un Cisco Catalyst 9300 sin recurrir al análisis frágil de salidas CLI. La separación modular en Python facilitó validar primero la lógica de negocio mediante el modo \textit{demo} y pruebas unitarias (\texttt{pytest}) antes de conectarse al dispositivo real. En entorno Linux/WSL con OpenConnect VPN, las 36 consultas reales alcanzaron un 100\,\% de efectividad, logrando normalizar 43 interfaces, paginar la vista de consola con \texttt{rich}, calcular tasas RX/TX en Mbps en tiempo real y generar reportes reproducibles en CSV y JSON.
+    \item \textbf{Lo que presentó dificultades o no funcionó como se esperaba:} La creación del adaptador virtual VPN con OpenConnect falló en Windows nativo (\textit{Set up tun device failed}), lo que impidió ejecutar las pruebas reales directamente desde ese sistema operativo y obligó a trasladar la ejecución del túnel a WSL/Linux. Además, el enfoque inicial de alertas generaba falsos positivos en el primer ciclo de consulta hasta que se añadió la omisión explícita de la línea base, y el uso de un único endpoint operacional de Cisco IOS XE dejó sin poblar el estado administrativo (\texttt{admin\_status}) y mantuvo 8 interfaces de expansión como \texttt{N/D} por enumeraciones no mapeadas.
+\end{itemize}
+
+\subsection{Recomendaciones y mejoras futuras}
+
+Para evolucionar el prototipo actual hacia una herramienta de monitoreo productivo de mayor alcance, se proponen las siguientes mejoras:
+
+\begin{enumerate}
+    \item \textbf{Consultas selectivas con parámetros RESTCONF (\texttt{fields} / \texttt{depth}):} Filtrar en la URI únicamente los nodos YANG requeridos (nombre, estado operativo, octetos y errores) para reducir el tamaño del JSON transferido y disminuir la latencia promedio por debajo de los 1534 ms observados.
+    \item \textbf{Soporte completo de estados y doble modelo YANG:} Ampliar el diccionario de \texttt{normalize\_status()} en \texttt{parser.py} para cubrir todos los valores enumerados de Cisco IOS XE (por ejemplo, puertos \textit{not-present} o \textit{dormant} en ranuras de expansión) y combinar la consulta con el nodo de configuración de \texttt{ietf-interfaces} para reportar también el estado administrativo real.
+    \item \textbf{Monitoreo asíncrono multidispositivo:} Incorporar programación asíncrona (\texttt{asyncio} y \texttt{httpx}) para consultar múltiples enrutadores y conmutadores en paralelo desde un inventario estructurado en YAML o JSON.
+    \item \textbf{Persistencia histórica y alertas externas:} Almacenar las métricas de latencia y tráfico en una base de datos de series temporales (como InfluxDB o Prometheus) conectada a tableros de Grafana, e integrar notificaciones automáticas vía webhook hacia Telegram o Slack cuando ocurran caídas de enlace o pérdida de conectividad.
+    \item \textbf{Contenedorización del entorno de ejecución:} Empaquetar la aplicación y las dependencias de conectividad VPN en un contenedor Docker para garantizar portabilidad uniforme entre Windows, Linux y macOS sin depender de controladores TUN locales.
+\end{enumerate}
+
 % =================================================
 % REFERENCIAS BIBLIOGRÁFICAS
 % =================================================
@@ -1267,7 +1480,29 @@ las herramientas estudiadas.
 \newpage
 
 \printbibliography[
-    title={Referencias}
+    heading=bibnumbered,
+    title={Referencias Bibliográficas}
 ]
+
+% =================================================
+% ANEXO 1
+% =================================================
+
+\newpage
+\section{Anexo 1: Configuraciones y Código Fuente}
+
+Con el propósito de mantener la legibilidad del documento y evitar la inclusión extensa de listados de código fuente, la totalidad de los archivos del proyecto \textit{Network Monitor} —incluyendo la implementación modular en Python (\texttt{main/}), las plantillas de configuración (\texttt{.env.example} y \texttt{requirements.txt}), los datos de demostración (\texttt{fixtures/}), la suite de pruebas automatizadas (\texttt{tests/}) y los reportes reales generados (\texttt{reports/})— se encuentra disponible para consulta pública en el siguiente repositorio de GitHub:
+
+\begin{itemize}
+    \item \textbf{Repositorio del proyecto:} \url{https://github.com/ejbm10/proyecto_redes_g5}
+\end{itemize}
+
+% =================================================
+% ANEXO 2
+% =================================================
+
+\section{Anexo 2: Trabajo Individual y en Equipo}
+
+La documentación correspondiente al trabajo individual y en equipo —la cual detalla las metas del proyecto, la asignación de roles y responsabilidades, las reglas de trabajo, el cronograma de actividades, las minutas de reunión con sus respectivas evidencias y la bitácora individual de cada integrante— se entrega de forma adjunta en un documento PDF independiente titulado \textbf{Bitácora}.
 
 \end{document}
