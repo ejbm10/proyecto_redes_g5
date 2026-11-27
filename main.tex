@@ -1,0 +1,1273 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------------------------------------
+% IDIOMA Y CODIFICACIÓN
+% ------------------------------------------------
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+
+% ------------------------------------------------
+% FUENTE (COMPATIBLE CON ARIAL)
+% ------------------------------------------------
+
+\usepackage[sfdefault]{arimo}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ------------------------------------------------
+% FORMATO GENERAL
+% ------------------------------------------------
+
+\usepackage[a4paper, margin=2.54cm]{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{ragged2e}
+
+\doublespacing
+
+\AtBeginDocument{
+    \justifying
+}
+
+% ------------------------------------------------
+% FORMATO DE TÍTULOS
+% ------------------------------------------------
+
+\usepackage{titlesec}
+
+\titleformat{\section}
+    {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+    {\thesection}{1em}{}
+
+\titleformat{\subsection}
+    {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+    {\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+    {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+    {\thesubsubsection}{1em}{}
+
+% ------------------------------------------------
+% IMÁGENES Y TABLAS
+% ------------------------------------------------
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    frame=single,
+    rulecolor=\color{black!30},
+    breaklines=true,
+    captionpos=b,
+    numbers=none
+}
+
+\AtBeginDocument{
+    \renewcommand{\lstlistingname}{Listado}
+}
+
+\usepackage{caption}
+
+\DeclareCaptionFont{elevenpt}{
+    \fontsize{11}{13}\selectfont
+}
+
+\captionsetup{
+    font=elevenpt,
+    labelfont=bf,
+    textfont=normalfont
+}
+
+% ------------------------------------------------
+% BIBLIOGRAFÍA APA 7
+% ------------------------------------------------
+
+\usepackage{csquotes}
+
+\usepackage[
+    backend=biber,
+    style=apa,
+    sorting=nyt
+]{biblatex}
+
+\DeclareLanguageMapping{spanish}{spanish-apa}
+
+\addbibresource{references/references.bib}
+
+% ------------------------------------------------
+% HIPERVÍNCULOS
+% ------------------------------------------------
+
+\usepackage[hidelinks]{hyperref}
+
+% =================================================
+% INICIO DEL DOCUMENTO
+% =================================================
+
+\begin{document}
+
+% =================================================
+% PORTADA
+% =================================================
+
+\begin{titlepage}
+
+    \centering
+    \singlespacing
+    \thispagestyle{empty}
+
+    {\Large\bfseries
+    Instituto Tecnológico de Costa Rica\par}
+
+    \vspace{0.3cm}
+
+    {\large
+    Escuela de Ingeniería en Computadores\par}
+
+    \vspace{0.3cm}
+
+    {\large
+    Redes de Computadoras\par}
+
+    \vspace{2cm}
+
+    {\LARGE\bfseries
+    Desafío de Redes\par}
+
+    \vspace{0.4cm}
+
+    {\large
+        Investigación\par}
+
+    \vspace{1.5cm}
+
+    \textbf{Profesor:} Rodolfo Tacsan Chaves\par
+
+    \vspace{0.3cm}
+
+    \textbf{II Semestre de 2026}\par
+
+    \vspace{1.5cm}
+
+    {\large\bfseries Integrantes\par}
+
+    \vspace{0.6cm}
+
+    Eduardo Bolívar (2020158103)\\
+    {\small eduardo.bm10@estudiantec.cr\par}
+
+    \vspace{0.4cm}
+
+    Sergio Marín (2018171984)\\
+    {\small smz19@estudiantec.cr\par}
+
+    \vspace{0.4cm}
+
+    Yendry Badilla (2016113047)\\
+    {\small yendry@estudiantec.cr\par}
+
+    \vspace{0.4cm}
+
+    Válerin Calderón Bran (2020033313)\\
+    {\small 20200333134@estudiantec.cr\par}
+
+    \vspace{0.4cm}
+
+    Kendall Martínez (2020027358)\\
+    {\small kendallmc@estudiantec.cr\par}
+
+    \vfill
+
+    {\large Noviembre de 2026\par}
+
+    \vspace{0.3cm}
+
+\end{titlepage}
+
+
+% DESARROLLO BASADO EN MODELOS (MBD)
+% =================================================
+
+\section{Desarrollo basado en modelos (MBD)}
+
+Según \textcite{valera2026}, el desarrollo basado en modelos (\textit{Model-Based Development}, MBD) constituye un enfoque moderno de la ingeniería de software y de sistemas que utiliza modelos visuales como medio principal para especificar, diseñar, simular y validar sistemas. A diferencia de los enfoques tradicionales, que dependen principalmente de la programación manual y de la documentación basada en texto, este enfoque permite a los ingenieros construir modelos ejecutables que representan los requerimientos, la lógica y el comportamiento del sistema.
+
+\subsection{Desarrollo basado en modelos frente al desarrollo de software tradicional}
+
+A continuación, se presenta una comparación entre el desarrollo basado en modelos y el desarrollo de software tradicional, considerando las características descritas por \textcite{valera2026}.
+
+\subsubsection{Desarrollo de software tradicional}
+
+\begin{itemize}
+    \item Depende considerablemente de la programación manual para implementar las funcionalidades del sistema.
+    \item Los errores pueden detectarse en etapas avanzadas del desarrollo, incluso durante las fases de prueba.
+    \item Presenta limitaciones en la trazabilidad de los requerimientos a lo largo del ciclo de vida del sistema.
+    \item Puede dificultar la adaptación a metodologías ágiles debido a la dependencia de procesos de desarrollo y documentación tradicionales.
+\end{itemize}
+
+\subsubsection{Desarrollo basado en modelos}
+
+\begin{itemize}
+    \item Utiliza modelos gráficos para representar los requerimientos, la estructura y la lógica del sistema.
+    \item Permite realizar pruebas desde etapas tempranas mediante enfoques como \textit{Model-in-the-Loop} (MIL), \textit{Software-in-the-Loop} (SIL) y \textit{Hardware-in-the-Loop} (HIL).
+    \item Facilita la trazabilidad de los requerimientos durante el proceso de desarrollo y contribuye al cumplimiento de estándares de seguridad.
+    \item Favorece la integración continua y su aplicación en procesos de desarrollo basados en metodologías ágiles.
+\end{itemize}
+
+\subsection{Importancia del desarrollo basado en modelos}
+
+El desarrollo basado en modelos permite optimizar los procesos de ingeniería mediante el uso de representaciones visuales, simulaciones y mecanismos de automatización. De acuerdo con \textcite{valera2026}, este enfoque contribuye a mejorar la gestión y trazabilidad de los requerimientos, así como a reducir el tiempo necesario para desarrollar y lanzar productos al mercado, sin comprometer los aspectos relacionados con la seguridad y el cumplimiento de estándares.
+
+Asimismo, su aplicación ofrece beneficios en diferentes sectores industriales, entre los cuales destacan los siguientes:
+
+\subsubsection{Industria automotriz}
+
+\begin{itemize}
+    \item Acelera el diseño y desarrollo de sistemas avanzados de asistencia a la conducción (ADAS).
+    \item Facilita el cumplimiento de estándares relacionados con la seguridad funcional.
+    \item Permite mantener el control de versiones y la trazabilidad de los requerimientos durante el desarrollo de los sistemas.
+\end{itemize}
+
+\subsubsection{Industria aeroespacial y de defensa}
+
+\begin{itemize}
+    \item Facilita los procesos de certificación mediante enfoques de ingeniería de sistemas basados en modelos y simulación.
+    \item Favorece la colaboración entre equipos de trabajo responsables de sistemas distribuidos.
+    \item Reduce el riesgo de errores de integración detectados en etapas avanzadas del desarrollo.
+\end{itemize}
+
+\subsubsection{Industria de dispositivos médicos}
+
+\begin{itemize}
+    \item Mejora los procesos de verificación y validación de sistemas críticos para la seguridad de los pacientes.
+    \item Facilita el cumplimiento de los requisitos regulatorios aplicables a los dispositivos médicos.
+    \item Permite integrarse con herramientas de gestión de requerimientos para mantener un historial de auditoría y trazabilidad.
+\end{itemize}
+
+\subsubsection{Sistemas embebidos y automatización industrial}
+
+\begin{itemize}
+    \item Optimiza el diseño y desarrollo de algoritmos de control para sistemas embebidos.
+    \item Permite integrar procesos de desarrollo continuo con herramientas de simulación en tiempo real.
+    \item Puede reducir los costos de creación de prototipos mediante el uso de modelos y representaciones de gemelos digitales.
+\end{itemize}
+
+
+% =================================================
+% DESARROLLO DIRIGIDO POR MODELOS (MDD)
+% =================================================
+
+\section{Desarrollo dirigido por modelos (MDD)}
+
+El desarrollo dirigido por modelos (\textit{Model-Driven Development}, MDD) es un enfoque de desarrollo de software que utiliza modelos abstractos como elementos centrales del proceso de diseño e implementación. Estos modelos permiten representar las características y el comportamiento de un sistema, y pueden utilizarse para generar automáticamente código fuente y otros artefactos necesarios para su construcción. Según \textcite{valera2026}, este enfoque permite reducir la dependencia de la programación manual y facilitar la transformación de los modelos en componentes funcionales del sistema.
+
+En el contexto de las redes de computadoras, la automatización ha adquirido una importancia creciente debido a la necesidad de administrar infraestructuras cada vez más complejas. En este ámbito, la programabilidad dirigida por modelos permite representar los dispositivos de red y sus capacidades mediante estructuras estandarizadas. De acuerdo con \textcite{nguyen2023}, esta representación facilita la automatización de las operaciones de red, ya que permite utilizar modelos comunes para describir y gestionar diferentes dispositivos, independientemente de sus características particulares.
+
+\subsection{Importancia del desarrollo dirigido por modelos}
+
+Tradicionalmente, la administración de dispositivos de red se ha realizado mediante interfaces de línea de comandos (CLI). Sin embargo, este mecanismo presenta limitaciones cuando se pretende automatizar la gestión de una infraestructura, debido a que la información obtenida suele presentarse en formatos de texto que pueden variar entre fabricantes y modelos de dispositivos. Esto dificulta su procesamiento automático y la extracción sistemática de información.
+
+Según \textcite{nguyen2023}, la programabilidad dirigida por modelos permite abordar estas limitaciones mediante la representación estandarizada de los dispositivos de red y sus capacidades. De esta manera, los programas y scripts de automatización pueden interactuar con los dispositivos utilizando estructuras de datos previamente definidas, lo que facilita la configuración, supervisión y administración de la infraestructura de red.
+
+\subsection{Modelos de datos}
+
+Los modelos de datos constituyen representaciones que permiten describir los tipos de datos utilizados y almacenados en un sistema, así como las relaciones existentes entre ellos. También especifican la manera en que los datos pueden agruparse y organizarse, incluyendo sus formatos, propiedades y atributos. De acuerdo con \textcite{ibm2026}, estos modelos permiten representar visualmente la estructura de la información y establecer cómo se relacionan sus diferentes componentes.
+
+La construcción de modelos de datos debe responder a las necesidades del negocio y a los objetivos del sistema que se pretende desarrollar. Para ello, las reglas y los requerimientos se definen desde las etapas iniciales mediante la retroalimentación de las partes interesadas. Esta información se incorpora posteriormente al diseño de nuevos sistemas o se utiliza para realizar modificaciones y mejoras en sistemas existentes \parencite{ibm2026}.
+
+Por otra parte, en el contexto de la programabilidad de redes, los modelos de datos describen la sintaxis y la semántica asociadas con objetos de datos específicos. Según \textcite{nguyen2023}, estos modelos funcionan como estructuras estandarizadas que permiten representar los objetos de un entorno determinado y establecer un formato consistente para intercambiar información entre los dispositivos y las herramientas de automatización.
+
+En este contexto, los modelos de datos permiten definir características específicas de los objetos administrados, tales como:
+
+\begin{itemize}
+    \item ¿Cómo se estructura un objeto VLAN y cuáles son sus propiedades?
+    \item ¿Cuál es el rango de valores válidos para un identificador de VLAN?
+    \item ¿Puede el nombre de una VLAN contener espacios?
+    \item ¿El valor de una propiedad debe representarse mediante una cadena de caracteres o un número entero?
+\end{itemize}
+
+Estas definiciones permiten establecer reglas comunes para representar, validar e intercambiar información. Como resultado, se facilita la interoperabilidad entre dispositivos de red y el desarrollo de herramientas de automatización que utilizan estructuras de datos consistentes.
+
+\section{Equipos de DevOps}
+
+Los equipos se encargan de actividades como la planificación, programación, edificación, pruebas y lanzamiento \parencite{atlassian2026devops}.
+
+\begin{itemize}
+    \item \textbf{Planificación}: Los equipos estudian nuevas características y funciones para próximas versiones. Durante esto, se recurre al feedback de los usuarios, estudio de casos y entradas de stakeholders internos
+    \item \textbf{Programación}: El equipo codifica las características nuevas y mejoradas identificadas en el backlog. Incluyen desarrollo basado en pruebas, programación en pareja, y revisiones de código entre pares.
+    \item \textbf{Edificación}: El nuevo código se integra en la base de datos existente.
+    \item \textbf{Pruebas}: Los equipos utilizan pruebas, generalmente pruebas automatizadas, para asegurarse de que la aplicación actualizada cumpla con los estándares.
+    \item \textbf{Lanzamiento}: Último flujo de trabajo antes de que los usuarios accedan a la aplicación.
+\end{itemize}. 
+
+\section{Simple Network Management Protocol}
+
+De acuerdo con \textcite{harrington2002snmp}, el \textit{Simple Network Management Protocol} (SNMP) es uno de los protocolos de administración de redes con mayor trayectoria, cuyos primeros desarrollos se remontan a finales de la década de 1980. Actualmente, se encuentra ampliamente implementado en dispositivos de red, como enrutadores, conmutadores y servidores. Su principal propósito es permitir la supervisión y administración remota de los dispositivos conectados a una red, lo que incluye la consulta de información sobre su estado y, cuando el dispositivo lo permite, la modificación de determinados parámetros de configuración.
+
+SNMP opera en la capa de aplicación y utiliza principalmente el protocolo de transporte UDP para el intercambio de información. Su funcionamiento se basa en un modelo de administración compuesto por dos elementos principales: el administrador y los agentes. El administrador es el sistema encargado de supervisar los dispositivos de la red, mientras que cada dispositivo administrado ejecuta un software denominado \textit{agente}, responsable de recopilar información sobre su estado y ponerla a disposición del administrador \parencite{harrington2002snmp}.
+
+\section{RFC 3535}
+
+La RFC 3535 es un documento informativo publicado en mayo de 2003 por la \textit{Internet Architecture Board} (IAB), como resultado de un taller que tuvo como objetivo establecer un diálogo entre los operadores de redes y los desarrolladores de protocolos, con el propósito de identificar necesidades y orientar los esfuerzos de estandarización relacionados con la administración de redes \parencite{schoenwaelder2003rfc3535}.
+
+El documento, titulado \textit{Overview of the 2002 IAB Network Management Workshop}, recopila los principales requerimientos, observaciones y recomendaciones obtenidos durante dicho encuentro. Su contenido abordó aspectos como la configuración de dispositivos, la supervisión de redes y la necesidad de contar con mecanismos estandarizados que facilitaran las tareas de administración. Asimismo, la RFC 3535 tuvo una influencia significativa en el desarrollo posterior de tecnologías como NETCONF y YANG \parencite{schoenwaelder2003rfc3535}.
+
+% =================================================
+% Introducción al modelo YANG dentro del modelado de datos para una red
+% =================================================
+
+\section{Introducción al modelo YANG dentro del modelado de datos para una red}
+
+\subsection{Definición de YANG}
+
+YANG (\textit{Yet Another Next Generation}) es un lenguaje de modelado de datos diseñado originalmente para modelar datos de configuración, datos de estado, llamadas a procedimientos remotos (RPC) y notificaciones manipuladas por protocolos de gestión de red como NETCONF \parencite{bjorklund2016rfc7950}. Aunque fue concebido inicialmente para NETCONF, su arquitectura permite que también sea empleado con otros protocolos (como RESTCONF o CoMI) y con distintos formatos de codificación además de XML, tales como JSON \parencite{bjorklund2016rfc7950}.
+
+Entre sus características principales destaca una sintaxis legible similar a C/C++ que organiza la información de manera jerárquica en forma de árbol, permitiendo definir restricciones estrictas sobre los datos y establecer un contrato formal entre el cliente y el servidor de red \parencite{bjorklund2016rfc7950}.
+
+\subsection{Diferencias entre el lenguaje YANG, los modelos de datos YANG y YANG data}
+
+De acuerdo con las definiciones y conceptos establecidos en el estándar RFC 7950 \parencite{bjorklund2016rfc7950}, estos tres elementos representan distintos niveles de abstracción e instanciación:
+
+\begin{enumerate}
+    \item \textbf{Lenguaje YANG:} Es la especificación formal (su sintaxis, gramática, palabras clave y semántica) utilizada para escribir y definir las estructuras de datos, tipos integrados (\textit{built-in types}), restricciones y operaciones \parencite{bjorklund2016rfc7950}.
+    \item \textbf{Modelos de datos YANG (Árbol de esquema o \textit{Schema Tree}):} Es la descripción abstracta y jerárquica especificada dentro de un módulo (o submódulo) escrito en lenguaje YANG que determina cómo se representa y se accede a la información de un dispositivo o servicio de red \parencite{bjorklund2016rfc7950}. Define las reglas, nodos de esquema y relaciones antes de que existan valores reales.
+    \item \textbf{YANG data (Árbol de datos o \textit{Data Tree}):} Es la instancia concreta de datos reales modelados con YANG que residen en un almacén de datos (\textit{datastore}) o se intercambian entre cliente y servidor \parencite{bjorklund2016rfc7950}. Incluye los datos de configuración activos, datos operativos de estado, entradas y salidas de RPC y notificaciones codificadas (por ejemplo, en XML) conforme a las reglas dictadas por el modelo de datos \parencite{bjorklund2016rfc7950}.
+\end{enumerate}
+
+\subsection{Estructura y uso del modelo de datos YANG}
+
+La unidad base de definición en YANG es el \textbf{módulo} (almacenado habitualmente en archivos con extensión \texttt{.yang}), el cual puede dividirse en \textbf{submódulos} parciales e importar definiciones de otros módulos externos \parencite{bjorklund2016rfc7950}. Todo módulo se estructura en tres tipos de sentencias:
+
+\begin{itemize}
+    \item \textbf{Sentencias de encabezado:} Describen el módulo e incluyen metadatos esenciales como la versión (\texttt{yang-version}), el espacio de nombres único (\texttt{namespace}), el prefijo (\texttt{prefix}), la organización y el contacto \parencite{bjorklund2016rfc7950}.
+    \item \textbf{Sentencias de revisión (\texttt{revision}):} Documentan el historial de cambios y versiones del módulo \parencite{bjorklund2016rfc7950}.
+    \item \textbf{Sentencias de definición:} Constituyen el cuerpo donde se modela la jerarquía en forma de árbol mediante cuatro nodos principales de datos \parencite{bjorklund2016rfc7950}:
+    \begin{itemize}
+        \item \textbf{\texttt{leaf} (Hoja):} Contiene un único valor simple de un tipo específico (por ejemplo, un entero o una cadena) y no posee nodos hijos.
+        \item \textbf{\texttt{leaf-list} (Lista de hojas):} Define una secuencia de múltiples valores simples de un mismo tipo.
+        \item \textbf{\texttt{container} (Contenedor):} Nodo interior que agrupa un conjunto de nodos hijos relacionados sin tener un valor propio.
+        \item \textbf{\texttt{list} (Lista):} Define una colección de entradas estructuradas, donde cada entrada se identifica de forma única mediante una o más hojas clave (\texttt{key}).
+    \end{itemize}
+\end{itemize}
+
+Respecto a su uso, los modelos YANG se emplean para diferenciar los datos de configuración modificables (\texttt{config true}) de los datos de estado de solo lectura (\texttt{config false}), validar restricciones mediante expresiones XPath (\texttt{must}, \texttt{when}), reutilizar bloques de nodos (\texttt{grouping} y \texttt{uses}), extender modelos existentes sin modificarlos (\texttt{augment}) y definir operaciones (\texttt{rpc}, \texttt{action}) y eventos (\texttt{notification}) que permiten automatizar la gestión de dispositivos de red de forma interoperable \parencite{bjorklund2016rfc7950}.
+
+\subsection{Definición de pyang y su uso para explorar modelos de datos}
+
+\texttt{pyang} es un validador, transformador y generador de código extensible para módulos YANG escrito en Python \parencite{pyang_github}. Su función principal es analizar sintáctica y semánticamente archivos \texttt{.yang} o \texttt{.yin} para verificar que cumplan estrictamente con las reglas de los estándares (como el RFC 7950) y convertirlos a otros formatos \parencite{pyang_github}.
+
+Para explorar modelos de datos a través de su interfaz de línea de comandos (\texttt{pyang [opciones] <archivo.yang>}), permite inspeccionar y comprender modelos complejos mediante diversas salidas y complementos (\textit{plugins}):
+
+\begin{itemize}
+    \item \textbf{Visualización en árbol compacto:} Genera una representación en árbol legible en consola para inspeccionar rápidamente la jerarquía de nodos, tipos de datos, claves y permisos de configuración \parencite{pyang_github}.
+    \item \textbf{Generación de diagramas UML:} Permite transformar modelos YANG en diagramas UML para visualizar gráficamente las relaciones entre módulos y contenedores \parencite{pyang_github}.
+    \item \textbf{Conversión de formatos y esqueletos:} Traduce modelos entre YANG y YIN (sintaxis XML equivalente), convierte modelos a esquemas DSDL para validación y genera documentos XML de ejemplo (\textit{skeleton XML}) a partir del modelo de datos \parencite{pyang_github}.
+\end{itemize}
+
+% =================================================
+% Explorar el modelo de datos para YANG usando NETCONF
+% =================================================
+
+\section{Explorar el modelo de datos para YANG usando NETCONF}
+
+\subsection{Definición de NETCONF y estándar de creación}
+
+NETCONF (\textit{Network Configuration Protocol}) es un protocolo de gestión de red que proporciona mecanismos formales para instalar, manipular, recuperar y eliminar la configuración de dispositivos de red, así como para consultar su estado operativo \parencite{enns2011rfc6241}. Expone una interfaz de programación de aplicaciones (API) formal en el dispositivo que permite a las aplicaciones gestionar conjuntos completos o parciales de configuración \parencite{enns2011rfc6241}.
+
+Fue estandarizado por el Grupo de Trabajo de Ingeniería de Internet (IETF) originalmente bajo el \textbf{RFC 4741} y posteriormente actualizado y reemplazado por el estándar \textbf{RFC 6241} (\textit{Network Configuration Protocol (NETCONF)}) en junio de 2011 \parencite{enns2011rfc6241}.
+
+\subsection{Propósito y funcionamiento de las comunicaciones NETCONF}
+
+\subsubsection{Propósito de su creación}
+
+NETCONF se creó para superar las limitaciones de los métodos tradicionales de gestión de red (como la interfaz de línea de comandos o SNMP), ofreciendo un mecanismo programático y automatizado que separa explícitamente los \textbf{datos de configuración} de los \textbf{datos de estado} \parencite{enns2011rfc6241}. Esta separación evita que las comparaciones de configuración se vean contaminadas por estadísticas variables, impide intentos de escritura sobre parámetros de solo lectura, reduce el tamaño de los conjuntos de datos y facilita la restauración de copias de seguridad \parencite{enns2011rfc6241}. Además, fue diseñado para reflejar la funcionalidad nativa de los dispositivos y permitir transacciones seguras en uno o múltiples equipos simultáneamente \parencite{enns2011rfc6241}.
+
+\subsubsection{Funcionamiento de las comunicaciones}
+
+NETCONF opera bajo un modelo cliente-servidor orientado a la conexión y dividido conceptualmente en cuatro capas \parencite{enns2011rfc6241}:
+
+\begin{enumerate}
+    \item \textbf{Capa de Transporte Seguro (\textit{Secure Transport}):} Establece una sesión persistente, cifrada y autenticada entre el cliente (gestor o script) y el servidor (dispositivo de red) \parencite{enns2011rfc6241}.
+    \item \textbf{Capa de Mensajes (\textit{Messages}):} Proporciona un mecanismo de entramado independiente del transporte para encapsular solicitudes y respuestas mediante etiquetas \texttt{<rpc>} y \texttt{<rpc-reply>}, además de notificaciones asíncronas \texttt{<notification>} \parencite{enns2011rfc6241}.
+    \item \textbf{Capa de Operaciones (\textit{Operations}):} Define un conjunto de operaciones base invocadas como métodos RPC (tales como \texttt{<get>}, \texttt{<get-config>}, \texttt{<edit-config>}, \texttt{<copy-config>}, \texttt{<delete-config>}, \texttt{<lock>} y \texttt{<unlock>}) \parencite{enns2011rfc6241}.
+    \item \textbf{Capa de Contenido (\textit{Content}):} Contiene los datos reales de configuración o estado estructurados según los modelos de datos (como YANG) soportados por el equipo \parencite{enns2011rfc6241}.
+\end{enumerate}
+
+Al iniciar la sesión, ambas partes intercambian un mensaje \texttt{<hello>} en el que anuncian sus capacidades (\textit{capabilities}) y modelos soportados; a partir de ese momento, el cliente envía solicitudes \texttt{<rpc>} que el servidor procesa en serie, devolviendo las respuestas \texttt{<rpc-reply>} en el mismo orden \parencite{enns2011rfc6241, wasserman2011rfc6242}.
+
+\subsection{Protocolo de transporte predeterminado de NETCONF}
+
+Toda implementación de NETCONF debe soportar de manera obligatoria el protocolo \textbf{SSH} (\textit{Secure Shell}, específicamente SSHv2) como protocolo de transporte seguro por defecto, según lo especificado en el estándar RFC 6242 \parencite{enns2011rfc6241, wasserman2011rfc6242}.
+
+NETCONF se ejecuta como un subsistema de SSH denominado \texttt{netconf} sobre el \textbf{puerto TCP 830} asignado por la IANA, lo que garantiza confidencialidad, integridad de datos, autenticación mutua y facilidad para el filtrado mediante cortafuegos \parencite{wasserman2011rfc6242}.
+
+\subsection{Ejecución de llamadas NETCONF hacia equipos de red}
+
+Para establecer una sesión interactiva o automatizada con un dispositivo de red desde una terminal de cliente, se invoca el cliente SSH especificando la opción \texttt{-s} (para ejecutar el comando como un subsistema SSHv2), el puerto TCP \texttt{830} y el nombre del subsistema \texttt{netconf} \parencite{wasserman2011rfc6242}.
+
+\subsubsection{Ejemplo de comando de conexión}
+
+\begin{lstlisting}[caption={Comando de conexión a un dispositivo mediante el subsistema NETCONF sobre SSH (adaptado de Wasserman, 2011)}]
+ssh -s usuario@router.ejemplo.org -p 830 netconf
+\end{lstlisting}
+
+Una vez establecida la conexión y realizado el intercambio inicial de capacidades \texttt{<hello>}, el cliente envía la operación deseada en formato XML seguida del delimitador de fin de mensaje o entramado por fragmentos \parencite{wasserman2011rfc6242}.
+
+\subsubsection{Caso de uso práctico: Consulta del estado y tráfico de una interfaz específica}
+
+Un administrador o sistema de monitoreo necesita verificar los contadores de octetos recibidos y transmitidos de la interfaz \texttt{eth0} en un enrutador sin alterar su configuración. Para ello, invoca la operación base \texttt{<get>} utilizando un filtro de subárbol (\textit{subtree filtering}) \parencite{enns2011rfc6241}:
+
+\begin{lstlisting}[caption={Solicitud RPC \texttt{<get>} con filtro de subárbol para consultar el estado de una interfaz (adaptado de Enns et al., 2011)}]
+<rpc message-id="101"
+     xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <get>
+    <filter type="subtree">
+      <top xmlns="http://example.com/schema/1.2/stats">
+        <interfaces>
+          <interface>
+            <ifName>eth0</ifName>
+          </interface>
+        </interfaces>
+      </top>
+    </filter>
+  </get>
+</rpc>
+\end{lstlisting}
+
+El dispositivo procesa la solicitud y devuelve un mensaje \texttt{<rpc-reply>} con los datos operativos solicitados dentro de la etiqueta \texttt{<data>} \parencite{enns2011rfc6241}.
+
+\subsection{Definición de RPC y formato de mensajes en NETCONF}
+
+\subsubsection{Definición de RPC en NETCONF}
+
+En el contexto de NETCONF, una \textbf{RPC} (\textit{Remote Procedure Call} o llamada a procedimiento remoto) es el paradigma fundamental de comunicación mediante el cual un cliente invoca operaciones específicas (como consultar o modificar configuraciones) para que sean ejecutadas de forma remota por un servidor o dispositivo de red \parencite{enns2011rfc6241}. Se materializa mediante el intercambio síncrono de un elemento de solicitud \texttt{<rpc>} (que incluye un atributo obligatorio \texttt{message-id} para correlacionar transacciones) y su correspondiente elemento de respuesta \texttt{<rpc-reply>} (que contiene \texttt{<data>}, \texttt{<ok/>} o \texttt{<rpc-error>} en caso de fallo) \parencite{enns2011rfc6241}.
+
+\subsubsection{Formato de mensajes utilizado}
+
+NETCONF utiliza el lenguaje de marcado extensible \textbf{XML} (\textit{Extensible Markup Language}) codificado obligatoriamente en \textbf{UTF-8} tanto para el entramado de los mensajes del protocolo como para la representación de los datos de configuración y estado \parencite{enns2011rfc6241}. Todos los mensajes deben ser documentos XML bien formados, emplean el espacio de nombres base \texttt{urn:ietf:params:xml:ns:netconf:base:1.0} y no deben incluir declaraciones de tipo de documento (DTD) \parencite{enns2011rfc6241}.
+
+
+
+
+% =================================================
+% RESTCONF, YANG, POSTMAN Y PYTHON
+% =================================================
+
+\section{Exploración del modelo de datos YANG usando RESTCONF}
+
+\subsection{Definición de RESTCONF y comparación con NETCONF}
+
+El protocolo RESTCONF, estandarizado por la \textit{Internet Engineering Task Force} (IETF) mediante el RFC 8040, es un protocolo de gestión y configuración de redes basado en HTTP que proporciona una interfaz programática con arquitectura RESTful para acceder y manipular datos de configuración, datos operacionales, llamadas a procedimiento remoto (RPC) y notificaciones definidas mediante modelos YANG \parencite{cisco_restconf, granderath2023}. Según \textcite{bhat2023}, su propósito original no es reemplazar por completo a NETCONF (RFC 6241), sino ofrecer un subconjunto modular de sus funcionalidades adaptado a aplicaciones web y herramientas modernas de automatización. Para esto, RESTCONF utiliza los métodos estándar de HTTPS (\texttt{GET}, \texttt{POST}, \texttt{PUT}, \texttt{PATCH}, \texttt{DELETE}, \texttt{HEAD} y \texttt{OPTIONS}) con el fin de ejecutar operaciones de creación, lectura, actualización y eliminación (CRUD) sobre un almacén de datos conceptual \parencite{cisco_restconf, granderath2023}.
+
+A nivel de arquitectura interna en equipos de red modernos como Cisco IOS XE, las peticiones RESTCONF enviadas mediante HTTPS son recibidas inicialmente por un servidor proxy inverso (NGINX) que gestiona la seguridad de capa de transporte (TLS) y las transfiere al motor \texttt{confd} para validar su sintaxis y semántica contra los esquemas YANG \parencite{cisco_restconf}. Aunque tanto NETCONF como RESTCONF siguen un enfoque dirigido por modelos (\textit{Model-Driven}), presentan diferencias técnicas fundamentales \parencite{bhat2023}:
+
+\begin{itemize}
+    \item \textbf{Transporte y gestión de estado:} NETCONF es un protocolo orientado a sesión y con estado (\textit{stateful}) que opera mediante mensajes RPC sobre canales seguros como SSH o TLS \parencite{bhat2023}. Por el contrario, RESTCONF es un protocolo sin estado (\textit{stateless}) sobre HTTP/HTTPS (TCP/TLS) que expone el árbol jerárquico de YANG mediante identificadores uniformes de recursos (URI) a partir de la ruta raíz \texttt{/restconf/data/} \parencite{cisco_restconf, granderath2023}.
+    \item \textbf{Codificación de mensajes:} Mientras que NETCONF utiliza exclusivamente XML para estructurar sus operaciones RPC, RESTCONF soporta tanto XML (\texttt{application/yang-data+xml}) como JSON (\texttt{application/yang-data+json}), ofreciendo este último una sintaxis textual más compacta y sencilla de procesar \parencite{cisco_restconf, granderath2023, bhat2023}.
+    \item \textbf{Almacenes de datos (\textit{Datastores}):} NETCONF distingue nativamente entre múltiples almacenes de configuración (\texttt{running}, \texttt{candidate} y \texttt{startup}) con mecanismos de bloqueo transaccional, mientras que RESTCONF abstrae originalmente una vista unificada de configuración y estado operacional, compatibilizando las operaciones CRUD de HTTP con los almacenes subyacentes del dispositivo \parencite{cisco_restconf, bhat2023}.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \caption{Comparación entre los protocolos NETCONF y RESTCONF}
+    \label{tab:netconf_restconf}
+    \begin{tabularx}{\textwidth}{lXX}
+        \toprule
+        \textbf{Característica} & \textbf{NETCONF} & \textbf{RESTCONF} \\
+        \midrule
+        Estándar base & IETF RFC 6241  & IETF RFC 8040 \\
+        Capa de transporte & SSH / TLS  & HTTP / HTTPS (TCP/TLS) \\
+        Manejo de sesión & Con estado (\textit{stateful}) & Sin estado (\textit{stateless}) \\
+        Codificación de datos & XML  & JSON y XML  \\
+        Operaciones principales & RPC (\texttt{<get>}, \texttt{<edit-config>})  & Métodos HTTP CRUD (\texttt{GET}, \texttt{POST}, \texttt{PUT}, \texttt{PATCH}, \texttt{DELETE}) \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+La principal ventaja de RESTCONF frente a NETCONF es la simplicidad de integración y el bajo acoplamiento con entornos de desarrollo actuales \parencite{cisco_devnet, granderath2023}. Como se apoya en el protocolo estándar HTTP y en el formato JSON, cualquier herramienta cliente de APIs (como Postman) o lenguaje de programación (como Python mediante bibliotecas HTTP estándar) puede consultar o modificar parámetros de red sin necesidad de gestionar sesiones SSH persistentes ni procesar estructuras XML complejas \parencite{cisco_devnet, granderath2023}. Asimismo, mediciones comparativas demuestran que su naturaleza sin estado y menor complejidad de procesamiento reducen el consumo energético y los tiempos de aprovisionamiento frente a NETCONF \parencite{bhat2023}, lo cual resulta idóneo para ejecutar consultas periódicas de monitoreo de interfaces como las propuestas en este proyecto.
+
+\subsection{Relación entre modelos YANG y llamadas API mediante RESTCONF}
+
+La arquitectura de RESTCONF es dirigida por modelos definidos anteriormente en la investigación como el \textit{Model-Driven}, lo cual significa que los modelos de datos escritos en el lenguaje YANG (RFC 7950) actúan como el contrato estructural que define qué recursos existen en el dispositivo de red, qué tipo de datos contienen y qué operaciones están permitidas sobre ellos \parencite{cisco_restconf, granderath2023}. Según \textcite{bhat2023}, un módulo YANG organiza tanto los datos de configuración (lectura y escritura) como los datos de estado operacional (solo lectura), las llamadas a procedimiento remoto (RPC) y las notificaciones dentro de una jerarquía en forma de árbol.
+
+Para estructurar esta jerarquía, el modelo YANG utiliza cuatro tipos fundamentales de nodos de esquema \parencite{granderath2023}:
+
+\begin{itemize}
+    \item \textbf{Contenedores (\texttt{container}):} Agrupan nodos relacionados dentro de un subárbol sin poseer un valor propio \parencite{granderath2023}.
+    \item \textbf{Listas (\texttt{list}):} Definen una secuencia de entradas, como las interfaces de un router, donde cada entrada actúa como un contenedor identificado mediante una llave única (\texttt{key}) \parencite{granderath2023}.
+    \item \textbf{Hojas (\texttt{leaf}):} Modelan un dato escalar simple con un único valor y sin nodos hijos (por ejemplo, el nombre de una interfaz o su estado administrativo) \parencite{granderath2023}.
+    \item \textbf{Listas de hojas (\texttt{leaf-list}):} Representan una secuencia ordenada de valores simples de un mismo tipo de dato \parencite{granderath2023}.
+\end{itemize}
+
+La relación directa con las llamadas API ocurre porque la especificación de RESTCONF mapea automáticamente este árbol jerárquico de YANG hacia rutas de Identificadores Uniformes de Recursos (URI) accesibles mediante HTTP \parencite{cisco_restconf, granderath2023}. De acuerdo con \textcite{cisco_restconf}, toda petición parte del recurso raíz de almacén de datos (\texttt{/restconf/data/}), seguido del nombre del módulo YANG y la ruta de contenedores o listas hasta alcanzar el nodo específico deseado. Por ejemplo, para consultar la información de una interfaz específica en un equipo Cisco IOS XE, la estructura del modelo se traduce directamente en una URI con la forma \\ \texttt{https://<host>/restconf/data/Cisco-IOS-XE-native:native/interface/GigabitEthernet=0\%2F0\%2F2} \parencite{cisco_restconf}.
+
+Finalmente, los modelos YANG también gobiernan la codificación y negociación del contenido intercambiado en cada llamada API \parencite{cisco_restconf, granderath2023}. Al enviar una petición HTTP, el cliente y el servidor RESTCONF utilizan los encabezados \texttt{Accept} y \texttt{Content-Type} con los tipos MIME estandarizados \texttt{application/yang-data+json} o \texttt{application/yang-data+xml}, garantizando que los objetos JSON o XML transmitidos en el cuerpo del mensaje respeten estrictamente los tipos de datos y restricciones definidas en el esquema YANG subyacente \parencite{cisco_restconf, granderath2023}.
+
+\subsection{Postman}
+
+Postman es una plataforma integral diseñada para construir, probar, depurar y documentar interfaces de programación de aplicaciones (API) a través de una interfaz gráfica intuitiva, permitiendo validar servicios web sin necesidad de escribir código desde el inicio \parencite{postman_product, geeksforgeeks_postman}. En el ámbito de la administración y automatización de redes modernas, esta herramienta facilita la interacción directa con dispositivos compatibles con RESTCONF, permitiendo estructurar peticiones HTTP, organizar colecciones reutilizables y generar documentación técnica automática de cada punto de acceso (\textit{endpoint}) \parencite{postman_docs, freecodecamp_postman}.
+
+Para utilizar Postman en entornos de desarrollo y pruebas de red se deben cumplir los siguientes requerimientos técnicos y operativos:
+
+\begin{itemize}
+    \item \textbf{Instalación de software y cuenta de usuario:} Requiere descargar e instalar la aplicación de escritorio (compatible con Windows, macOS y Linux) o acceder mediante su versión web; en este último caso, es indispensable ejecutar el agente local (\textit{Postman Desktop Agent}) para evitar restricciones de seguridad del navegador al enviar peticiones hacia redes privadas o laboratorios virtuales \parencite{geeksforgeeks_postman, freecodecamp_postman}. Asimismo, se requiere crear una cuenta gratuita para almacenar espacios de trabajo (\textit{workspaces}), colecciones y variables de entorno \parencite{postman_product}.
+    \item \textbf{Conectividad y parámetros de seguridad:} Para realizar llamadas hacia un dispositivo de red o entorno \textit{sandbox}, el equipo cliente debe contar con conectividad IP/HTTPS hacia el servidor destino y disponer de credenciales válidas de autenticación (como \textit{Basic Auth} o tokens \textit{Bearer}) \parencite{freecodecamp_postman, cisco_devnet}. En entornos de laboratorio que emplean certificados digitales autofirmados, también se requiere deshabilitar la verificación estricta de certificados SSL en la configuración general del cliente \parencite{cisco_devnet}.
+\end{itemize}
+
+De acuerdo con el sitio de \textcite{postman_apicall}, una llamada API constituye el proceso mediante el cual una aplicación cliente envía una solicitud estructurada a un servidor para consultar o manipular recursos específicos. Para ejecutar una llamada API en Postman se sigue un flujo de trabajo estandarizado:
+
+\begin{enumerate}
+    \item \textbf{Selección del método HTTP y definición del \textit{endpoint}:} Se crea una nueva solicitud dentro de una colección, se selecciona el verbo HTTP correspondiente a la acción deseada (\texttt{GET} para lectura, \texttt{POST} para creación, \texttt{PUT} o \texttt{PATCH} para actualización y \texttt{DELETE} para eliminación) y se especifica la URL del recurso, apoyándose en variables de entorno como \texttt{\{\{host\}\}} para reutilizar direcciones base \parencite{freecodecamp_postman, postman_apicall}.
+    \item \textbf{Configuración de autorización y cabeceras (\textit{Headers}):} En la pestaña \textit{Authorization} se ingresan las credenciales de acceso requeridas por el servidor, mientras que en la sección \textit{Headers} se definen metadatos clave como \texttt{Accept} y \texttt{Content-Type} para negociar el formato de intercambio de datos (por ejemplo, JSON) \parencite{freecodecamp_postman, postman_apicall}.
+    \item \textbf{Definición del cuerpo (\textit{Body}) y envío:} Para operaciones que envían información al servidor (\texttt{POST}, \texttt{PUT} o \texttt{PATCH}), se redacta la carga útil (\textit{payload}) en formato JSON o XML dentro de la pestaña \textit{Body} y se ejecuta la petición mediante el botón \textit{Send} \parencite{geeksforgeeks_postman, freecodecamp_postman}.
+    \item \textbf{Inspección de la respuesta:} Finalmente, Postman despliega el código de estado HTTP retornado por el servidor (como \texttt{200 OK} para consultas exitosas, \texttt{201 Created} para recursos creados o \texttt{401 Unauthorized} ante fallos de credenciales), el tiempo de latencia, el tamaño del mensaje y el cuerpo de la respuesta formateado para su análisis \parencite{freecodecamp_postman, postman_apicall}.
+\end{enumerate}
+
+\subsection{Ejecución de llamadas RESTCONF con Postman y Python}
+
+La implementación práctica de llamadas RESTCONF suele dividirse en dos etapas complementarias: una fase inicial de exploración y validación visual mediante un cliente gráfico como Postman, seguida de una fase de automatización programática mediante scripts en Python \parencite{roman2019, cisco_devnet}.
+
+\textbf{Llamadas RESTCONF con Postman:} De acuerdo con \textcite{roman2019}, Postman permite prototipar y depurar peticiones hacia dispositivos de red antes de escribir código, estructurando cada solicitud a partir de cuatro elementos esenciales:
+\begin{enumerate}
+    \item \textbf{Método HTTP y URI del recurso:} Se selecciona el verbo correspondiente a la operación (\texttt{GET} para leer estadísticas o configuraciones, \texttt{PATCH} para actualizar parcialmente, \texttt{PUT} para reemplazar y \texttt{POST} para crear) y se define la ruta del modelo YANG, como \texttt{https://<host>/restconf/data/Cisco-IOS-XE-native:native/interface} para listar todas las interfaces o \texttt{.../GigabitEthernet=2} para consultar una interfaz específica \parencite{roman2019, cisco_restconf}. Adicionalmente, es posible añadir parámetros de consulta como \texttt{?depth=1} para limitar la profundidad del árbol JSON devuelto \parencite{roman2019}.
+    \item \textbf{Autenticación:} En la pestaña \textit{Authorization} se configura el tipo \textit{Basic Auth} con credenciales de nivel de privilegio 15 del equipo de red \parencite{roman2019, cisco_restconf}.
+    \item \textbf{Cabeceras HTTP (\textit{Headers}):} Se establecen los encabezados \texttt{Accept} y \texttt{Content-Type} con el valor \texttt{application/yang-data+json} para indicar al dispositivo que el intercambio de datos se realizará en formato JSON estructurado según YANG \parencite{roman2019, cisco_restconf}.
+    \item \textbf{Cuerpo de la petición (\textit{Body}):} Únicamente en operaciones de escritura (\texttt{POST}, \texttt{PUT} o \texttt{PATCH}), se incluye en formato \texttt{raw} (JSON) la carga útil con los parámetros a modificar y se envía la solicitud para verificar el código de estado HTTP (\texttt{200 OK}, \texttt{201 Created} o \texttt{204 No Content}) \parencite{roman2019, freecodecamp_postman}.
+\end{enumerate}
+
+\textbf{Llamadas RESTCONF con Python:} Una vez validada la estructura de la petición y la respuesta JSON en Postman, el flujo se automatiza en Python empleando la biblioteca estándar de cliente HTTP \texttt{requests} junto con el módulo auxiliar \texttt{HTTPBasicAuth} \parencite{roman2019}. Según \textcite{roman2019}, el procedimiento técnico consiste en:
+\begin{enumerate}
+    \item \textbf{Gestión de seguridad y certificados:} En entornos de laboratorio con certificados SSL autofirmados (como Cisco DevNet Sandbox), se desactivan las advertencias de seguridad mediante \texttt{urllib3.disable\_warnings()} y se pasa el parámetro \texttt{verify=False} en cada petición \parencite{roman2019, cisco_devnet}.
+    \item \textbf{Definición de credenciales y cabeceras:} Se instancia el objeto \texttt{AUTH = HTTPBasicAuth(usuario, password)} y se define el diccionario \texttt{HEADERS} especificando \texttt{application/yang-data+json} para \texttt{Accept} y \texttt{Content-Type} \parencite{roman2019}.
+    \item \textbf{Ejecución y procesamiento de la respuesta:} Se invoca la función equivalente al verbo HTTP deseado, como \texttt{requests.get(url, auth=AUTH, headers=HEADERS, verify=False)} para consultar el estado y estadísticas de las interfaces \parencite{roman2019}. Posteriormente, el script evalúa el atributo \texttt{response.status\_code} (validando códigos exitosos como \texttt{200}) y convierte el cuerpo de la respuesta a un diccionario nativo de Python mediante \texttt{response.json()} para extraer contadores, detectar cambios de estado y generar reportes automáticos \parencite{roman2019, granderath2023}.
+\end{enumerate}
+
+\begin{lstlisting}[caption={Ejemplo de consulta RESTCONF a interfaces mediante la librería \texttt{requests} en Python (adaptado de Roman, 2019)}]
+import requests
+from requests.auth import HTTPBasicAuth
+import urllib3
+
+# Deshabilitar advertencias por certificados autofirmados en Sandbox
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+AUTH = HTTPBasicAuth('cisco', 'cisco')
+HEADERS = {
+    'Accept': 'application/yang-data+json',
+    'Content-Type': 'application/yang-data+json'
+}
+
+url = "https://csr1kv/restconf/data/Cisco-IOS-XE-native:native/interface"
+response = requests.get(url, auth=AUTH, headers=HEADERS, verify=False)
+
+if response.status_code == 200:
+    datos_interfaces = response.json()
+    print(datos_interfaces)
+\end{lstlisting}
+
+
+% =================================================
+% HERRAMIENTAS DE AUTOMATIZACIÓN DE REDES
+% =================================================
+
+\begingroup
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\titleformat{\paragraph}[block]
+    {\normalfont\bfseries\fontsize{12}{14}\selectfont}
+    {\theparagraph}{1em}{}
+
+\titlespacing*{\paragraph}
+    {0pt}{1.5ex}{1ex}
+
+\subsection{Herramientas de automatización de configuración de redes}
+\label{sec:herramientas_automatizacion}
+
+La automatización de redes consiste en la utilización de herramientas
+de software y tecnologías de programación para configurar, administrar,
+monitorear y mantener dispositivos de red de manera automatizada.
+Su implementación permite reducir la intervención manual, minimizar
+los errores humanos, mejorar la consistencia de las configuraciones
+y facilitar la administración de infraestructuras de gran tamaño.
+
+De acuerdo con \textcite{edelman2018network}, la automatización y la
+programabilidad constituyen elementos importantes en la evolución de
+las redes tradicionales hacia infraestructuras administradas mediante
+software. Este enfoque permite utilizar interfaces de programación,
+modelos de datos y herramientas de gestión de configuraciones para
+interactuar con dispositivos como enrutadores, conmutadores y
+cortafuegos.
+
+Dentro de las herramientas de automatización de configuraciones
+existen dos métodos principales para distribuir instrucciones hacia
+los nodos administrados:
+
+\begin{itemize}
+
+    \item \textbf{Método Push:} consiste en que un sistema central
+    de gestión inicia la comunicación con los dispositivos
+    administrados y envía las instrucciones necesarias para
+    ejecutar una tarea o modificar una configuración. Este modelo
+    permite controlar el momento en que se ejecutan las operaciones
+    y facilita la aplicación simultánea de cambios sobre múltiples
+    dispositivos \parencite{geerling2020ansible}.
+
+    \item \textbf{Método Pull:} consiste en que los nodos
+    administrados o sus agentes inician la comunicación con el
+    servidor central para solicitar las configuraciones que deben
+    aplicar. Este enfoque permite consultar periódicamente el
+    estado deseado de los sistemas y realizar las modificaciones
+    necesarias para mantener la consistencia de las configuraciones
+    \parencite{puppet_documentation}.
+
+\end{itemize}
+
+Para analizar las características de estos métodos, se seleccionaron
+tres herramientas de automatización: Ansible, Puppet y SaltStack.
+Estas herramientas presentan diferentes arquitecturas de gestión,
+mecanismos de comunicación y capacidades de administración de
+dispositivos de red.
+
+
+% =================================================
+% ANSIBLE
+% =================================================
+
+\subsubsection{Ansible}
+\label{sec:ansible}
+
+Ansible es una herramienta de automatización de código abierto
+utilizada para la administración de configuraciones, la ejecución
+de tareas remotas, el despliegue de aplicaciones y la automatización
+de infraestructuras tecnológicas.
+
+Según \textcite{geerling2020ansible}, Ansible utiliza archivos
+denominados \textit{playbooks}, escritos en el lenguaje YAML, en los
+cuales se definen las tareas que deben ejecutarse sobre los sistemas
+administrados. Una de sus principales características es que no
+requiere instalar agentes propios en los equipos finales, lo que
+facilita su implementación en diferentes entornos tecnológicos.
+
+En el contexto de las redes de computadoras, Ansible proporciona
+módulos y colecciones especializadas que permiten interactuar con
+dispositivos de diferentes fabricantes, automatizar configuraciones
+y recopilar información sobre el estado de la infraestructura
+\parencite{redhat_ansible_network}.
+
+
+\paragraph{Método de distribución de configuraciones}
+
+Ansible utiliza principalmente el método \textit{Push}, debido a
+que el nodo central de control es responsable de iniciar la
+comunicación con los dispositivos administrados y enviar las
+instrucciones correspondientes.
+
+El administrador define las tareas mediante \textit{playbooks}
+y especifica los dispositivos sobre los cuales deben ejecutarse
+utilizando un inventario. Posteriormente, Ansible establece la
+comunicación con los equipos y ejecuta las operaciones definidas
+\parencite{geerling2020ansible}.
+
+Para la automatización de dispositivos de red, Ansible puede
+utilizar diferentes mecanismos de comunicación, entre ellos:
+
+\begin{itemize}
+
+    \item SSH (\textit{Secure Shell}): permite establecer
+    conexiones remotas seguras y ejecutar comandos mediante
+    la interfaz de línea de comandos del dispositivo.
+
+    \item NETCONF (\textit{Network Configuration Protocol}):
+    permite consultar y modificar configuraciones estructuradas
+    mediante operaciones RPC.
+
+    \item HTTP y HTTPS: permiten interactuar con interfaces
+    de programación de aplicaciones (API) disponibles en los
+    dispositivos de red.
+
+\end{itemize}
+
+La selección del mecanismo de comunicación depende de las
+características del dispositivo, su sistema operativo y los
+módulos de automatización disponibles
+\parencite{redhat_ansible_network}.
+
+Aunque Ansible dispone de una modalidad denominada
+\texttt{ansible-pull}, en la cual un sistema compatible puede
+obtener y ejecutar configuraciones desde un repositorio, su
+funcionamiento habitual para la automatización de equipos de
+red se basa en el método Push.
+
+
+\paragraph{Diseño del sistema central de gestión}
+
+Ansible utiliza una arquitectura centralizada sin agentes,
+conocida como \textit{agentless}. A diferencia de las arquitecturas
+tradicionales de tipo \textit{master/slave}, no requiere instalar
+un agente de Ansible en cada dispositivo administrado.
+
+De acuerdo con \textcite{geerling2020ansible}, su arquitectura
+se fundamenta en la utilización de un nodo de control, inventarios,
+módulos y archivos de automatización que permiten administrar
+diferentes sistemas desde una ubicación central.
+
+En la Tabla~\ref{tab:arquitectura_ansible} se presentan los
+principales componentes de esta arquitectura.
+
+\begin{table}[H]
+    \centering
+    \caption{Componentes de la arquitectura de Ansible}
+    \label{tab:arquitectura_ansible}
+
+    \begin{tabularx}{\textwidth}{p{0.28\textwidth}X}
+        \toprule
+        \textbf{Componente} & \textbf{Descripción} \\
+        \midrule
+
+        Nodo de control &
+        Sistema desde el cual se ejecutan las tareas de
+        automatización. \\
+
+        Inventario &
+        Contiene la información de los dispositivos que serán
+        administrados. \\
+
+        Playbooks &
+        Archivos YAML que definen las tareas y configuraciones
+        que deben ejecutarse. \\
+
+        Módulos &
+        Componentes encargados de realizar operaciones
+        específicas sobre los dispositivos. \\
+
+        Plugins de conexión &
+        Permiten establecer comunicación mediante SSH,
+        NETCONF o interfaces HTTP/API. \\
+
+        Nodos administrados &
+        Enrutadores, conmutadores, servidores y otros
+        dispositivos que reciben las instrucciones. \\
+
+        \bottomrule
+    \end{tabularx}
+
+    \vspace{0.2cm}
+
+    {\footnotesize
+    \textit{Nota.} Elaboración propia a partir de
+    \textcite{geerling2020ansible} y
+    \textcite{redhat_ansible_network}.}
+\end{table}
+
+La arquitectura básica de Ansible puede funcionar mediante
+un único nodo de control. Sin embargo, en infraestructuras
+de mayor tamaño, plataformas como Red Hat Ansible Automation
+Platform permiten distribuir la ejecución de tareas mediante
+múltiples nodos de control y ejecución
+\parencite{redhat_ansible_platform}.
+
+
+\paragraph{Sistemas operativos compatibles}
+
+La compatibilidad de Ansible debe analizarse desde dos
+perspectivas: los sistemas operativos donde puede ejecutarse
+el nodo de control y los sistemas operativos de los dispositivos
+de red administrados.
+
+\begin{table}[H]
+    \centering
+    \caption{Sistemas operativos compatibles con Ansible}
+    \label{tab:so_ansible}
+
+    \begin{tabularx}{\textwidth}{XX}
+        \toprule
+
+        \textbf{Sistemas operativos del nodo de control} &
+        \textbf{Sistemas operativos de red administrados} \\
+
+        \midrule
+
+        Ubuntu & Cisco IOS \\
+        Debian & Cisco IOS XE \\
+        Red Hat Enterprise Linux & Cisco IOS XR \\
+        Fedora & Cisco NX-OS \\
+        macOS & Juniper Junos OS \\
+        Otras distribuciones Linux compatibles & Arista EOS \\
+
+        \bottomrule
+    \end{tabularx}
+
+    \vspace{0.2cm}
+
+    {\footnotesize
+    \textit{Nota.} Elaboración propia a partir de
+    \parencite{redhat_ansible_network,redhat_ansible_install}.
+    Las columnas representan categorías independientes y no
+    relaciones exclusivas de compatibilidad.}
+\end{table}
+
+Ansible no admite Windows como nodo de control nativo.
+Asimismo, la compatibilidad con los sistemas operativos de
+red depende de las colecciones, módulos y versiones disponibles
+\parencite{redhat_ansible_install,redhat_ansible_network}.
+
+
+\paragraph{Aplicación en equipos de red}
+
+Ansible permite automatizar la configuración de VLAN, direcciones IP y ACL, así como generar respaldos y recopilar información de los dispositivos. Cisco DevNet ofrece recursos para integrar Ansible en sus equipos de red \parencite{cisco_ansible}.
+
+
+% =================================================
+% PUPPET
+% =================================================
+
+\subsubsection{Puppet}
+\label{sec:puppet}
+
+Puppet es una herramienta de administración y automatización
+de configuraciones orientada a mantener los sistemas en un
+estado previamente definido. Su funcionamiento se fundamenta
+en un modelo declarativo, en el cual el administrador especifica
+el estado deseado de los recursos, en lugar de establecer
+individualmente todas las instrucciones necesarias para alcanzar
+dicho estado.
+
+Las configuraciones se definen mediante archivos denominados
+\textit{manifests}, escritos utilizando el lenguaje declarativo
+de Puppet. Estos archivos permiten establecer políticas y
+características que deben mantenerse en los sistemas
+administrados \parencite{puppet_documentation}.
+
+
+\paragraph{Método de distribución de configuraciones}
+
+Puppet utiliza principalmente el método \textit{Pull}. En este
+modelo, los agentes instalados en los nodos administrados
+establecen comunicación periódicamente con el servidor central
+para solicitar la configuración correspondiente.
+
+El servidor procesa las políticas definidas por el administrador
+y genera un catálogo que representa el estado deseado del nodo.
+Posteriormente, el agente recibe dicho catálogo, compara el
+estado actual del sistema con el estado esperado y aplica las
+modificaciones necesarias.
+
+Este mecanismo permite mantener la consistencia de las
+configuraciones y corregir desviaciones respecto a las políticas
+establecidas \parencite{puppet_documentation}.
+
+En el caso de dispositivos de red que no permiten instalar
+un agente directamente, Puppet puede utilizar un sistema
+intermediario mediante la funcionalidad \texttt{puppet device}.
+Este intermediario obtiene la configuración correspondiente
+y establece comunicación con el equipo de red utilizando un
+proveedor compatible \parencite{puppet_device}.
+
+Por lo tanto, en esta arquitectura el método Pull ocurre
+entre el intermediario y el servidor Puppet, mientras que
+la aplicación de la configuración al dispositivo de red puede
+realizarse mediante una conexión iniciada por el intermediario.
+
+
+\paragraph{Diseño del sistema central de gestión}
+
+Puppet utiliza una arquitectura cliente-servidor, tradicionalmente
+denominada \textit{master/agent}, en la que existe un servidor
+central responsable de gestionar las configuraciones y agentes
+encargados de solicitarlas y aplicarlas.
+
+En la Tabla~\ref{tab:arquitectura_puppet} se presentan los
+principales componentes de esta arquitectura.
+
+\begin{table}[H]
+    \centering
+    \caption{Componentes de la arquitectura de Puppet}
+    \label{tab:arquitectura_puppet}
+
+    \begin{tabularx}{\textwidth}{p{0.28\textwidth}X}
+        \toprule
+        \textbf{Componente} & \textbf{Descripción} \\
+        \midrule
+
+        Puppet Server &
+        Servidor central encargado de gestionar y compilar
+        las configuraciones. \\
+
+        Puppet Agent &
+        Cliente que solicita y aplica las configuraciones
+        correspondientes. \\
+
+        Manifests &
+        Archivos que contienen la definición del estado
+        deseado de los sistemas. \\
+
+        Catálogos &
+        Representaciones compiladas de las configuraciones
+        correspondientes a cada nodo. \\
+
+        PuppetDB &
+        Componente que permite almacenar información sobre
+        los nodos y sus recursos. \\
+
+        Proxy de dispositivos &
+        Sistema intermediario utilizado para administrar
+        equipos que no admiten agentes directamente. \\
+
+        \bottomrule
+    \end{tabularx}
+
+    \vspace{0.2cm}
+
+    {\footnotesize
+    \textit{Nota.} Elaboración propia a partir de
+    \parencite{puppet_documentation,puppet_device}.}
+\end{table}
+
+La arquitectura puede implementarse mediante un único servidor
+central o mediante una infraestructura distribuida que incorpore
+servidores adicionales para gestionar la carga de trabajo y
+atender una mayor cantidad de nodos
+\parencite{puppet_documentation}.
+
+
+\paragraph{Sistemas operativos compatibles}
+
+Puppet permite administrar diferentes sistemas operativos
+mediante sus componentes de servidor y agente. En el caso
+de los dispositivos de red, la compatibilidad depende de
+los módulos y proveedores utilizados.
+
+\begin{table}[H]
+    \centering
+    \caption{Sistemas operativos relacionados con Puppet}
+    \label{tab:so_puppet}
+
+    \begin{tabularx}{\textwidth}{p{0.28\textwidth}X}
+        \toprule
+
+        \textbf{Componente} &
+        \textbf{Sistemas operativos} \\
+
+        \midrule
+
+        Puppet Server &
+        Ubuntu, Debian y Red Hat Enterprise Linux,
+        dependiendo de la versión. \\
+
+        Puppet Agent &
+        Linux, Windows y macOS, dependiendo de la versión. \\
+
+        Dispositivos de red &
+        Cisco IOS, Cisco NX-OS, Juniper Junos OS y Arista EOS,
+        mediante proveedores e integraciones específicas. \\
+
+        \bottomrule
+    \end{tabularx}
+
+    \vspace{0.2cm}
+
+    {\footnotesize
+    \textit{Nota.} Elaboración propia a partir de
+    \parencite{puppet_documentation,puppet_device}.
+    La compatibilidad con sistemas operativos de red depende
+    de la disponibilidad y mantenimiento de los proveedores
+    correspondientes.}
+\end{table}
+
+Es importante considerar que la compatibilidad con dispositivos
+de red no es necesariamente nativa. Algunas integraciones
+corresponden a módulos desarrollados para versiones específicas
+de Puppet y de los sistemas operativos de los fabricantes,
+por lo que se debe verificar su disponibilidad antes de
+implementar la herramienta.
+
+
+\paragraph{Aplicación en equipos de red}
+
+Puppet permite estandarizar configuraciones, administrar políticas y detectar o corregir desviaciones respecto al estado deseado mediante proveedores compatibles. Su enfoque declarativo facilita el mantenimiento de configuraciones consistentes \parencite{puppet_documentation}.
+
+
+% =================================================
+% SALTSTACK
+% =================================================
+
+\subsubsection{SaltStack}
+\label{sec:saltstack}
+
+SaltStack, también conocido como Salt, es una herramienta
+de automatización de código abierto orientada a la ejecución
+remota de comandos, la administración de configuraciones y
+la gestión de infraestructuras distribuidas.
+
+Según \textcite{myers2015saltstack}, Salt permite administrar
+múltiples sistemas mediante mecanismos de ejecución remota
+y administración de estados, facilitando la automatización
+de operaciones desde una infraestructura centralizada.
+
+Salt utiliza archivos denominados \textit{Salt State Files}
+(SLS), comúnmente escritos en YAML, mediante los cuales se
+define el estado que deben mantener los sistemas administrados.
+
+
+\paragraph{Método de distribución de configuraciones}
+
+SaltStack admite tanto el método Push como el método Pull,
+dependiendo de la forma en que se inicie la ejecución de
+las tareas.
+
+\begin{itemize}
+
+    \item \textbf{Método Push:} el servidor central, denominado
+    Salt Master, inicia la distribución de instrucciones hacia
+    los nodos administrados, conocidos como Salt Minions.
+    Este mecanismo permite ejecutar comandos y aplicar
+    configuraciones de manera simultánea sobre múltiples
+    dispositivos.
+
+    \item \textbf{Método Pull:} los nodos administrados pueden
+    iniciar operaciones para solicitar información y estados
+    de configuración al servidor central. Estas operaciones
+    pueden ejecutarse localmente o mediante mecanismos
+    programados.
+
+\end{itemize}
+
+La combinación de ambos métodos proporciona flexibilidad
+para implementar configuraciones bajo demanda y mantener
+estados previamente establecidos
+\parencite{myers2015saltstack,salt_user_guide}.
+
+Para los dispositivos de red que no permiten instalar agentes
+directamente, Salt proporciona una funcionalidad denominada
+\textit{Proxy Minion}, mediante la cual un sistema intermediario
+establece comunicación con el dispositivo administrado
+\parencite{salt_napalm_proxy}.
+
+En este escenario, el método Push o Pull describe principalmente
+la interacción entre el Salt Master y el Proxy Minion. La
+comunicación entre el intermediario y el equipo de red depende
+del controlador y protocolo utilizados.
+
+
+\paragraph{Diseño del sistema central de gestión}
+
+SaltStack utiliza principalmente una arquitectura denominada
+\textit{master/minion}, en la cual un servidor central administra
+las instrucciones y los nodos asociados ejecutan las operaciones
+correspondientes.
+
+De acuerdo con \textcite{myers2015saltstack}, esta arquitectura
+permite centralizar la administración y distribuir tareas hacia
+diferentes sistemas, facilitando la ejecución remota de
+operaciones.
+
+En la Tabla~\ref{tab:arquitectura_salt} se describen los
+principales componentes de esta arquitectura.
+
+\begin{table}[H]
+    \centering
+    \caption{Componentes de la arquitectura de SaltStack}
+    \label{tab:arquitectura_salt}
+
+    \begin{tabularx}{\textwidth}{p{0.28\textwidth}X}
+        \toprule
+        \textbf{Componente} & \textbf{Descripción} \\
+        \midrule
+
+        Salt Master &
+        Servidor central encargado de gestionar las
+        configuraciones y distribuir instrucciones. \\
+
+        Salt Minion &
+        Agente encargado de recibir y ejecutar las
+        instrucciones correspondientes. \\
+
+        Salt Proxy Minion &
+        Intermediario para administrar dispositivos que
+        no permiten instalar agentes directamente. \\
+
+        State Files &
+        Archivos que definen el estado deseado de los
+        sistemas administrados. \\
+
+        Event Bus &
+        Mecanismo de comunicación basado en eventos. \\
+
+        Pillar &
+        Sistema utilizado para proporcionar datos específicos
+        a los nodos administrados. \\
+
+        \bottomrule
+    \end{tabularx}
+
+    \vspace{0.2cm}
+
+    {\footnotesize
+    \textit{Nota.} Elaboración propia a partir de
+    \parencite{myers2015saltstack,salt_user_guide}.}
+\end{table}
+
+Además de su arquitectura tradicional, Salt permite implementar
+configuraciones con múltiples servidores Master, conocidas como
+\textit{multi-master}, con el propósito de proporcionar
+redundancia y distribuir responsabilidades de administración.
+
+También admite configuraciones denominadas \textit{masterless},
+en las cuales los nodos pueden administrar estados localmente
+sin depender de un servidor central
+\parencite{salt_user_guide}.
+
+
+\paragraph{Sistemas operativos compatibles}
+
+SaltStack proporciona compatibilidad con diferentes sistemas
+operativos, dependiendo del componente utilizado y de la
+versión instalada.
+
+Para la automatización de redes, Salt puede integrarse con
+herramientas como NAPALM (\textit{Network Automation and
+Programmability Abstraction Layer with Multivendor Support}),
+que facilita la comunicación con dispositivos de diferentes
+fabricantes mediante una interfaz común
+\parencite{salt_napalm_proxy}.
+
+\begin{table}[H]
+    \centering
+    \caption{Sistemas operativos compatibles con SaltStack}
+    \label{tab:so_salt}
+
+    \begin{tabularx}{\textwidth}{p{0.28\textwidth}X}
+        \toprule
+
+        \textbf{Componente} &
+        \textbf{Sistemas operativos} \\
+
+        \midrule
+
+        Salt Master &
+        Ubuntu, Debian, Red Hat Enterprise Linux y otras
+        distribuciones Linux compatibles. \\
+
+        Salt Minion &
+        Linux, Windows y macOS, dependiendo de la versión. \\
+
+        Dispositivos de red mediante NAPALM &
+        Cisco IOS, Cisco IOS XR, Cisco NX-OS,
+        Juniper Junos OS y Arista EOS, dependiendo del
+        controlador disponible. \\
+
+        \bottomrule
+    \end{tabularx}
+
+    \vspace{0.2cm}
+
+    {\footnotesize
+    \textit{Nota.} Elaboración propia a partir de
+    \parencite{salt_user_guide,salt_napalm_proxy,napalm_support}.}
+\end{table}
+
+La compatibilidad con dispositivos de red depende de los
+controladores disponibles, las versiones de los sistemas
+operativos y los protocolos de comunicación implementados
+por cada fabricante.
+
+
+\paragraph{Aplicación en equipos de red}
+
+SaltStack permite generar respaldos, modificar interfaces, recopilar información y ejecutar comandos simultáneamente en equipos de red. Su arquitectura distribuida facilita la automatización basada en eventos y la administración de múltiples dispositivos \parencite{myers2015saltstack,salt_napalm_proxy}.
+
+
+% =================================================
+% COMPARACIÓN DE HERRAMIENTAS
+% =================================================
+
+\subsubsection{Comparación de las herramientas de automatización}
+\label{sec:comparacion_herramientas}
+
+En la Tabla~\ref{tab:comparacion_automatizacion} se presenta
+una comparación de las principales características de
+las herramientas estudiadas.
+
+\begin{table}[H]
+    \centering
+    \caption{Comparación de herramientas de automatización de redes}
+    \label{tab:comparacion_automatizacion}
+
+    \begin{tabularx}{\textwidth}{p{0.24\textwidth}XXX}
+        \toprule
+
+        \textbf{Característica} &
+        \textbf{Ansible} &
+        \textbf{Puppet} &
+        \textbf{SaltStack} \\
+
+        \midrule
+
+        Método de distribución &
+        Push &
+        Principalmente Pull &
+        Push y Pull \\
+
+        Arquitectura &
+        Nodo de control &
+        Master/Agent &
+        Master/Minion \\
+
+        Instalación de agentes &
+        No requerida &
+        Agente o intermediario &
+        Minion o Proxy Minion \\
+
+        Múltiples servidores &
+        Mediante plataformas distribuidas &
+        Sí &
+        Sí \\
+
+        Lenguaje de configuración &
+        YAML &
+        Puppet DSL &
+        SLS/YAML \\
+
+        SO del sistema central &
+        Linux y macOS &
+        Linux &
+        Principalmente Linux \\
+
+        SO de red: Cisco IOS, Cisco NX-OS,
+        Juniper Junos OS y Arista EOS &
+        Sí &
+        Según integración &
+        Mediante integración \\
+
+        \bottomrule
+    \end{tabularx}
+
+    \vspace{0.2cm}
+
+    {\footnotesize
+    \textit{Nota.} Elaboración propia a partir de
+    \parencite{geerling2020ansible,myers2015saltstack,
+    puppet_documentation,redhat_ansible_network,
+    salt_user_guide,salt_napalm_proxy}.}
+\end{table}
+
+
+\endgroup
+% =================================================
+% REFERENCIAS BIBLIOGRÁFICAS
+% =================================================
+
+\newpage
+
+\printbibliography[
+    title={Referencias}
+]
+
+\end{document}
